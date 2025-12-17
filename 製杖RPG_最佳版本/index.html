@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>製杖RPG</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+<h1>製杖RPG</h1>
+<div class="card">
+<div id="player-name"></div>
+<img id="player-weapon-img" src="assets/weapons/wand_common.png">
+<pre id="player-stats"></pre>
+<button id="btn-start">開始遇怪</button>
+<button id="btn-save">存檔</button>
+</div>
+<div class="card" id="battle" style="display:none">
+<h2 id="monster-name"></h2>
+<img id="monster-img">
+<div id="monster-hp"></div>
+<button id="btn-attack">普通攻擊</button>
+<button id="btn-fire">火球術</button>
+<button id="btn-heal">治癒術</button>
+<div id="log"></div>
+</div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
