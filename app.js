@@ -25,15 +25,17 @@ const monsters = [
 
 let monster = null
 
+/* ====== 計算最終能力 ====== */
 function stats() {
   const m = rarityMul[player.weapon.rarity]
   return {
-    atk: player.base.atk + player.weapon.atk * m,
-    maxhp: player.base.hp + player.weapon.hp * m,
-    maxmp: player.base.mp + player.weapon.mp * m
+    atk: Math.floor(player.base.atk + player.weapon.atk * m),
+    maxhp: Math.floor(player.base.hp + player.weapon.hp * m),
+    maxmp: Math.floor(player.base.mp + player.weapon.mp * m)
   }
 }
 
+/* ====== UI 更新 ====== */
 function ui() {
   const s = stats()
   player.hp = Math.min(player.hp, s.maxhp)
@@ -42,64 +44,102 @@ function ui() {
   $("player-name").innerText = `${player.name} Lv.${player.lv}`
   $("player-stats").innerText =
     `ATK ${s.atk}\nHP ${player.hp}/${s.maxhp}\nMP ${player.mp}/${s.maxmp}`
+
   $("player-weapon-img").src = player.weapon.img
 
-  if (monster) $("monster-hp").innerText = `HP ${monster.hp}`
+  if (monster) {
+    $("monster-hp").innerText = `HP ${monster.hp}`
+  }
 }
 
-function logMsg(t) {
-  $("battle-log").innerHTML += t + "<br>"
+/* ====== 戰鬥訊息 ====== */
+function logMsg(text) {
+  $("log").innerHTML += text + "<br>"
+  $("log").scrollTop = $("log").scrollHeight
 }
 
+/* ====== 開始戰鬥 ====== */
 function start() {
   monster = JSON.parse(JSON.stringify(
     monsters[Math.floor(Math.random() * monsters.length)]
   ))
-  $("battle-card").style.display = "block"
+
+  $("battle").style.display = "block"
   $("monster-name").innerText = monster.name
   $("monster-img").src = monster.img
-  $("battle-log").innerHTML = ""
+  $("log").innerHTML = ""
+
+  logMsg(`⚔️ 遭遇 ${monster.name}！`)
   ui()
 }
 
-function enemy() {
+/* ====== 怪物反擊 ====== */
+function enemyAttack() {
+  if (!monster || monster.hp <= 0) return
+
   player.hp -= monster.atk
-  logMsg(`怪物攻擊你，造成 ${monster.atk} 傷害`)
+  logMsg(`👿 ${monster.name} 攻擊你，造成 ${monster.atk} 傷害`)
+
+  if (player.hp <= 0) {
+    player.hp = 0
+    logMsg("💀 你被擊倒了……")
+  }
+
   ui()
 }
 
+/* ====== 玩家行動 ====== */
 function attack() {
-  monster.hp -= stats().atk
-  logMsg(`你攻擊造成 ${stats().atk} 傷害`)
-  monster.hp > 0 ? enemy() : logMsg("🎉 勝利！")
+  if (!monster) return
+
+  const dmg = stats().atk
+  monster.hp -= dmg
+  logMsg(`🗡️ 你造成 ${dmg} 傷害`)
+
+  monster.hp > 0 ? enemyAttack() : logMsg("🎉 勝利！")
   ui()
 }
 
 function fire() {
-  if (player.mp < 5) return
+  if (!monster || player.mp < 5) {
+    logMsg("❌ MP 不足")
+    return
+  }
+
   player.mp -= 5
   monster.hp -= 20
-  logMsg("🔥 火球術！")
-  monster.hp > 0 ? enemy() : logMsg("🎉 勝利！")
+  logMsg("🔥 火球術造成 20 傷害")
+
+  monster.hp > 0 ? enemyAttack() : logMsg("🎉 勝利！")
   ui()
 }
 
 function heal() {
-  if (player.mp < 5) return
+  if (player.mp < 5) {
+    logMsg("❌ MP 不足")
+    return
+  }
+
   player.mp -= 5
   player.hp += 25
-  logMsg("✨ 治癒 +25")
+  logMsg("✨ 治癒 +25 HP")
   ui()
 }
 
+/* ====== 事件綁定 ====== */
 $("btn-start").onclick = start
 $("btn-attack").onclick = attack
 $("btn-fire").onclick = fire
 $("btn-heal").onclick = heal
-$("btn-save").onclick = () =>
+$("btn-save").onclick = () => {
   localStorage.setItem("save", JSON.stringify(player))
+  logMsg("💾 已存檔")
+}
 
+/* ====== 讀檔 ====== */
 const save = localStorage.getItem("save")
-if (save) player = JSON.parse(save)
+if (save) {
+  player = JSON.parse(save)
+}
 
 ui()
