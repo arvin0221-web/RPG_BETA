@@ -1,49 +1,57 @@
 <!doctype html>
 <html lang="zh-TW">
 <head>
-  <meta charset="utf-8">
-  <title>製杖RPG</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>製杖RPG</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-<h1>製杖RPG</h1>
+<div id="tip" style="display:none;color:yellow;text-align:center;margin:10px"></div>
 
-<div id="tip" style="color:gold;font-weight:bold;margin:6px;"></div>
+<div class="wrap">
+  <h1>製杖RPG</h1>
 
-<pre id="player"></pre>
+  <!-- 玩家資訊 -->
+  <div class="card">
+    <div id="player-name"></div>
+    <img id="player-weapon-img" src="assets/weapons/wand_common.png">
+    <pre id="player-stats"></pre>
 
-<button id="btn-start">開始遇怪</button>
-<button id="btn-wand">杖</button>
-<button id="btn-shop">商店</button>
-<button id="btn-save">存檔</button>
+    <div style="font-size:14px;color:#ccc;margin-bottom:6px;">
+      擊敗一個怪物可恢復20%的HP與20%的MP
+    </div>
 
-<hr>
+    <button id="btn-start">開始遇怪</button>
+    <button id="btn-wands">杖</button>
+    <button id="btn-shop">商店</button>
+    <button id="btn-save">存檔</button>
+  </div>
 
-<!-- 杖背包 -->
-<div id="wand-panel" style="display:none">
-  <h3>杖背包</h3>
-  <div id="wand-list"></div>
-</div>
+  <!-- 戰鬥 -->
+  <div class="card" id="battle" style="display:none">
+    <h2 id="monster-name"></h2>
+    <img id="monster-img">
+    <div id="monster-hp"></div>
+    <button id="btn-attack">普通攻擊</button>
+    <button id="btn-fire">火球術 (5 MP)</button>
+    <button id="btn-heal">治癒術 (5 MP)</button>
+    <div id="log"></div>
+  </div>
 
-<!-- 商店 -->
-<div id="shop-panel" style="display:none">
-  <h3>商店</h3>
-  <div id="shop-list"></div>
-</div>
+  <!-- 杖背包 -->
+  <div class="card" id="wand-panel" style="display:none">
+    <h3>我的杖</h3>
+    <div id="wand-list"></div>
+  </div>
 
-<hr>
+  <!-- 商店 -->
+  <div class="card" id="shop-panel" style="display:none">
+    <h3>杖商店</h3>
+    <div id="shop-list"></div>
+  </div>
 
-<!-- 戰鬥 -->
-<div id="battle" style="display:none">
-  <h2 id="monster"></h2>
-  <div id="monster-hp"></div>
-
-  <button id="atk">普通攻擊</button>
-  <button id="fire">火球術</button>
-  <button id="heal">治癒術</button>
-
-  <pre id="log"></pre>
 </div>
 
 <script src="app.js"></script>
