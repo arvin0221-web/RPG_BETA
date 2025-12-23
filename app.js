@@ -1,3 +1,25 @@
+// ===== 抓 DOM 元素 =====
+const playerNameEl = document.getElementById("player-name");
+const playerStatsEl = document.getElementById("player-stats");
+const playerWeaponImgEl = document.getElementById("player-weapon-img");
+
+const monsterNameEl = document.getElementById("monster-name");
+const monsterHpEl = document.getElementById("monster-hp");
+const monsterImgEl = document.getElementById("monster-img");
+
+const logEl = document.getElementById("log");
+const tipEl = document.getElementById("tip");
+const battleEl = document.getElementById("battle");
+
+// 按鈕
+const btnStart = document.getElementById("btn-start");
+const btnAttack = document.getElementById("btn-attack");
+const btnFire = document.getElementById("btn-fire");
+const btnHeal = document.getElementById("btn-heal");
+const btnWand = document.getElementById("btn-wand");
+const btnShop = document.getElementById("btn-shop");
+const btnSave = document.getElementById("btn-save");
+
 // ===== 基本設定 =====
 const rarityMul = { 普通: 1, 稀有: 1.6, 史詩: 2.3, 傳說: 3.5 };
 const rarityWeightBase = [
@@ -63,36 +85,34 @@ function ui() {
   player.hp = Math.min(player.hp, s.maxhp);
   player.mp = Math.min(player.mp, s.maxmp);
 
-  player-name.innerText =
-    `${player.name} Lv.${player.lv} 💰${player.gold}`;
-
-  player-stats.innerText =
+  playerNameEl.innerText = `${player.name} Lv.${player.lv} 💰${player.gold}`;
+  playerStatsEl.innerText =
     `ATK ${s.atk}\nHP ${player.hp}/${s.maxhp}\nMP ${player.mp}/${s.maxmp}\n\n武器：${player.weapon.name}\n稀有度：${player.weapon.rarity}`;
-
-  player-weapon-img.src = player.weapon.img;
+  playerWeaponImgEl.src = player.weapon.img;
 
   if (monster) {
-    monster-name.innerText = `${monster.name} Lv.${monster.lv}`;
-    monster-hp.innerText = `HP ${monster.hp}/${monster.maxHp}`;
+    monsterNameEl.innerText = `${monster.name} Lv.${monster.lv}`;
+    monsterHpEl.innerText = `HP ${monster.hp}/${monster.maxHp}`;
+    monsterImgEl.src = monster.img;
   }
 }
 
 function logMsg(t) {
-  log.innerHTML += t + "<br>";
-  log.scrollTop = log.scrollHeight;
+  logEl.innerHTML += t + "<br>";
+  logEl.scrollTop = logEl.scrollHeight;
 }
 
 function showTip(t, ms = 2000) {
-  tip.innerText = t;
-  tip.style.display = "block";
-  setTimeout(() => tip.style.display = "none", ms);
+  tipEl.innerText = t;
+  tipEl.style.display = "block";
+  setTimeout(() => tipEl.style.display = "none", ms);
 }
 
 // ===== 遭遇怪物 =====
 function startBattle() {
   if (inBattle) return showTip("對戰進行中");
 
-  log.innerHTML = "";
+  logEl.innerHTML = "";
 
   const lv = Math.floor(Math.random() * 5) + Math.max(1, player.lv - 2);
   const base = monsterPool[Math.floor(Math.random() * monsterPool.length)];
@@ -106,8 +126,7 @@ function startBattle() {
   };
   monster.hp = monster.maxHp;
 
-  monster-img.src = monster.img;
-  battle.style.display = "block";
+  battleEl.style.display = "block";
   inBattle = true;
 
   logMsg(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
@@ -214,11 +233,8 @@ function buyWand() {
     img: "assets/weapons/wand_common.png"
   };
 
-  if (player.lv < wand.lvReq)
-    return showTip("等級不足，無法使用");
-
-  if (player.gold < wand.price)
-    return showTip("金幣不足");
+  if (player.lv < wand.lvReq) return showTip("等級不足，無法使用");
+  if (player.gold < wand.price) return showTip("金幣不足");
 
   player.gold -= wand.price;
   player.weapon = wand;
@@ -227,17 +243,20 @@ function buyWand() {
   ui();
 }
 
-// ===== 綁定 =====
-btn-start.onclick = startBattle;
-btn-attack.onclick = attack;
-btn-fire.onclick = fire;
-btn-heal.onclick = heal;
-btn-wand.onclick = () => showTip(`${player.weapon.name}（${player.weapon.rarity}）`);
-btn-shop.onclick = buyWand;
-btn-save.onclick = () =>
-  localStorage.setItem("save", JSON.stringify(player));
+// ===== 杖按鈕顯示武器 =====
+btnWand.onclick = () => showTip(`${player.weapon.name}（${player.weapon.rarity}）`);
 
+// ===== 綁定其他按鈕 =====
+btnStart.onclick = startBattle;
+btnAttack.onclick = attack;
+btnFire.onclick = fire;
+btnHeal.onclick = heal;
+btnShop.onclick = buyWand;
+btnSave.onclick = () => localStorage.setItem("save", JSON.stringify(player));
+
+// ===== 載入存檔 =====
 const save = localStorage.getItem("save");
 if (save) player = JSON.parse(save);
 
+// ===== 初始 UI =====
 ui();
