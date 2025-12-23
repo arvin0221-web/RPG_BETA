@@ -1,200 +1,175 @@
-/* ========= 資料表 ========= */
-
-const rarityTable = [
-  { name:"普通", mul:1 },
-  { name:"精良", mul:1.3 },
-  { name:"稀有", mul:1.6 },
-  { name:"史詩", mul:2.0 },
-  { name:"傳說", mul:2.6 },
+// ================== 稀有度 ==================
+const RARITY = [
+  { name: "普通", mul: 1, rate: 0.6 },
+  { name: "稀有", mul: 1.5, rate: 0.25 },
+  { name: "史詩", mul: 2, rate: 0.12 },
+  { name: "傳說", mul: 3, rate: 0.03 }
 ];
 
-const wandDB = [
-  { name:"木杖", lv:1,  price:50,   base:{hp:0, mp:10, atk:3, crit:0.01, critDmg:0.1}},
-  { name:"鐵杖", lv:5,  price:120,  base:{hp:10, mp:20, atk:6, crit:0.015, critDmg:0.15}},
-  { name:"古木杖", lv:10, price:300, base:{hp:30, mp:40, atk:12, crit:0.02, critDmg:0.2}},
-  { name:"合金法杖", lv:20, price:800, base:{hp:60, mp:80, atk:25, crit:0.03, critDmg:0.3}},
-  { name:"神木杖", lv:30, price:2000, base:{hp:120, mp:150, atk:45, crit:0.04, critDmg:0.4}},
-  { name:"帝之權杖", lv:40, price:5000, base:{hp:200, mp:240, atk:70, crit:0.05, critDmg:0.5}},
-  { name:"神之權杖", lv:50, price:12000, base:{hp:300, mp:350, atk:100, crit:0.06, critDmg:0.6}},
-  { name:"神王法杖", lv:60, price:25000, base:{hp:450, mp:500, atk:140, crit:0.07, critDmg:0.7}},
-  { name:"無極法杖", lv:70, price:50000, base:{hp:650, mp:700, atk:190, crit:0.08, critDmg:0.8}},
-  { name:"葬神之權杖", lv:80, price:100000, base:{hp:900, mp:900, atk:260, crit:0.1, critDmg:1.0}},
-];
-
-/* ========= 玩家 ========= */
-
-let player = JSON.parse(localStorage.getItem("player")) || {
-  lv:1, exp:0, gold:200,
-  hp:100, maxHp:100,
-  mp:30, maxMp:30,
-  atk:5,
-  crit:0.01,
-  critDmg:1.2,
-  wand:null,
-  wands:[]
+// ================== 玩家 ==================
+let player = {
+  name: "冒險者",
+  lv: 1,
+  exp: 0,
+  gold: 100,
+  base: { atk: 10, hp: 100, mp: 30 },
+  hp: 100,
+  mp: 30,
+  crit: 0.01,
+  critDmg: 1.2,
+  weapon: null,
+  wandBag: []
 };
 
-let monster=null;
+// ================== 杖清單 ==================
+const WANDS = [
+  { name:"木杖", minLv:1, price:50, base:{atk:2,hp:10,mp:5,crit:0.005,critDmg:0.05}, img:"assets/weapons/wand_wood.png" },
+  { name:"鐵杖", minLv:5, price:150, base:{atk:4,hp:15,mp:8,crit:0.008,critDmg:0.1}, img:"assets/weapons/wand_iron.png" },
+  { name:"古木杖", minLv:10, price:300, base:{atk:7,hp:25,mp:12,crit:0.01,critDmg:0.15}, img:"assets/weapons/wand_old.png" },
+  { name:"合金法杖", minLv:20, price:800, base:{atk:12,hp:40,mp:20,crit:0.015,critDmg:0.2}, img:"assets/weapons/wand_alloy.png" },
+  { name:"神木杖", minLv:30, price:1600, base:{atk:18,hp:60,mp:30,crit:0.02,critDmg:0.25}, img:"assets/weapons/wand_divine.png" },
+  { name:"帝之權杖", minLv:40, price:3000, base:{atk:26,hp:90,mp:45,crit:0.025,critDmg:0.3}, img:"assets/weapons/wand_emperor.png" },
+  { name:"神之權杖", minLv:50, price:6000, base:{atk:36,hp:130,mp:65,crit:0.03,critDmg:0.35}, img:"assets/weapons/wand_god.png" },
+  { name:"神王法杖", minLv:60, price:12000, base:{atk:50,hp:180,mp:90,crit:0.035,critDmg:0.4}, img:"assets/weapons/wand_king.png" },
+  { name:"無極法杖", minLv:70, price:25000, base:{atk:70,hp:250,mp:120,crit:0.04,critDmg:0.45}, img:"assets/weapons/wand_infinite.png" },
+  { name:"葬神之權杖", minLv:80, price:50000, base:{atk:100,hp:350,mp:180,crit:0.05,critDmg:0.6}, img:"assets/weapons/wand_destroy.png" }
+];
 
-/* ========= UI ========= */
-
-const el = id => document.getElementById(id);
-
-function tip(t,sec=2){
-  el("tip").textContent=t;
-  setTimeout(()=>el("tip").textContent="",sec*1000);
+// ================== 工具 ==================
+function randRarity() {
+  let r = Math.random(), sum = 0;
+  for (let rar of RARITY) {
+    sum += rar.rate;
+    if (r <= sum) return rar;
+  }
+  return RARITY[0];
 }
 
-function updatePlayer(){
-  el("player").textContent=
-`Lv.${player.lv} EXP:${player.exp}
-Gold:${player.gold}
+// ================== 計算 ==================
+function stats() {
+  let atk = player.base.atk;
+  let hp = player.base.hp;
+  let mp = player.base.mp;
+  let crit = player.crit;
+  let critDmg = player.critDmg;
 
-HP ${player.hp}/${player.maxHp}
-MP ${player.mp}/${player.maxMp}
-ATK ${player.atk}
-Crit ${(player.crit*100).toFixed(1)}%
-CritDmg ${(player.critDmg*100).toFixed(0)}%
+  if (player.weapon) {
+    atk += player.weapon.atk;
+    hp += player.weapon.hp;
+    mp += player.weapon.mp;
+    crit += player.weapon.crit;
+    critDmg += player.weapon.critDmg;
+  }
 
-裝備：${player.wand ? player.wand.name+"【"+player.wand.rarity+"】":"無"}`;
+  return {
+    atk: Math.floor(atk),
+    maxhp: Math.floor(hp),
+    maxmp: Math.floor(mp),
+    crit,
+    critDmg
+  };
 }
 
-/* ========= 杖系統 ========= */
+// ================== UI ==================
+function ui() {
+  const s = stats();
+  player.hp = Math.min(player.hp, s.maxhp);
+  player.mp = Math.min(player.mp, s.maxmp);
 
-function equipWand(w){
-  player.wand=w;
-  player.maxHp=100+w.bonus.hp;
-  player.maxMp=30+w.bonus.mp;
-  player.atk=5+w.bonus.atk;
-  player.crit=0.01+w.bonus.crit;
-  player.critDmg=1.2+w.bonus.critDmg;
-  player.hp=player.maxHp;
-  player.mp=player.maxMp;
-  updatePlayer();
+  document.getElementById("player-name").innerText =
+    `${player.name} Lv.${player.lv} | EXP ${player.exp} | 💰${player.gold}`;
+
+  document.getElementById("player-stats").innerText =
+`ATK ${s.atk}
+HP ${player.hp}/${s.maxhp}
+MP ${player.mp}/${s.maxmp}
+爆擊率 ${(s.crit*100).toFixed(1)}%
+爆傷 ${(s.critDmg*100).toFixed(0)}%`;
+
+  document.getElementById("player-weapon-img").src =
+    player.weapon ? player.weapon.img : "assets/weapons/wand_common.png";
 }
 
-function renderWandBag(){
-  el("wand-list").innerHTML="";
-  player.wands.forEach((w,i)=>{
-    let btn=document.createElement("button");
-    btn.textContent=
-`${w.name}【${w.rarity}】 Lv.${w.lv}
-${player.wand===w?"（已裝備）":"裝備"}`;
-    btn.onclick=()=>equipWand(w);
-    el("wand-list").appendChild(btn);
-    el("wand-list").appendChild(document.createElement("br"));
+// ================== 杖背包 ==================
+function openWands() {
+  const panel = document.getElementById("wand-panel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+  const list = document.getElementById("wand-list");
+  list.innerHTML = "";
+
+  player.wandBag.forEach((w, i) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
+      ${w.name}（${w.rarity}）Lv.${w.minLv}
+      <button onclick="equipWand(${i})">裝備</button>
+    `;
+    list.appendChild(div);
   });
 }
 
-/* ========= 商店 ========= */
+function equipWand(i) {
+  player.weapon = player.wandBag[i];
+  showTip(`已裝備 ${player.weapon.name}`);
+  ui();
+}
 
-function renderShop(){
-  el("shop-list").innerHTML="";
-  wandDB.forEach(base=>{
-    let div=document.createElement("div");
-    let canBuy=player.lv>=base.lv;
-    div.textContent=
-`${base.name}（Lv.${base.lv}） 價格 ${base.price}
-`;
-    if(canBuy){
-      let b=document.createElement("button");
-      b.textContent="購買";
-      b.onclick=()=>buyWand(base);
-      div.appendChild(b);
-    }else{
-      div.append("（等級不足）");
-    }
-    el("shop-list").appendChild(div);
+// ================== 商店 ==================
+function openShop() {
+  const panel = document.getElementById("shop-panel");
+  panel.style.display = panel.style.display === "none" ? "block" : "none";
+  const list = document.getElementById("shop-list");
+  list.innerHTML = "";
+
+  WANDS.forEach((w, i) => {
+    const canBuy = player.lv >= w.minLv;
+    const div = document.createElement("div");
+    div.innerHTML = `
+      ${w.name} Lv.${w.minLv} 💰${w.price}
+      <button ${canBuy?"":"disabled"} onclick="buyWand(${i})">購買</button>
+    `;
+    list.appendChild(div);
   });
 }
 
-function buyWand(base){
-  let r=rarityTable[Math.floor(Math.random()*rarityTable.length)];
-  let price=Math.floor(base.price*r.mul);
-  if(player.gold<price){ tip("金幣不足"); return; }
+function buyWand(i) {
+  const base = WANDS[i];
+  if (player.gold < base.price) return;
 
-  player.gold-=price;
-  let w={
-    name:base.name,
-    lv:base.lv,
-    rarity:r.name,
-    bonus:Object.fromEntries(
-      Object.entries(base.base).map(([k,v])=>[k,v*r.mul])
-    )
+  const rar = randRarity();
+  const m = rar.mul;
+
+  const wand = {
+    name: base.name,
+    minLv: base.minLv,
+    rarity: rar.name,
+    atk: Math.floor(base.base.atk * m),
+    hp: Math.floor(base.base.hp * m),
+    mp: Math.floor(base.base.mp * m),
+    crit: base.base.crit * m,
+    critDmg: base.base.critDmg * m,
+    img: base.img
   };
-  player.wands.push(w);
-  tip(`你獲得了 ${w.name}（${w.rarity}）`);
-  renderWandBag();
-  updatePlayer();
+
+  player.gold -= base.price;
+  player.wandBag.push(wand);
+  showTip(`你獲得了 ${wand.name}（${wand.rarity}）`);
+  ui();
 }
 
-/* ========= 戰鬥 ========= */
-
-el("btn-start").onclick=()=>{
-  monster={
-    lv:Math.min(player.lv+4,player.lv+Math.floor(Math.random()*5)),
-    hp:60+player.lv*25,
-    atk:8+player.lv*6
-  };
-  el("battle").style.display="block";
-  el("monster").textContent=`怪物 Lv.${monster.lv}`;
-  el("monster-hp").textContent=`HP ${monster.hp}`;
-};
-
-function attack(trigger=true){
-  let dmg=player.atk;
-  if(Math.random()<player.crit){
-    dmg=Math.floor(dmg*player.critDmg);
-    el("log").textContent+="爆擊！\n";
-  }
-  monster.hp-=dmg;
-  el("log").textContent+=`造成 ${dmg}\n`;
-
-  if(monster.hp<=0){
-    player.gold+=monster.lv*20;
-    player.exp+=monster.lv*10;
-    player.hp=Math.min(player.maxHp,player.hp+player.maxHp*0.2);
-    player.mp=Math.min(player.maxMp,player.mp+player.maxMp*0.2);
-    tip("怪物被擊敗");
-    return;
-  }
-
-  if(trigger){
-    player.hp-=monster.atk;
-    el("log").textContent+=`怪物反擊 ${monster.atk}\n`;
-  }
-
-  el("monster-hp").textContent=`HP ${monster.hp}`;
-  updatePlayer();
+// ================== 提示 ==================
+function showTip(t) {
+  const tip = document.getElementById("tip");
+  tip.innerText = t;
+  tip.style.display = "block";
+  setTimeout(() => tip.style.display = "none", 2000);
 }
 
-el("atk").onclick=()=>attack();
-el("fire").onclick=()=>{ if(player.mp>=5){player.mp-=5;attack();} };
-el("heal").onclick=()=>{
-  if(player.mp>=5){
-    player.mp-=5;
-    player.hp=Math.min(player.maxHp,player.hp+30);
-    updatePlayer();
-  }
-};
+// ================== 綁定 ==================
+btn-wands.onclick = openWands;
+btn-shop.onclick = openShop;
+btn-save.onclick = () => localStorage.setItem("save", JSON.stringify(player));
 
-/* ========= 面板切換 ========= */
+const save = localStorage.getItem("save");
+if (save) player = JSON.parse(save);
 
-el("btn-wand").onclick=()=>{
-  el("wand-panel").style.display="block";
-  el("shop-panel").style.display="none";
-  renderWandBag();
-};
-
-el("btn-shop").onclick=()=>{
-  el("shop-panel").style.display="block";
-  el("wand-panel").style.display="none";
-  renderShop();
-};
-
-el("btn-save").onclick=()=>{
-  localStorage.setItem("player",JSON.stringify(player));
-  tip("已存檔");
-};
-
-updatePlayer();
+ui();
