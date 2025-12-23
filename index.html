@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="zh-TW">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>製杖RPG</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>製杖RPG</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div id="tip" style="display:none;color:yellow;text-align:center;margin:10px"></div>
+
+<div id="global-tip" style="display:none;text-align:center;color:#ffcc00;margin:8px;"></div>
 
 <div class="wrap">
   <h1>製杖RPG</h1>
@@ -16,40 +16,44 @@
   <!-- 玩家資訊 -->
   <div class="card">
     <div id="player-name"></div>
-    <img id="player-weapon-img" src="assets/weapons/wand_common.png">
+    <img id="player-weapon-img" src="assets/weapons/wand_common.png" width="64">
     <pre id="player-stats"></pre>
 
-    <div style="font-size:14px;color:#ccc;margin-bottom:6px;">
-      擊敗一個怪物可恢復20%的HP與20%的MP
+    <div style="font-size:14px;color:#ccc;">
+      擊敗怪物可恢復 20% HP 與 20% MP
     </div>
 
     <button id="btn-start">開始遇怪</button>
-    <button id="btn-wands">杖</button>
+    <button id="btn-wand">杖</button>
     <button id="btn-shop">商店</button>
     <button id="btn-save">存檔</button>
   </div>
 
-  <!-- 戰鬥 -->
-  <div class="card" id="battle" style="display:none">
+  <!-- 戰鬥區 -->
+  <div class="card" id="battle" style="display:none;">
     <h2 id="monster-name"></h2>
-    <img id="monster-img">
+    <img id="monster-img" width="80">
     <div id="monster-hp"></div>
+
     <button id="btn-attack">普通攻擊</button>
-    <button id="btn-fire">火球術 (5 MP)</button>
-    <button id="btn-heal">治癒術 (5 MP)</button>
-    <div id="log"></div>
+    <button id="btn-fire">火球術</button>
+    <button id="btn-heal">治癒術</button>
+
+    <div id="battle-log" style="margin-top:6px;font-size:14px;"></div>
   </div>
 
   <!-- 杖背包 -->
-  <div class="card" id="wand-panel" style="display:none">
-    <h3>我的杖</h3>
+  <div class="card" id="wand-panel" style="display:none;">
+    <h3>杖背包</h3>
     <div id="wand-list"></div>
+    <button onclick="closePanels()">關閉</button>
   </div>
 
   <!-- 商店 -->
-  <div class="card" id="shop-panel" style="display:none">
-    <h3>杖商店</h3>
+  <div class="card" id="shop-panel" style="display:none;">
+    <h3>商店</h3>
     <div id="shop-list"></div>
+    <button onclick="closePanels()">關閉</button>
   </div>
 
 </div>
