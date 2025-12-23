@@ -25,8 +25,15 @@ const monsters = [
 
 let monster = null
 let inBattle = false
+let tipTimer = null
 
 const $ = id => document.getElementById(id)
+
+function showTip(text) {
+  $("tip").innerText = text
+  clearTimeout(tipTimer)
+  tipTimer = setTimeout(() => $("tip").innerText = "", 2000)
+}
 
 function stats() {
   const m = rarityMul[player.weapon.rarity]
@@ -62,6 +69,11 @@ function ui() {
 }
 
 function start() {
+  if (inBattle) {
+    showTip("對戰進行中")
+    return
+  }
+
   monster = JSON.parse(JSON.stringify(
     monsters[Math.floor(Math.random() * monsters.length)]
   ))
@@ -88,7 +100,6 @@ function enemyAttack() {
 
 function gainExp(exp) {
   player.exp += exp
-  logMsg(`✨ 獲得 ${exp} EXP`)
   while (player.exp >= player.nextExp) {
     player.exp -= player.nextExp
     player.lv++
@@ -96,14 +107,25 @@ function gainExp(exp) {
     player.base.hp += 10
     player.base.mp += 5
     player.nextExp = Math.floor(50 * Math.pow(1.6, player.lv - 1))
-    logMsg(`🎉 升級！等級提升至 Lv.${player.lv}`)
+    logMsg(`🎉 升級至 Lv.${player.lv}`)
   }
+}
+
+function recoverAfterWin() {
+  const s = stats()
+  const hpRec = Math.floor(s.maxhp * 0.2)
+  const mpRec = Math.floor(s.maxmp * 0.2)
+  player.hp += hpRec
+  player.mp += mpRec
+  logMsg(`✨ 回復 ${hpRec} HP、${mpRec} MP`)
 }
 
 function win() {
   inBattle = false
   logMsg("🎉 勝利！")
   gainExp(monster.exp)
+  recoverAfterWin()
+  ui()
 }
 
 function attack() {
@@ -111,10 +133,7 @@ function attack() {
   const dmg = stats().atk
   monster.hp -= dmg
   logMsg(`🗡️ 你造成 ${dmg} 傷害`)
-  if (monster.hp <= 0) {
-    monster.hp = 0
-    win()
-  } else enemyAttack()
+  monster.hp <= 0 ? win() : enemyAttack()
   ui()
 }
 
@@ -123,10 +142,7 @@ function fire() {
   player.mp -= 5
   monster.hp -= 20
   logMsg("🔥 火球術造成 20 傷害")
-  if (monster.hp <= 0) {
-    monster.hp = 0
-    win()
-  } else enemyAttack()
+  monster.hp <= 0 ? win() : enemyAttack()
   ui()
 }
 
@@ -148,4 +164,3 @@ $("btn-save").onclick = () =>
 const save = localStorage.getItem("save")
 if (save) player = JSON.parse(save)
 ui()
-
