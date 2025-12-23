@@ -19,14 +19,14 @@ let player = {
   }
 };
 
-// ===== 怪物模板（多樣化）=====
+// ===== 怪物模板 =====
 const monsterPool = [
-  { name: "史萊姆", baseHp: 40, baseAtk: 5, img: "assets/monsters/slime.png" },          // 平衡
-  { name: "狂暴史萊姆", baseHp: 30, baseAtk: 9, img: "assets/monsters/slime.png" },     // 高攻低血
-  { name: "石甲龜", baseHp: 90, baseAtk: 4, img: "assets/monsters/turtle.png" },       // 高血低攻
-  { name: "火焰精靈", baseHp: 60, baseAtk: 10, img: "assets/monsters/fire.png" },       // 法傷型
-  { name: "吸血蝙蝠", baseHp: 50, baseAtk: 7, img: "assets/monsters/bat.png" },         // 快攻型
-  { name: "暗影騎士", baseHp: 120, baseAtk: 14, img: "assets/monsters/knight.png" }     // 菁英
+  { name: "史萊姆", baseHp: 40, baseAtk: 5, img: "assets/monsters/slime.png" },
+  { name: "狂暴史萊姆", baseHp: 30, baseAtk: 9, img: "assets/monsters/slime.png" },
+  { name: "石甲龜", baseHp: 90, baseAtk: 4, img: "assets/monsters/turtle.png" },
+  { name: "火焰精靈", baseHp: 60, baseAtk: 10, img: "assets/monsters/fire.png" },
+  { name: "吸血蝙蝠", baseHp: 50, baseAtk: 7, img: "assets/monsters/bat.png" },
+  { name: "暗影騎士", baseHp: 120, baseAtk: 14, img: "assets/monsters/knight.png" }
 ];
 
 let monster = null;
@@ -49,7 +49,6 @@ function needExp() {
 // ===== UI =====
 function ui() {
   const s = stats();
-
   player.hp = Math.min(player.hp, s.maxhp);
   player.mp = Math.min(player.mp, s.maxmp);
 
@@ -76,14 +75,12 @@ function logMsg(text) {
   log.scrollTop = log.scrollHeight;
 }
 
-// ===== 提示（2 秒）=====
-function showTip(text) {
+// ===== 提示 =====
+function showTip(text, time = 2000) {
   const tip = document.getElementById("tip");
   tip.innerText = text;
   tip.style.display = "block";
-  setTimeout(() => {
-    tip.style.display = "none";
-  }, 2000);
+  setTimeout(() => (tip.style.display = "none"), time);
 }
 
 // ===== 遭遇怪物 =====
@@ -96,7 +93,6 @@ function startBattle() {
   const minLv = Math.max(1, player.lv - 2);
   const maxLv = player.lv + 4;
   const lv = Math.floor(Math.random() * (maxLv - minLv + 1)) + minLv;
-
   const base = monsterPool[Math.floor(Math.random() * monsterPool.length)];
 
   monster = {
@@ -118,7 +114,21 @@ function startBattle() {
   ui();
 }
 
-// ===== 戰鬥 =====
+// ===== 玩家死亡處理 =====
+function playerDead() {
+  const s = stats();
+
+  player.exp = Math.max(0, player.exp - 100);
+  player.hp = s.maxhp;
+
+  showTip("玩家已死亡，扣損經驗值並復活", 6000);
+
+  inBattle = false;
+  monster = null;
+  document.getElementById("battle").style.display = "none";
+}
+
+// ===== 怪物回合 =====
 function enemyTurn() {
   if (!inBattle) return;
 
@@ -127,15 +137,13 @@ function enemyTurn() {
 
   if (player.hp <= 0) {
     player.hp = 0;
-    logMsg("💀 你被擊敗了...");
-    inBattle = false;
-    monster = null;
-    document.getElementById("battle").style.display = "none";
+    playerDead();
   }
 
   ui();
 }
 
+// ===== 勝利判定 =====
 function checkWin() {
   if (monster && monster.hp <= 0) {
     monster.hp = 0;
@@ -147,13 +155,12 @@ function checkWin() {
   }
 }
 
+// ===== 行動 =====
 function attack() {
   if (!inBattle) return;
-
   const dmg = stats().atk;
   monster.hp -= dmg;
   logMsg(`⚔️ 你造成 ${dmg} 傷害`);
-
   checkWin();
   if (inBattle) enemyTurn();
   ui();
@@ -161,34 +168,28 @@ function attack() {
 
 function fire() {
   if (!inBattle || player.mp < 5) return;
-
   player.mp -= 5;
   monster.hp -= 20;
   logMsg("🔥 火球術造成 20 傷害");
-
   checkWin();
   if (inBattle) enemyTurn();
   ui();
 }
 
+// ★ 治癒術：不觸發敵方反擊
 function heal() {
   if (!inBattle || player.mp < 5) return;
-
   player.mp -= 5;
   player.hp += 25;
   logMsg("✨ 治癒 +25 HP");
-
-  if (inBattle) enemyTurn();
   ui();
 }
 
 // ===== 獎勵 =====
 function gainReward() {
   const s = stats();
-
   player.hp += Math.floor(s.maxhp * 0.2);
   player.mp += Math.floor(s.maxmp * 0.2);
-
   logMsg("💚 擊敗一個怪物可恢復20%的HP與MP");
 
   const expGain = monster.lv * 20;
@@ -202,7 +203,7 @@ function gainReward() {
   }
 }
 
-// ===== 綁定按鈕（重要）=====
+// ===== 綁定 =====
 document.getElementById("btn-start").onclick = startBattle;
 document.getElementById("btn-attack").onclick = attack;
 document.getElementById("btn-fire").onclick = fire;
@@ -212,8 +213,6 @@ document.getElementById("btn-save").onclick = () =>
 
 // ===== 讀檔 =====
 const save = localStorage.getItem("save");
-if (save) {
-  player = JSON.parse(save);
-}
+if (save) player = JSON.parse(save);
 
 ui();
