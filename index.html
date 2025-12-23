@@ -2,73 +2,50 @@
 <html lang="zh-TW">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>製杖RPG</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 
 <body>
-  <!-- 全域提示 -->
-  <div id="tip" style="
-    display:none;
-    color:#ffd36a;
-    text-align:center;
-    margin:10px;
-    font-weight:bold;
-  "></div>
+<h1>製杖RPG</h1>
 
-  <div class="wrap">
-    <h1>製杖RPG</h1>
+<div id="tip" style="color:gold;font-weight:bold;margin:6px;"></div>
 
-    <!-- 玩家卡片 -->
-    <div class="card">
-      <div id="player-name"></div>
+<pre id="player"></pre>
 
-      <img id="player-weapon-img"
-           src="assets/weapons/wand_common.png"
-           style="width:96px;height:96px">
+<button id="btn-start">開始遇怪</button>
+<button id="btn-wand">杖</button>
+<button id="btn-shop">商店</button>
+<button id="btn-save">存檔</button>
 
-      <pre id="player-stats"></pre>
+<hr>
 
-      <div style="font-size:14px;color:#ccc;margin-bottom:8px;">
-        擊敗一個怪物可恢復 20% HP 與 20% MP
-      </div>
+<!-- 杖背包 -->
+<div id="wand-panel" style="display:none">
+  <h3>杖背包</h3>
+  <div id="wand-list"></div>
+</div>
 
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button id="btn-start">開始遇怪</button>
-        <button id="btn-wand">杖</button>
-        <button id="btn-shop">商店</button>
-        <button id="btn-save">存檔</button>
-      </div>
-    </div>
+<!-- 商店 -->
+<div id="shop-panel" style="display:none">
+  <h3>商店</h3>
+  <div id="shop-list"></div>
+</div>
 
-    <!-- 戰鬥區 -->
-    <div class="card" id="battle" style="display:none;">
-      <h2 id="monster-name"></h2>
+<hr>
 
-      <img id="monster-img"
-           style="width:120px;height:120px">
+<!-- 戰鬥 -->
+<div id="battle" style="display:none">
+  <h2 id="monster"></h2>
+  <div id="monster-hp"></div>
 
-      <div id="monster-hp" style="margin-bottom:8px;"></div>
+  <button id="atk">普通攻擊</button>
+  <button id="fire">火球術</button>
+  <button id="heal">治癒術</button>
 
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        <button id="btn-attack">普通攻擊</button>
-        <button id="btn-fire">火球術 (5 MP)</button>
-        <button id="btn-heal">治癒術 (5 MP)</button>
-      </div>
+  <pre id="log"></pre>
+</div>
 
-      <div id="log"
-           style="
-            margin-top:10px;
-            max-height:160px;
-            overflow-y:auto;
-            font-size:14px;
-           ">
-      </div>
-    </div>
-  </div>
-
-  <!-- 主程式 -->
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
