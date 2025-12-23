@@ -31,6 +31,7 @@ const monsterPool = [
 
 let monster = null;
 let inBattle = false;
+let battleEnded = false;
 
 // ===== 計算 =====
 function stats() {
@@ -90,6 +91,9 @@ function startBattle() {
     return;
   }
 
+  // 新一場戰鬥才清空文字
+  document.getElementById("log").innerHTML = "";
+
   const minLv = Math.max(1, player.lv - 2);
   const maxLv = player.lv + 4;
   const lv = Math.floor(Math.random() * (maxLv - minLv + 1)) + minLv;
@@ -107,26 +111,118 @@ function startBattle() {
 
   document.getElementById("monster-img").src = monster.img;
   document.getElementById("battle").style.display = "block";
-  document.getElementById("log").innerHTML = "";
 
   logMsg(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
+
   inBattle = true;
+  battleEnded = false;
   ui();
 }
 
-// ===== 玩家死亡處理 =====
+// ===== 玩家死亡 =====
 function playerDead() {
   const s = stats();
 
   player.exp = Math.max(0, player.exp - 100);
   player.hp = s.maxhp;
+  player.mp = s.maxmp;
 
   showTip("玩家已死亡，扣損經驗值並復活", 6000);
 
   inBattle = false;
-  monster = null;
-  document.getElementById("battle").style.display = "none";
+  battleEnded = true;
 }
+
+// ===== 怪物回合 =====
+function enemyTurn() {
+  if (!inBattle) return;
+
+  player.hp -= monster.atk;
+  logMsg(`😈 ${monster.name} 攻擊你，造成 ${monster.atk} 傷害`);
+
+  if (player.hp <= 0) {
+    player.hp = 0;
+    logMsg("💀 你被擊敗了");
+    playerDead();
+  }
+
+  ui();
+}
+
+// ===== 勝利判定 =====
+function checkWin() {
+  if (monster && monster.hp <= 0) {
+    monster.hp = 0;
+    logMsg("🎉 勝利！");
+    gainReward();
+    inBattle = false;
+    battleEnded = true;
+  }
+}
+
+// ===== 行動 =====
+function attack() {
+  if (!inBattle) return;
+  const dmg = stats().atk;
+  monster.hp -= dmg;
+  logMsg(`⚔️ 你造成 ${dmg} 傷害`);
+  checkWin();
+  if (inBattle) enemyTurn();
+  ui();
+}
+
+function fire() {
+  if (!inBattle || player.mp < 5) return;
+  player.mp -= 5;
+  monster.hp -= 20;
+  logMsg("🔥 火球術造成 20 傷害");
+  checkWin();
+  if (inBattle) enemyTurn();
+  ui();
+}
+
+// 治癒術：不觸發反擊
+function heal() {
+  if (!inBattle || player.mp < 5) return;
+  player.mp -= 5;
+  player.hp += 25;
+  logMsg("✨ 治癒 +25 HP");
+  ui();
+}
+
+// ===== 獎勵 =====
+function gainReward() {
+  const s = stats();
+  player.hp += Math.floor(s.maxhp * 0.2);
+  player.mp += Math.floor(s.maxmp * 0.2);
+
+  logMsg("💚 擊敗一個怪物可恢復20%的HP與MP");
+
+  const expGain = monster.lv * 20;
+  player.exp += expGain;
+  logMsg(`📈 獲得 ${expGain} EXP`);
+
+  while (player.exp >= needExp()) {
+    player.exp -= needExp();
+    player.lv++;
+    logMsg(`⬆️ 升級！現在 Lv.${player.lv}`);
+  }
+}
+
+// ===== 綁定 =====
+document.getElementById("btn-start").onclick = startBattle;
+document.getElementById("btn-attack").onclick = attack;
+document.getElementById("btn-fire").onclick = fire;
+document.getElementById("btn-heal").onclick = heal;
+document.getElementById("btn-save").onclick = () =>
+  localStorage.setItem("save", JSON.stringify(player));
+
+// ===== 讀檔 =====
+const save = localStorage.getItem("save");
+if (save) player = JSON.parse(save);
+
+ui();
+
 
 // ===== 怪物回合 =====
 function enemyTurn() {
