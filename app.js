@@ -19,14 +19,14 @@ let player = {
   }
 };
 
-// ===== 怪物模板 =====
+// ===== 怪物模板（多樣化）=====
 const monsterPool = [
-  { name: "史萊姆", baseHp: 40, baseAtk: 5, img: "assets/monsters/slime.png" },
-  { name: "狂暴史萊姆", baseHp: 30, baseAtk: 9, img: "assets/monsters/slime.png" },
-  { name: "石甲龜", baseHp: 90, baseAtk: 4, img: "assets/monsters/turtle.png" },
-  { name: "火焰精靈", baseHp: 60, baseAtk: 10, img: "assets/monsters/fire.png" },
-  { name: "吸血蝙蝠", baseHp: 50, baseAtk: 7, img: "assets/monsters/bat.png" },
-  { name: "暗影騎士", baseHp: 120, baseAtk: 14, img: "assets/monsters/knight.png" }
+  { name: "史萊姆", baseHp: 40, baseAtk: 5, img: "assets/monsters/slime.png" },          // 平衡
+  { name: "狂暴史萊姆", baseHp: 30, baseAtk: 9, img: "assets/monsters/slime.png" },     // 高攻低血
+  { name: "石甲龜", baseHp: 90, baseAtk: 4, img: "assets/monsters/turtle.png" },       // 高血低攻
+  { name: "火焰精靈", baseHp: 60, baseAtk: 10, img: "assets/monsters/fire.png" },       // 法傷型
+  { name: "吸血蝙蝠", baseHp: 50, baseAtk: 7, img: "assets/monsters/bat.png" },         // 快攻型
+  { name: "暗影騎士", baseHp: 120, baseAtk: 14, img: "assets/monsters/knight.png" }     // 菁英
 ];
 
 let monster = null;
@@ -49,6 +49,7 @@ function needExp() {
 // ===== UI =====
 function ui() {
   const s = stats();
+
   player.hp = Math.min(player.hp, s.maxhp);
   player.mp = Math.min(player.mp, s.maxmp);
 
@@ -68,10 +69,21 @@ function ui() {
   }
 }
 
-function logMsg(t) {
+// ===== 訊息 =====
+function logMsg(text) {
   const log = document.getElementById("log");
-  log.innerHTML += t + "<br>";
+  log.innerHTML += text + "<br>";
   log.scrollTop = log.scrollHeight;
+}
+
+// ===== 提示（2 秒）=====
+function showTip(text) {
+  const tip = document.getElementById("tip");
+  tip.innerText = text;
+  tip.style.display = "block";
+  setTimeout(() => {
+    tip.style.display = "none";
+  }, 2000);
 }
 
 // ===== 遭遇怪物 =====
@@ -109,18 +121,23 @@ function startBattle() {
 // ===== 戰鬥 =====
 function enemyTurn() {
   if (!inBattle) return;
+
   player.hp -= monster.atk;
   logMsg(`😈 ${monster.name} 攻擊你，造成 ${monster.atk} 傷害`);
+
   if (player.hp <= 0) {
     player.hp = 0;
     logMsg("💀 你被擊敗了...");
     inBattle = false;
+    monster = null;
+    document.getElementById("battle").style.display = "none";
   }
+
   ui();
 }
 
 function checkWin() {
-  if (monster.hp <= 0) {
+  if (monster && monster.hp <= 0) {
     monster.hp = 0;
     logMsg("🎉 勝利！");
     gainReward();
@@ -132,9 +149,11 @@ function checkWin() {
 
 function attack() {
   if (!inBattle) return;
+
   const dmg = stats().atk;
   monster.hp -= dmg;
   logMsg(`⚔️ 你造成 ${dmg} 傷害`);
+
   checkWin();
   if (inBattle) enemyTurn();
   ui();
@@ -142,9 +161,11 @@ function attack() {
 
 function fire() {
   if (!inBattle || player.mp < 5) return;
+
   player.mp -= 5;
   monster.hp -= 20;
   logMsg("🔥 火球術造成 20 傷害");
+
   checkWin();
   if (inBattle) enemyTurn();
   ui();
@@ -152,22 +173,27 @@ function fire() {
 
 function heal() {
   if (!inBattle || player.mp < 5) return;
+
   player.mp -= 5;
   player.hp += 25;
   logMsg("✨ 治癒 +25 HP");
+
+  if (inBattle) enemyTurn();
   ui();
 }
 
 // ===== 獎勵 =====
 function gainReward() {
   const s = stats();
+
   player.hp += Math.floor(s.maxhp * 0.2);
   player.mp += Math.floor(s.maxmp * 0.2);
+
+  logMsg("💚 擊敗一個怪物可恢復20%的HP與MP");
 
   const expGain = monster.lv * 20;
   player.exp += expGain;
   logMsg(`📈 獲得 ${expGain} EXP`);
-  logMsg("💚 擊敗怪物可恢復20% HP 與30% MP");
 
   while (player.exp >= needExp()) {
     player.exp -= needExp();
@@ -176,23 +202,18 @@ function gainReward() {
   }
 }
 
-// ===== 提示 =====
-function showTip(text) {
-  const tip = document.getElementById("tip");
-  tip.innerText = text;
-  tip.style.display = "block";
-  setTimeout(() => (tip.style.display = "none"), 2000);
-}
-
-// ===== 綁定 =====
-btn-start.onclick = startBattle;
-btn-attack.onclick = attack;
-btn-fire.onclick = fire;
-btn-heal.onclick = heal;
-btn-save.onclick = () =>
+// ===== 綁定按鈕（重要）=====
+document.getElementById("btn-start").onclick = startBattle;
+document.getElementById("btn-attack").onclick = attack;
+document.getElementById("btn-fire").onclick = fire;
+document.getElementById("btn-heal").onclick = heal;
+document.getElementById("btn-save").onclick = () =>
   localStorage.setItem("save", JSON.stringify(player));
 
+// ===== 讀檔 =====
 const save = localStorage.getItem("save");
-if (save) player = JSON.parse(save);
+if (save) {
+  player = JSON.parse(save);
+}
 
 ui();
