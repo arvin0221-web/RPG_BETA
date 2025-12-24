@@ -97,15 +97,16 @@ function scaleAllButtons() {
 
   buttons.forEach(btn => {
     if (btn.id === "pet-btn-fixed") return;  // 排除浮動寵物按鈕
-    btn.style.fontSize = "19px";
-    btn.style.minHeight = "58px";
-    btn.style.padding = "8px 15px";
-    btn.style.borderRadius = "9px";
-    btn.style.marginTop = "6px";
+    btn.style.fontSize = "18px";
+    btn.style.minHeight = "52px";
+    btn.style.padding = "6px 12px";
+    btn.style.borderRadius = "8px";
+    btn.style.marginTop = "5px";
   });
 }
 
 setTimeout(scaleAllButtons, 0);
+
 
 
 
