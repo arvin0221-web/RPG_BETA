@@ -115,3 +115,118 @@ window.addEventListener("load", () => {
   scaleAllButtons();
 });
 
+/*************************************************
+ * extra_save.js - 擴充存檔系統
+ * 功能：
+ * 1. 保存玩家裝備杖的狀態
+ * 2. 保存寵物解鎖、等級與裝備狀態
+ * 3. 讀檔後自動恢復 UI 與屬性
+ *************************************************/
+
+// ====== 擴充存檔 ======
+function saveGameExtended() {
+    const saveData = {
+        playerBasic: {
+            name: player.name,
+            lv: player.lv,
+            exp: player.exp,
+            gold: player.gold,
+            hp: player.hp,
+            mp: player.mp
+        },
+        weaponData: player.weapon ? {
+            index: player.weapons.indexOf(player.weapon),
+            rarity: player.weapon.rarity
+        } : null,
+        weapons: player.weapons.map(w => ({
+            name: w.name,
+            rarity: w.rarity,
+            atk: w.atk,
+            hp: w.hp,
+            mp: w.mp,
+            crit: w.crit,
+            critDmg: w.critDmg
+        })),
+        pets: pets.map(p => ({
+            name: p.name,
+            unlocked: p.unlocked,
+            level: p.level
+        })),
+        activePetIndex: activePet ? pets.indexOf(activePet) : null
+    };
+
+    localStorage.setItem("wand_rpg_save_extended", JSON.stringify(saveData));
+    showGlobalTip("💾 遊戲已保存", 2000);
+}
+
+// ====== 擴充讀檔 ======
+function loadGameExtended() {
+    const s = localStorage.getItem("wand_rpg_save_extended");
+    if (!s) return;
+
+    try {
+        const data = JSON.parse(s);
+
+        // 恢復玩家基本資料
+        player.name = data.playerBasic.name;
+        player.lv = data.playerBasic.lv;
+        player.exp = data.playerBasic.exp;
+        player.gold = data.playerBasic.gold;
+        player.hp = data.playerBasic.hp;
+        player.mp = data.playerBasic.mp;
+
+        // 恢復武器列表
+        if (data.weapons && Array.isArray(data.weapons)) {
+            player.weapons = data.weapons.map(w => ({
+                name: w.name,
+                rarity: w.rarity,
+                atk: w.atk,
+                hp: w.hp,
+                mp: w.mp,
+                crit: w.crit,
+                critDmg: w.critDmg,
+                img: "assets/weapons/wand_common.png" // 保持預設圖示
+            }));
+        }
+
+        // 恢復當前裝備武器
+        if (data.weaponData && data.weaponData.index != null && player.weapons[data.weaponData.index]) {
+            player.weapon = player.weapons[data.weaponData.index];
+            player.weapon.rarity = data.weaponData.rarity;
+        }
+
+        // 恢復寵物狀態
+        if (data.pets && Array.isArray(data.pets)) {
+            data.pets.forEach((pData, i) => {
+                if (pets[i]) {
+                    pets[i].unlocked = pData.unlocked;
+                    pets[i].level = pData.level;
+                }
+            });
+        }
+
+        // 恢復裝備寵物
+        if (data.activePetIndex != null && pets[data.activePetIndex]) {
+            activePet = pets[data.activePetIndex];
+        }
+
+        // 更新 UI
+        updateUI();
+        if (typeof updatePetPanel === "function") updatePetPanel();
+
+    } catch (err) {
+        console.error("讀取存檔錯誤：", err);
+    }
+}
+
+// ====== 綁定按鈕 ======
+const btnSave = document.getElementById("btn-save");
+if (btnSave) {
+    btnSave.onclick = saveGameExtended;
+}
+
+// ====== 初始化時讀檔 ======
+window.addEventListener("load", () => {
+    loadGameExtended();
+});
+
