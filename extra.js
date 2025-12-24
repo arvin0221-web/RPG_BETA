@@ -377,3 +377,83 @@ levelUp = function() {
   updateUI();
   showGlobalTip(`🎉 升級！你的屬性已提升`, 2000);
 };
+/*************************************************
+ * tutorial.js - 新手教學浮動面板
+ * 點擊按鈕即可顯示 tutorial.txt 內容
+ * 面板覆蓋畫面，可關閉
+ *************************************************/
+
+// ====== 建立浮動面板 ======
+const tutorialPanel = document.createElement("div");
+tutorialPanel.id = "tutorial-panel";
+tutorialPanel.style.display = "none";
+tutorialPanel.style.position = "fixed";
+tutorialPanel.style.top = "0";
+tutorialPanel.style.left = "0";
+tutorialPanel.style.width = "100%";
+tutorialPanel.style.height = "100%";
+tutorialPanel.style.backgroundColor = "rgba(0,0,0,0.9)";
+tutorialPanel.style.color = "#00ff00";
+tutorialPanel.style.overflowY = "auto";
+tutorialPanel.style.padding = "20px";
+tutorialPanel.style.boxSizing = "border-box";
+tutorialPanel.style.zIndex = "10000";
+tutorialPanel.style.fontSize = "18px";
+tutorialPanel.style.lineHeight = "1.6";
+
+// 內容容器
+const tutorialContent = document.createElement("pre");
+tutorialContent.id = "tutorial-content";
+tutorialContent.style.whiteSpace = "pre-wrap";
+tutorialContent.style.wordWrap = "break-word";
+tutorialPanel.appendChild(tutorialContent);
+
+// 關閉按鈕
+const closeBtn = document.createElement("button");
+closeBtn.innerText = "❌ 關閉";
+closeBtn.style.position = "fixed";
+closeBtn.style.top = "12px";
+closeBtn.style.right = "12px";
+closeBtn.style.fontSize = "20px";
+closeBtn.style.padding = "6px 12px";
+closeBtn.style.borderRadius = "8px";
+closeBtn.style.cursor = "pointer";
+closeBtn.style.zIndex = "10001";
+closeBtn.onclick = () => { tutorialPanel.style.display = "none"; };
+tutorialPanel.appendChild(closeBtn);
+
+document.body.appendChild(tutorialPanel);
+
+// ====== 建立新手教學按鈕（固定右上角） ======
+const tutorialBtn = document.createElement("button");
+tutorialBtn.id = "tutorial-btn";
+tutorialBtn.innerText = "📖 新手教學";
+tutorialBtn.style.position = "fixed";
+tutorialBtn.style.top = "12px";
+tutorialBtn.style.right = "12px";
+tutorialBtn.style.fontSize = "16px";
+tutorialBtn.style.padding = "6px 12px";
+tutorialBtn.style.borderRadius = "8px";
+tutorialBtn.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
+tutorialBtn.style.color = "#ffffff";
+tutorialBtn.style.border = "none";
+tutorialBtn.style.cursor = "pointer";
+tutorialBtn.style.zIndex = "9999";
+
+document.body.appendChild(tutorialBtn);
+
+// ====== 點擊按鈕讀取 tutorial.txt 並顯示 ======
+tutorialBtn.onclick = async () => {
+  try {
+    const response = await fetch("tutorial.txt");
+    if (!response.ok) throw new Error("讀取失敗");
+    const text = await response.text();
+    tutorialContent.innerText = text;
+    tutorialPanel.style.display = "block";
+  } catch (err) {
+    tutorialContent.innerText = "無法載入教學內容";
+    tutorialPanel.style.display = "block";
+    console.error(err);
+  }
+};
+
