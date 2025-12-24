@@ -1,21 +1,23 @@
 /*************************************************
- * extra.js - 綜合擴充插件 (完整整合版)
- * 1. UI 樣式優化與自動位移
- * 2. 存存檔系統增強 (含寵物與詳細裝備)
- * 3. 強制性屬性成長公式 (覆蓋 app.js 的提升效果)
- * 4. 提示系統整合
+ * extra.js
+ * 功能整合：
+ * 1. 商店 / 杖面板固定在頁面最上方，彩色背景
+ * 2. 戰鬥區自動下移
+ * 3. 全局提示文字居中顯示
+ * 4. 裝備杖時顯示提示
+ * 5. 金幣不足購買杖時顯示提示
  *************************************************/
 
-// ====== 1. 介面與樣式調整 ======
-
+// ====== 調整商店與杖面板顯示位置與背景 ======
 function adjustPanels() {
   const panels = ["wand-panel", "shop-panel"];
   panels.forEach((id, index) => {
     const el = document.getElementById(id);
     if (!el) return;
 
-    el.style.position = "fixed"; // 改為 fixed 確保在最上方
-    el.style.top = (index * 60) + "px"; // 避免兩個面板重疊，稍微錯開
+    el.style.position = "absolute";  
+    // 修正：為了防止重疊，讓第二個面板稍微往下靠
+    el.style.top = (index * 70) + "px"; 
     el.style.left = "0";
     el.style.width = "100%";
     el.style.zIndex = "500"; 
@@ -23,94 +25,125 @@ function adjustPanels() {
     el.style.backgroundColor = "transparent";
     el.style.padding = "10px";
     el.style.boxSizing = "border-box";
-    el.style.color = "#fff";
-    el.style.boxShadow = "0 2px 10px rgba(0,0,0,0.3)";
+    el.style.color = "#fff"; 
   });
 
-  // 將戰鬥區往下移，避免被面板遮住
   const battle = document.getElementById("battle");
   if (battle) {
-    battle.style.marginTop = "220px"; 
+    battle.style.marginTop = "200px"; 
   }
 }
 
+// ====== 調整全局提示文字 ======
 function centerGlobalTip() {
   const tip = document.getElementById("global-tip");
   if (!tip) return;
-  // 強制覆寫原本隱藏的樣式
+
   tip.style.position = "fixed";
   tip.style.top = "50%";
   tip.style.left = "50%";
   tip.style.transform = "translate(-50%, -50%)";
   tip.style.zIndex = "1000";
-  tip.style.backgroundColor = "rgba(0,0,0,0.8)";
+  tip.style.backgroundColor = "rgba(0,0,0,0.7)";
   tip.style.color = "#fff";
-  tip.style.padding = "15px 30px";
-  tip.style.borderRadius = "12px";
+  tip.style.padding = "10px 20px";
+  tip.style.borderRadius = "8px";
   tip.style.textAlign = "center";
-  tip.style.fontSize = "1.2rem";
+  tip.style.fontSize = "1rem";
   tip.style.pointerEvents = "none"; 
-  tip.style.border = "2px solid #feb47b";
+  tip.style.transition = "opacity 0.3s";
 }
 
-// ====== 2. 強制性屬性成長系統 ======
+// ====== 延遲覆寫函式，確保提示可用 ======
+function bindExtraTips() {
+  // 裝備杖提示
+  if (typeof equipWand === "function") {
+    const _origEquipWand = equipWand;
+    equipWand = function(i) {
+      _origEquipWand(i);
+      const wand = player.weapons[i];
+      if (wand) showGlobalTip(`你已裝備 ${wand.name}（${wand.rarity}）`, 2000);
+    };
+  }
 
-/**
- * 這是你要求的唯一屬性提升邏輯。
- * 它會根據玩家當前等級 (player.lv)，基於 player.base 強制重新計算數值。
- */
-function applyCustomEnhancedStats() {
-  if (!player.base) return;
-
-  const lvl = player.lv;
-  // 你設定的成長率
-  const atkIncrease = 0.05;      // 每級攻擊力 +5%
-  const hpIncrease = 0.08;       // 每級最大血量 +8%
-  const mpIncrease = 0.06;       // 每級最大魔力 +6%
-
-  // 強制覆寫當前屬性 (基於 app.js 定義的 player.base)
-  // 公式：基礎值 * (1 + 成長率 * (等級-1))
-  player.atk = Math.floor(player.base.atk * (1 + atkIncrease * (lvl - 1)));
-  player.maxhp = Math.floor(player.base.hp * (1 + hpIncrease * (lvl - 1)));
-  player.maxmp = Math.floor(player.base.mp * (1 + mpIncrease * (lvl - 1)));
-  
-  // 保持暴擊率
-  player.crit = player.base.crit;
-  player.critDmg = player.base.critDmg;
-
-  // 如果有裝備杖，app.js 的 updateUI 會再次呼叫 calcStats()
-  // 但因為我們修改了 player 本身的數值，所以會疊加生效
+  // 金幣不足購買提示
+  if (typeof buyWand === "function") {
+    const _origBuyWand = buyWand;
+    buyWand = function(i) {
+      const base = wandDB[i];
+      if (player.gold < base.price) {
+        showGlobalTip("💰 金幣不足，無法購買", 2000);
+        return;
+      }
+      _origBuyWand(i);
+    };
+  }
 }
 
-// ====== 3. 存檔系統增強 (Fix 語法錯誤) ======
+// ====== 初始化 ======
+window.addEventListener("load", () => {
+  adjustPanels();
+  centerGlobalTip();
+  bindExtraTips();
+});
+
+/* =================================================
+ * ====== 全遊戲按鈕統一放大 1.5 倍（排除寵物鍵）=====
+ * ================================================= */
+
+function scaleAllButtons() {
+  const buttons = document.querySelectorAll("button");
+  buttons.forEach(btn => {
+    if (btn.id === "pet-btn-fixed") return;
+    btn.style.fontSize = "20px";      
+    btn.style.height = "50px";        
+    btn.style.padding = "0 15px";     
+    btn.style.borderRadius = "10px";  
+    btn.style.marginTop = "5px";
+    btn.style.boxSizing = "border-box";
+  });
+}
+
+window.addEventListener("load", () => {
+  scaleAllButtons();
+});
+
+/*************************************************
+ * extra_save.js - 擴充存檔系統
+ *************************************************/
 
 function saveGameExtended() {
     const saveData = {
-        playerData: {
+        playerBasic: {
             name: player.name,
-            lv: player.lv,
+            lv: player.lv, // 統一為 lv
             exp: player.exp,
             gold: player.gold,
             hp: player.hp,
-            mp: player.mp,
-            // 存入當前強制計算後的屬性
-            atk: player.atk,
-            maxhp: player.maxhp,
-            maxmp: player.maxmp
+            mp: player.mp
         },
-        // 紀錄武器庫
-        weapons: player.weapons,
-        equippedWeaponIndex: player.weapon ? player.weapons.indexOf(player.weapon) : -1,
-        // 紀錄寵物 (如果 pets 變數存在於全域)
-        petsData: (typeof pets !== 'undefined') ? pets.map(p => ({
+        weaponData: player.weapon ? {
+            index: player.weapons.indexOf(player.weapon),
+            rarity: player.weapon.rarity
+        } : null,
+        weapons: player.weapons.map(w => ({
+            name: w.name,
+            rarity: w.rarity,
+            atk: w.atk,
+            hp: w.hp,
+            mp: w.mp,
+            crit: w.crit,
+            critDmg: w.critDmg
+        })),
+        pets: (typeof pets !== 'undefined') ? pets.map(p => ({
             name: p.name,
             unlocked: p.unlocked,
-            level: p.level || 1
-        })) : []
+            level: p.level
+        })) : [],
+        activePetIndex: (typeof activePet !== 'undefined' && typeof pets !== 'undefined') ? pets.indexOf(activePet) : null
     };
 
     localStorage.setItem("wand_rpg_save_extended", JSON.stringify(saveData));
-    showGlobalTip("💾 擴充存檔已保存", 1000);
 }
 
 function loadGameExtended() {
@@ -119,140 +152,125 @@ function loadGameExtended() {
 
     try {
         const data = JSON.parse(s);
-        
-        // 恢復基礎資料
-        player.name = data.playerData.name;
-        player.lv = data.playerData.lv;
-        player.exp = data.playerData.exp;
-        player.gold = data.playerData.gold;
-        player.hp = data.playerData.hp;
-        player.mp = data.playerData.mp;
+        player.name = data.playerBasic.name;
+        player.lv = data.playerBasic.lv;
+        player.exp = data.playerBasic.exp;
+        player.gold = data.playerBasic.gold;
+        player.hp = data.playerBasic.hp;
+        player.mp = data.playerBasic.mp;
 
-        // 恢復武器清單
-        if (data.weapons) player.weapons = data.weapons;
-        if (data.equippedWeaponIndex !== -1) {
-            player.weapon = player.weapons[data.equippedWeaponIndex];
+        if (data.weapons && Array.isArray(data.weapons)) {
+            player.weapons = data.weapons.map(w => ({
+                ...w,
+                img: "assets/weapons/wand_common.png"
+            }));
         }
 
-        // 恢復寵物
-        if (data.petsData && typeof pets !== 'undefined') {
-            data.petsData.forEach((pData, i) => {
+        if (data.weaponData && data.weaponData.index != null && player.weapons[data.weaponData.index]) {
+            player.weapon = player.weapons[data.weaponData.index];
+        }
+
+        if (data.pets && Array.isArray(data.pets) && typeof pets !== 'undefined') {
+            data.pets.forEach((pData, i) => {
                 if (pets[i]) {
                     pets[i].unlocked = pData.unlocked;
                     pets[i].level = pData.level;
                 }
             });
         }
-
-        // 讀檔後立即應用強制屬性公式
-        applyCustomEnhancedStats();
-        if (typeof updateUI === "function") updateUI();
-        
     } catch (e) {
-        console.error("讀檔出錯:", e);
+        console.error("擴充讀檔錯誤", e);
     }
 }
 
-// ====== 4. 函式劫持 (Hooking) - 不刪除原功能，只增加邏輯 ======
-
-function bindExtraHooks() {
-  // 1. 劫持裝備功能：加入提示
-  if (typeof equipWand === "function") {
-    const _origEquip = equipWand;
-    equipWand = function(i) {
-      _origEquip(i);
-      const w = player.weapons[i];
-      if (w) showGlobalTip(`✨ 已裝備：${w.name} (${w.rarity})`);
-    };
-  }
-
-  // 2. 劫持購買功能：加入金幣判斷提示
-  if (typeof buyWand === "function") {
-    const _origBuy = buyWand;
-    buyWand = function(i) {
-      const base = wandDB[i];
-      if (player.gold < base.price) {
-        showGlobalTip("💰 金幣不足，去戰鬥賺錢吧！", 2000);
-        return; 
-      }
-      _origBuy(i);
-    };
-  }
-
-  // 3. 劫持存檔功能：同時執行擴充存檔
-  if (typeof saveGame === "function") {
-    const _origSave = saveGame;
-    saveGame = function() {
-      _origSave();
-      saveGameExtended();
-    };
-  }
-
-  // 4. 劫持讀檔功能：讀取後應用新公式
-  if (typeof loadGame === "function") {
-    const _origLoad = loadGame;
-    loadGame = function() {
-      _origLoad();
-      loadGameExtended();
-    };
-  }
-}
-
-// ====== 5. 按鈕統一樣式調整 ======
-
-function scaleAllButtons() {
-  const buttons = document.querySelectorAll("button");
-  buttons.forEach(btn => {
-    if (btn.id === "pet-btn-fixed") return;
-    btn.style.fontSize = "18px";
-    btn.style.padding = "10px 15px";
-    btn.style.margin = "5px";
-    btn.style.cursor = "pointer";
-    btn.style.borderRadius = "8px";
-    btn.style.transition = "all 0.2s";
-  });
-}
-
-// ====== 6. 永久提示 (防遮擋) ======
-
+// ====== 永久顯示可關閉的提示文字 ======
 function createPersistentScrollTip() {
-  if (document.getElementById("scroll-tip-wrapper")) return;
-  
   const tipWrapper = document.createElement("div");
   tipWrapper.id = "scroll-tip-wrapper";
-  tipWrapper.innerHTML = `
-    <div style="display:flex; align-items:center; background:rgba(0,0,0,0.6); padding:8px 15px; border-radius:20px; border:1px solid #00ff00;">
-      <span style="color:#00ff00; font-weight:bold; margin-right:10px;">💡 若看不到戰鬥區請往下捲動</span>
-      <button onclick="this.parentElement.parentElement.style.display='none'" style="background:none; border:none; color:#fff; cursor:pointer; font-size:16px;">✖</button>
-    </div>
-  `;
-  
+
+  const tipText = document.createElement("span");
+  tipText.innerText = "若看不到戰鬥頁面，請往下滑";
+  tipText.style.color = "#00ff00";
+  tipText.style.fontSize = "18px";
+  tipText.style.fontWeight = "bold";
+  tipText.style.marginRight = "12px";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.innerText = "✖";
+  closeBtn.style.background = "#444";
+  closeBtn.style.color = "#fff";
+  closeBtn.style.border = "none";
+  closeBtn.style.width = "24px";
+  closeBtn.style.height = "24px";
+  closeBtn.style.borderRadius = "50%";
+  closeBtn.style.cursor = "pointer";
+
+  closeBtn.onclick = () => {
+    tipWrapper.style.display = "none";
+  };
+
+  tipWrapper.appendChild(tipText);
+  tipWrapper.appendChild(closeBtn);
+
   tipWrapper.style.position = "fixed";
-  tipWrapper.style.bottom = "20px";
+  tipWrapper.style.bottom = "10%";
   tipWrapper.style.left = "50%";
   tipWrapper.style.transform = "translateX(-50%)";
-  tipWrapper.style.zIndex = "999";
+  tipWrapper.style.zIndex = "900";
+  tipWrapper.style.backgroundColor = "rgba(0,0,0,0.8)";
+  tipWrapper.style.padding = "10px 20px";
+  tipWrapper.style.borderRadius = "30px";
+  tipWrapper.style.display = "flex";
+  tipWrapper.style.alignItems = "center";
+  
   document.body.appendChild(tipWrapper);
 }
 
-// ====== 7. 初始化啟動 ======
+window.addEventListener("load", createPersistentScrollTip);
 
-window.addEventListener("load", () => {
-  // 1. 執行介面調整
-  adjustPanels();
-  centerGlobalTip();
+/*************************************************
+ * extra_level_up.js
+ * 功能：強制使用此處的升級屬性公式
+ *************************************************/
+
+function applyLevelBonus() {
+  if (!player.base) return; // 對應 app.js 的 player.base
+
+  const lvl = player.lv;
+  const atkIncrease = 0.05;      
+  const hpIncrease = 0.08;       
+  const mpIncrease = 0.06;       
+
+  // 強制覆寫當前屬性
+  player.atk = Math.floor(player.base.atk * (1 + atkIncrease * (lvl - 1)));
+  player.maxhp = Math.floor(player.base.hp * (1 + hpIncrease * (lvl - 1)));
+  player.maxmp = Math.floor(player.base.mp * (1 + mpIncrease * (lvl - 1)));
   
-  // 2. 綁定擴充邏輯 (劫持)
-  bindExtraHooks();
-  
-  // 3. 調整按鈕
-  scaleAllButtons();
-  
-  // 4. 建立常駐提示
-  createPersistentScrollTip();
-  
-  // 5. 每秒強制檢查一次屬性 (確保升級後立即更新，且不受 app.js 覆蓋)
-  setInterval(() => {
-    applyCustomEnhancedStats();
-  }, 1000);
-});
+  // 更新 UI 確保數值顯示
+  if (typeof updateUI === "function") updateUI();
+}
+
+// 劫持 app.js 的 saveGame
+const _origSave = saveGame;
+saveGame = function() {
+  applyLevelBonus(); 
+  if (_origSave) _origSave();
+  saveGameExtended();
+};
+
+// 劫持 app.js 的 loadGame
+const _origLoad = loadGame;
+loadGame = function() {
+  if (_origLoad) _origLoad();
+  loadGameExtended();
+  applyLevelBonus(); 
+};
+
+// 劫持獎勵系統，確保升級後觸寫公式
+// 在 app.js 中，升級邏輯是在 rewardBattle 的 while 迴圈裡
+const _origReward = rewardBattle;
+rewardBattle = function() {
+    _origReward();
+    applyLevelBonus(); // 強制應用本檔案的公式
+    showGlobalTip(`🎉 屬性已依等級強化！`, 1500);
+};
