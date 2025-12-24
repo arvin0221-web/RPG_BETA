@@ -230,3 +230,27 @@ window.addEventListener("load", () => {
     loadGameExtended();
 });
 
+// ====== 顯示中間偏上的提示文字 ======
+function showScrollTip() {
+  const tip = document.createElement("div");
+  tip.id = "scroll-tip";
+  tip.innerText = "若看不到戰鬥頁面，請往下滑";
+
+  // 文字樣式
+  tip.style.position = "fixed";         // 固定在頁面
+  tip.style.top = "15%";                // 偏上位置
+  tip.style.left = "50%";               // 水平置中
+  tip.style.transform = "translateX(-50%)";
+  tip.style.color = "#00ff00";          // 綠色文字
+  tip.style.fontSize = "20px";
+  tip.style.fontWeight = "bold";
+  tip.style.zIndex = "900";             // 不蓋過全局提示 (1000)
+  tip.style.pointerEvents = "none";     // 不會影響點擊
+  tip.style.backgroundColor = "transparent"; // 透明背景
+
+  document.body.appendChild(tip);
+}
+
+// 在頁面載入後呼叫
+window.addEventListener("load", showScrollTip);
+
