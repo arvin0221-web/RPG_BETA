@@ -62,7 +62,7 @@ petButton.id = "pet-btn-fixed";
 petButton.innerText = "🐾 寵物";
 
 // ====== 放大寵物按鈕（手機 / 電腦 都放大） ======
-petButton.style.width = "100%";
+petButton.style.width = "180px";
 petButton.style.height = "96px";
 petButton.style.fontSize = "32px";
 petButton.style.fontWeight = "bold";
@@ -274,5 +274,6 @@ playerAttack = function (mult = 1) {
 
   updateUI();
 };
+
 
 
