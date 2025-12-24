@@ -27,7 +27,7 @@ function clamp(v, min, max) {
  * 玩家資料（核心）
  ***********************/
 let player = {
-  name: "冒險者",
+  name: prompt("請輸入你的角色名字："),
   lv: 1,
   exp: 0,
   gold: 0,
