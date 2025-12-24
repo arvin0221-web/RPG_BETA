@@ -100,12 +100,12 @@ function scaleAllButtons() {
     // 排除固定寵物按鈕
     if (btn.id === "pet-btn-fixed") return;
 
-    // ====== 1.5 倍設定（以原始常見尺寸為基準） ======
-    btn.style.fontSize = "24px";      // 16 × 1.5
-    btn.style.height = "60px";        // 固定高度，避免 minHeight + padding 疊加
-    btn.style.padding = "0 18px";     // 只留左右 padding
-    btn.style.borderRadius = "12px";  // 原本 ~8 → 1.5 倍
-    btn.style.marginTop = "6px";
+    // ====== 1.25 倍設定（以原始常見尺寸為基準） ======
+    btn.style.fontSize = "20px";      // 16 × 1.25
+    btn.style.height = "50px";        // 固定高度，避免 minHeight + padding 疊加
+    btn.style.padding = "0 15px";     // 只留左右 padding
+    btn.style.borderRadius = "10px";  // 原本 ~8 → 1.25 倍
+    btn.style.marginTop = "5px";
     btn.style.boxSizing = "border-box";
   });
 }
@@ -114,3 +114,4 @@ function scaleAllButtons() {
 window.addEventListener("load", () => {
   scaleAllButtons();
 });
+
