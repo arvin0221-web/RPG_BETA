@@ -18,7 +18,10 @@ function adjustPanels() {
     el.style.left = "0";
     el.style.width = "100%";
     el.style.zIndex = "500";          // 確保在戰鬥區上層
-    el.style.backgroundColor = "rgba(255,255,255,0.95)"; // 半透明遮罩
+    el.style.backgroundImage = "linear-gradient(to right, #ff7e5f, #feb47b)";
+    el.style.backgroundColor = "transparent"; // 清空原本顏色
+    el.style.color = "#fff"; // 白色文字
+
     el.style.padding = "10px";
     el.style.boxSizing = "border-box";
   });
@@ -40,7 +43,7 @@ function centerGlobalTip() {
   tip.style.left = "50%";
   tip.style.transform = "translate(-50%, -50%)";
   tip.style.zIndex = "1000";
-  tip.style.backgroundColor = "rgba(255, 100, 100, 0.8)";
+  tip.style.backgroundColor = "rgba(0,0,0,0.7)";
   tip.style.color = "#fff";
   tip.style.padding = "10px 20px";
   tip.style.borderRadius = "8px";
@@ -57,4 +60,5 @@ window.addEventListener("load", () => {
   adjustPanels();
   centerGlobalTip();
 });
+
 
