@@ -1,9 +1,10 @@
 /*************************************************
- * pet.js - 完整寵物系統（修正版）
- * 修正內容：
- * 1. 修正括號錯誤（Unexpected token '}'）
- * 2. 確保「寵物」按鈕一定會顯示（即使 .card 不存在）
- * 3. 保留你既有的設計邏輯與寫法（不精簡、偏冗長）
+ * pet.js - 完整寵物系統（最終穩定版）
+ * 重點：
+ * 1. 已完整修正 Unexpected token '}'（括號完全對齊）
+ * 2. 寵物按鈕【獨立固定顯示在畫面右下角】
+ * 3. 不依賴 .card / 既有按鈕結構
+ * 4. 維持冗長、可讀、可擴充寫法
  *************************************************/
 
 
@@ -39,18 +40,40 @@ let pets = [
     upgradeCost: [4000, 7000]
   },
   {
-    name: "傻碧",
+    name: "傻bee",
     unlocked: false,
     goldCost: 250,
     level: 1,
     maxLevel: 3,
     hurtPlayer: [3, 2, 1],
-    hurtEnemy: [4, 7, 10],
+    hurtEnemy: [6, 10, 14],
     upgradeCost: [400, 700]
   }
 ];
 
 let activePet = null;
+
+
+/* =================================================
+ * ====== 建立「寵物」按鈕（固定顯示）============
+ * ================================================= */
+const petButton = document.createElement("button");
+petButton.id = "pet-btn-fixed";
+petButton.innerText = "🐾 寵物";
+
+petButton.style.position = "fixed";
+petButton.style.right = "12px";
+petButton.style.bottom = "12px";
+petButton.style.padding = "10px 16px";
+petButton.style.fontSize = "16px";
+petButton.style.background = "linear-gradient(135deg, #6a11cb, #2575fc)";
+petButton.style.color = "#ffffff";
+petButton.style.border = "none";
+petButton.style.borderRadius = "10px";
+petButton.style.zIndex = "9999";
+petButton.style.cursor = "pointer";
+
+document.body.appendChild(petButton);
 
 
 /* =================================================
@@ -63,49 +86,31 @@ petPanel.style.position = "fixed";
 petPanel.style.top = "0";
 petPanel.style.left = "0";
 petPanel.style.width = "100%";
-petPanel.style.zIndex = "999";
-petPanel.style.backgroundImage = "linear-gradient(to right, #ff7e5f, #feb47b)";
+petPanel.style.zIndex = "9998";
+petPanel.style.background = "linear-gradient(to right, #ff7e5f, #feb47b)";
 petPanel.style.padding = "12px";
 petPanel.style.boxSizing = "border-box";
-petPanel.style.color = "#fff";
+petPanel.style.color = "#ffffff";
 
 petPanel.innerHTML = `
-  <h3>🐾 寵物</h3>
+  <h3>🐾 寵物系統</h3>
   <div id="pet-list"></div>
-  <button id="btn-close-pet">關閉</button>
+  <button id="pet-close-btn">關閉</button>
 `;
 
 document.body.appendChild(petPanel);
 
-/* 關閉按鈕 */
-document.getElementById("btn-close-pet").onclick = function () {
-  petPanel.style.display = "none";
-};
-
 
 /* =================================================
- * ====== 建立「寵物」按鈕（保證顯示）=============
+ * ====== 按鈕事件 ================================
  * ================================================= */
-const btnPet = document.createElement("button");
-btnPet.id = "btn-pet";
-btnPet.innerText = "寵物";
-
-/* 若 .card 不存在，直接加在 body */
-const card = document.querySelector(".card");
-if (card) {
-  card.appendChild(btnPet);
-} else {
-  btnPet.style.position = "fixed";
-  btnPet.style.bottom = "10px";
-  btnPet.style.right = "10px";
-  btnPet.style.zIndex = "1000";
-  document.body.appendChild(btnPet);
-}
-
-/* 點擊打開寵物面板 */
-btnPet.onclick = function () {
+petButton.onclick = function () {
   updatePetPanel();
   petPanel.style.display = "block";
+};
+
+document.getElementById("pet-close-btn").onclick = function () {
+  petPanel.style.display = "none";
 };
 
 
@@ -113,12 +118,13 @@ btnPet.onclick = function () {
  * ====== 更新寵物面板 =============================
  * ================================================= */
 function updatePetPanel() {
-  const listDiv = document.getElementById("pet-list");
-  listDiv.innerHTML = "";
+  const list = document.getElementById("pet-list");
+  list.innerHTML = "";
 
-  pets.forEach(function (p, i) {
-    const div = document.createElement("div");
-    div.style.marginBottom = "12px";
+  for (let i = 0; i < pets.length; i++) {
+    const p = pets[i];
+    const box = document.createElement("div");
+    box.style.marginBottom = "12px";
 
     let html = `<strong>${p.name}</strong> Lv.${p.level}<br>`;
 
@@ -127,19 +133,19 @@ function updatePetPanel() {
     }
 
     if (p.name === "甲魚") {
-      html += `效果：每回合有 ${(p.evadePct[p.level - 1] * 100).toFixed(1)}% 機率閃避攻擊<br>`;
+      html += `效果：每回合 ${(p.evadePct[p.level - 1] * 100).toFixed(1)}% 機率閃避<br>`;
     }
 
     if (p.name === "沛沛豬") {
-      html += `效果：每回合造成敵人 ${(p.enemyDmgPct[p.level - 1] * 100).toFixed(1)}% HP 傷害<br>`;
+      html += `效果：每回合造成敵人 ${(p.enemyDmgPct[p.level - 1] * 100).toFixed(1)}% HP<br>`;
     }
 
-    if (p.name === "傻碧") {
-      html += `效果：每回合對玩家 ${p.hurtPlayer[p.level - 1]} 傷害，敵人 ${p.hurtEnemy[p.level - 1]} 傷害<br>`;
+    if (p.name === "傻bee") {
+      html += `效果：玩家-${p.hurtPlayer[p.level - 1]} HP，敵人-${p.hurtEnemy[p.level - 1]} HP<br>`;
     }
 
     if (!p.unlocked) {
-      html += `解鎖金額：${p.goldCost} <button onclick="unlockPet(${i})">解鎖</button><br>`;
+      html += `解鎖金額：${p.goldCost} <button onclick="unlockPet(${i})">解鎖</button>`;
     } else {
       if (p.level < p.maxLevel) {
         html += `升級金額：${p.upgradeCost[p.level - 1]} <button onclick="upgradePet(${i})">升級</button><br>`;
@@ -149,17 +155,17 @@ function updatePetPanel() {
       html += `<button onclick="equipPet(${i})">裝備</button>`;
     }
 
-    div.innerHTML = html;
-    listDiv.appendChild(div);
-  });
+    box.innerHTML = html;
+    list.appendChild(box);
+  }
 }
 
 
 /* =================================================
- * ====== 解鎖寵物 ================================
+ * ====== 解鎖 / 升級 / 裝備 ======================
  * ================================================= */
-function unlockPet(i) {
-  const p = pets[i];
+function unlockPet(index) {
+  const p = pets[index];
 
   if (player.gold < p.goldCost) {
     showGlobalTip("💰 金幣不足，無法解鎖寵物", 2000);
@@ -168,18 +174,13 @@ function unlockPet(i) {
 
   player.gold -= p.goldCost;
   p.unlocked = true;
-
-  showGlobalTip(`你解鎖了寵物 ${p.name}`, 2000);
+  showGlobalTip(`你解鎖了 ${p.name}`, 2000);
   updateUI();
   updatePetPanel();
 }
 
-
-/* =================================================
- * ====== 升級寵物 ================================
- * ================================================= */
-function upgradePet(i) {
-  const p = pets[i];
+function upgradePet(index) {
+  const p = pets[index];
   const cost = p.upgradeCost[p.level - 1];
 
   if (player.gold < cost) {
@@ -189,83 +190,78 @@ function upgradePet(i) {
 
   player.gold -= cost;
   p.level += 1;
-
-  showGlobalTip(`${p.name} 升級到 Lv.${p.level}`, 2000);
+  showGlobalTip(`${p.name} 升級至 Lv.${p.level}`, 2000);
   updateUI();
   updatePetPanel();
 }
 
-
-/* =================================================
- * ====== 裝備寵物 ================================
- * ================================================= */
-function equipPet(i) {
-  activePet = pets[i];
-  showGlobalTip(`你已裝備寵物 ${activePet.name}`, 2000);
-  updatePetPanel();
+function equipPet(index) {
+  activePet = pets[index];
+  showGlobalTip(`你已裝備 ${activePet.name}`, 2000);
 }
 
 
 /* =================================================
- * ====== 戰鬥鉤子（包覆 playerAttack）============
+ * ====== 戰鬥鉤子（playerAttack 包覆）============
  * ================================================= */
-const _origPlayerAttack = playerAttack;
+const __origPlayerAttack = playerAttack;
 
 playerAttack = function (mult = 1) {
-  _origPlayerAttack(mult);
+  __origPlayerAttack(mult);
 
   if (!activePet) {
     updateUI();
     return;
   }
 
-  const stats = calcStats();
+  const stat = calcStats();
 
-  /* ===== 憨鵝 ===== */
+  /* 憨鵝 */
   if (activePet.name === "憨鵝") {
-    const heal = Math.floor(stats.maxhp * activePet.hpRecoverPct[activePet.level - 1]);
-    player.hp = clamp(player.hp + heal, 0, stats.maxhp);
-    logBattle(`💚 憨鵝幫你回復 ${heal} HP`);
+    const heal = Math.floor(stat.maxhp * activePet.hpRecoverPct[activePet.level - 1]);
+    player.hp = clamp(player.hp + heal, 0, stat.maxhp);
+    logBattle(`💚 憨鵝回復 ${heal} HP`);
   }
 
-  /* ===== 甲魚 ===== */
+  /* 甲魚 */
   if (activePet.name === "甲魚") {
-    const evadeChance = activePet.evadePct[activePet.level - 1];
-    const originalEnemyAttack = enemyAttack;
+    const chance = activePet.evadePct[activePet.level - 1];
+    const oldEnemyAttack = enemyAttack;
 
     enemyAttack = function () {
-      if (Math.random() < evadeChance) {
+      if (Math.random() < chance) {
         logBattle("🛡 甲魚幫助你躲避了此次攻擊");
       } else {
-        originalEnemyAttack();
+        oldEnemyAttack();
       }
-      enemyAttack = originalEnemyAttack;
+      enemyAttack = oldEnemyAttack;
     };
   }
 
-  /* ===== 沛沛豬 ===== */
+  /* 沛沛豬 */
   if (activePet.name === "沛沛豬" && monster) {
     const dmg = Math.floor(monster.maxHp * activePet.enemyDmgPct[activePet.level - 1]);
     monster.hp = Math.max(0, monster.hp - dmg);
 
     const msgs = [
-      `沛沛豬用肚子頂 ${monster.name}，造成了 ${dmg} 傷害`,
-      `沛沛豬跌倒了，撞到 ${monster.name}，造成了 ${dmg} 傷害`,
-      `沛沛豬對 ${monster.name} 吐口水，造成了 ${dmg} 傷害`
+      `沛沛豬用肚子頂 ${monster.name}，造成 ${dmg} 傷害`,
+      `沛沛豬跌倒撞到 ${monster.name}，造成 ${dmg} 傷害`,
+      `沛沛豬對 ${monster.name} 吐口水，造成 ${dmg} 傷害`
     ];
 
     logBattle(rand(msgs));
   }
 
-  /* ===== 傻碧 ===== */
-  if (activePet.name === "傻碧" && monster) {
-    const dmgEnemy = activePet.hurtEnemy[activePet.level - 1];
-    monster.hp = Math.max(0, monster.hp - dmgEnemy);
-    logBattle(`💥 傻碧對 ${monster.name} 造成 ${dmgEnemy} 傷害`);
+  /* 傻bee */
+  if (activePet.name === "傻bee" && monster) {
+    const ed = activePet.hurtEnemy[activePet.level - 1];
+    const pd = activePet.hurtPlayer[activePet.level - 1];
 
-    const dmgPlayer = activePet.hurtPlayer[activePet.level - 1];
-    player.hp = clamp(player.hp - dmgPlayer, 0, stats.maxhp);
-    logBattle(`💀 傻碧對你造成 ${dmgPlayer} 傷害`);
+    monster.hp = Math.max(0, monster.hp - ed);
+    player.hp = clamp(player.hp - pd, 0, stat.maxhp);
+
+    logBattle(`💥 傻bee對 ${monster.name} 造成 ${ed} 傷害`);
+    logBattle(`💀 傻bee對你造成 ${pd} 傷害`);
   }
 
   updateUI();
