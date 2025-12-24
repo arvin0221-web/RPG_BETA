@@ -52,16 +52,16 @@ let player = {
  * 杖資料庫（固定）
  ***********************/
 const wandDB = [
-  { name: "木杖", lv: 1, baseAtk: 2, baseHp: 10, baseMp: 5, baseCrit: 0.01, baseCritDmg: 0.05, price: 20 },
-  { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 20, baseMp: 10, baseCrit: 0.02, baseCritDmg: 0.1, price: 80 },
-  { name: "古木杖", lv: 10, baseAtk: 12, baseHp: 40, baseMp: 20, baseCrit: 0.03, baseCritDmg: 0.15, price: 200 },
-  { name: "合金法杖", lv: 20, baseAtk: 25, baseHp: 80, baseMp: 40, baseCrit: 0.04, baseCritDmg: 0.2, price: 600 },
-  { name: "神木杖", lv: 30, baseAtk: 45, baseHp: 120, baseMp: 60, baseCrit: 0.05, baseCritDmg: 0.25, price: 1200 },
-  { name: "帝之權杖", lv: 40, baseAtk: 70, baseHp: 200, baseMp: 100, baseCrit: 0.06, baseCritDmg: 0.3, price: 2500 },
-  { name: "神之權杖", lv: 50, baseAtk: 110, baseHp: 300, baseMp: 150, baseCrit: 0.07, baseCritDmg: 0.35, price: 5000 },
-  { name: "神王法杖", lv: 60, baseAtk: 170, baseHp: 450, baseMp: 220, baseCrit: 0.08, baseCritDmg: 0.4, price: 9000 },
-  { name: "無極法杖", lv: 70, baseAtk: 260, baseHp: 650, baseMp: 300, baseCrit: 0.09, baseCritDmg: 0.45, price: 15000 },
-  { name: "葬神之權杖", lv: 80, baseAtk: 400, baseHp: 900, baseMp: 450, baseCrit: 0.1, baseCritDmg: 0.5, price: 25000 }
+  { name: "木杖", lv: 1, baseAtk: 2, baseHp: 10, baseMp: 5, baseCrit: 0.01, baseCritDmg: 0.05, price: 50 },
+  { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 20, baseMp: 10, baseCrit: 0.02, baseCritDmg: 0.1, price: 250 },
+  { name: "古木杖", lv: 10, baseAtk: 12, baseHp: 40, baseMp: 20, baseCrit: 0.03, baseCritDmg: 0.15, price: 600 },
+  { name: "合金法杖", lv: 20, baseAtk: 25, baseHp: 80, baseMp: 40, baseCrit: 0.04, baseCritDmg: 0.2, price: 1300 },
+  { name: "神木杖", lv: 30, baseAtk: 45, baseHp: 120, baseMp: 60, baseCrit: 0.05, baseCritDmg: 0.25, price: 3000 },
+  { name: "帝之權杖", lv: 40, baseAtk: 70, baseHp: 200, baseMp: 100, baseCrit: 0.06, baseCritDmg: 0.3, price: 7000 },
+  { name: "神之權杖", lv: 50, baseAtk: 110, baseHp: 300, baseMp: 150, baseCrit: 0.07, baseCritDmg: 0.35, price: 15000 },
+  { name: "神王法杖", lv: 60, baseAtk: 170, baseHp: 450, baseMp: 220, baseCrit: 0.08, baseCritDmg: 0.4, price: 35000 },
+  { name: "無極法杖", lv: 70, baseAtk: 260, baseHp: 650, baseMp: 300, baseCrit: 0.09, baseCritDmg: 0.45, price: 80000 },
+  { name: "葬神之權杖", lv: 80, baseAtk: 400, baseHp: 900, baseMp: 450, baseCrit: 0.1, baseCritDmg: 0.5, price: 200000 }
 ];
 
 
