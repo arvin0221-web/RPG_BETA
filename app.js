@@ -81,16 +81,19 @@ let inBattle = false;
 
 
 /***********************
- * 成長計算
+ * 成長計算 (局部更改區)
  ***********************/
 function needExp() {
   return Math.floor(50 * Math.pow(player.lv, 1.6));
 }
 
 function calcStats() {
-  let atk = player.base.atk;
-  let maxhp = player.base.hp;
-  let maxmp = player.base.mp;
+  const lvl = player.lv;
+  // 以下為強制注入的公式
+  let atk = Math.floor(player.base.atk * (1 + 0.05 * (lvl - 1)));
+  let maxhp = Math.floor(player.base.hp * (1 + 0.08 * (lvl - 1)));
+  let maxmp = Math.floor(player.base.mp * (1 + 0.06 * (lvl - 1)));
+  
   let crit = player.base.crit;
   let critDmg = player.base.critDmg;
 
@@ -268,7 +271,7 @@ function heal() {
 
 
 /***********************
- * 獎勵系統
+ * 獎勵系統 (局部更改區)
  ***********************/
 function rewardBattle() {
   const s = calcStats();
@@ -289,6 +292,10 @@ function rewardBattle() {
     player.exp -= needExp();
     player.lv++;
     logBattle(`⬆️ 升級！Lv.${player.lv}`);
+    // 補滿血魔邏輯
+    const newStats = calcStats();
+    player.hp = newStats.maxhp;
+    player.mp = newStats.maxmp;
   }
 
   updateUI();
@@ -392,4 +399,3 @@ document.getElementById("btn-shop").onclick = openShop;
  ***********************/
 loadGame();
 updateUI();
-                         
