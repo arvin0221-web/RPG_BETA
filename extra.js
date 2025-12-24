@@ -230,35 +230,53 @@ window.addEventListener("load", () => {
     loadGameExtended();
 });
 
-// ====== 顯示中間偏上的提示文字，每 12 秒出現 2.5 秒 ======
-function showScrollTip() {
-  const tip = document.createElement("div");
-  tip.id = "scroll-tip";
-  tip.innerText = "若看不到戰鬥頁面，請往下滑";
+// ====== 永久顯示可關閉的提示文字 ======
+function createPersistentScrollTip() {
+  const tipWrapper = document.createElement("div");
+  tipWrapper.id = "scroll-tip-wrapper";
 
-  tip.style.position = "fixed";
-  tip.style.top = "15%";
-  tip.style.left = "50%";
-  tip.style.transform = "translateX(-50%)";
-  tip.style.color = "#00ff00";
-  tip.style.fontSize = "20px";
-  tip.style.fontWeight = "bold";
-  tip.style.zIndex = "900";
-  tip.style.pointerEvents = "none";
-  tip.style.backgroundColor = "transparent";
-  tip.style.display = "none"; // 初始隱藏
+  // 包含文字
+  const tipText = document.createElement("span");
+  tipText.innerText = "若看不到戰鬥頁面，請往下滑";
+  tipText.style.color = "#00ff00";
+  tipText.style.fontSize = "18px";
+  tipText.style.fontWeight = "bold";
+  tipText.style.marginRight = "12px";
 
-  document.body.appendChild(tip);
+  // 叉叉按鈕
+  const closeBtn = document.createElement("button");
+  closeBtn.innerText = "✖";
+  closeBtn.style.background = "transparent";
+  closeBtn.style.color = "#00ff00";
+  closeBtn.style.border = "none";
+  closeBtn.style.fontSize = "16px";
+  closeBtn.style.cursor = "pointer";
+  closeBtn.style.fontWeight = "bold";
+  closeBtn.style.padding = "0";
 
-  // 每 12 秒顯示一次，持續 2.5 秒
-  setInterval(() => {
-    tip.style.display = "block";
-    setTimeout(() => {
-      tip.style.display = "none";
-    }, 2500);
-  }, 12000);
+  // 點擊叉叉隱藏整個提示
+  closeBtn.onclick = () => {
+    tipWrapper.style.display = "none";
+  };
+
+  tipWrapper.appendChild(tipText);
+  tipWrapper.appendChild(closeBtn);
+
+  // 設定固定位置，不擋戰鬥區
+  tipWrapper.style.position = "fixed";
+  tipWrapper.style.top = "10%";
+  tipWrapper.style.left = "50%";
+  tipWrapper.style.transform = "translateX(-50%)";
+  tipWrapper.style.zIndex = "900";
+  tipWrapper.style.backgroundColor = "rgba(0,0,0,0.5)";
+  tipWrapper.style.padding = "6px 12px";
+  tipWrapper.style.borderRadius = "8px";
+  tipWrapper.style.display = "flex";
+  tipWrapper.style.alignItems = "center";
+  tipWrapper.style.pointerEvents = "auto";
+
+  document.body.appendChild(tipWrapper);
 }
 
 // 載入頁面後啟動
-window.addEventListener("load", showScrollTip);
-
+window.addEventListener("load", createPersistentScrollTip);
