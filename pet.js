@@ -1,5 +1,11 @@
 /*************************************************
- * pet.js - 寵物系統
+ * pet.js - 完整寵物系統
+ * 包含：
+ * 1. 憨鵝
+ * 2. 甲魚
+ * 3. 沛沛豬
+ * 4. 傻碧
+ * 支援解鎖、升級、裝備、戰鬥增益
  *************************************************/
 
 // ====== 寵物資料 ======
@@ -12,10 +18,38 @@ let pets = [
     maxLevel: 3,
     hpRecoverPct: [0.03, 0.04, 0.05],
     upgradeCost: [4000, 7000]
+  },
+  {
+    name: "甲魚",
+    unlocked: false,
+    goldCost: 2500,
+    level: 1,
+    maxLevel: 3,
+    evadePct: [0.13, 0.16, 0.20],
+    upgradeCost: [4000, 7000]
+  },
+  {
+    name: "沛沛豬",
+    unlocked: false,
+    goldCost: 2500,
+    level: 1,
+    maxLevel: 3,
+    enemyDmgPct: [0.03, 0.04, 0.05],
+    upgradeCost: [4000, 7000]
+  },
+  {
+    name: "傻碧",
+    unlocked: false,
+    goldCost: 250,
+    level: 1,
+    maxLevel: 3,
+    hurtPlayer: [3, 2, 1],
+    hurtEnemy: [4, 7, 10],
+    upgradeCost: [400, 700]
   }
 ];
 
-let activePet = null; // 目前出戰寵物
+let activePet = null;
 
 // ====== 創建寵物面板 ======
 const petPanel = document.createElement("div");
@@ -54,7 +88,17 @@ function updatePetPanel() {
   listDiv.innerHTML = "";
   pets.forEach((p, i) => {
     const div = document.createElement("div");
-    let html = `<strong>${p.name}</strong> Lv.${p.level} - 效果: 每回合恢復 ${(p.hpRecoverPct[p.level-1]*100).toFixed(1)}% HP<br>`;
+    let html = `<strong>${p.name}</strong> Lv.${p.level} - `;
+
+    if (p.name === "憨鵝") {
+      html += `效果: 每回合恢復 ${(p.hpRecoverPct[p.level-1]*100).toFixed(1)}% HP<br>`;
+    } else if (p.name === "甲魚") {
+      html += `效果: 每回合閃避敵人攻擊 ${(p.evadePct[p.level-1]*100).toFixed(1)}%<br>`;
+    } else if (p.name === "沛沛豬") {
+      html += `效果: 每回合使敵人損失 ${(p.enemyDmgPct[p.level-1]*100).toFixed(1)}% HP<br>`;
+    } else if (p.name === "傻碧") {
+      html += `效果: 每回合對玩家造成 ${p.hurtPlayer[p.level-1]} 傷害，對敵人造成 ${p.hurtEnemy[p.level-1]} 傷害<br>`;
+    }
 
     if (!p.unlocked) {
       html += `解鎖金額: ${p.goldCost} <button onclick="unlockPet(${i})">解鎖</button>`;
@@ -64,7 +108,6 @@ function updatePetPanel() {
       html += `已達最大等級<br>`;
     }
 
-    // 裝備按鈕
     if (p.unlocked) {
       html += `<button onclick="equipPet(${i})">裝備</button>`;
     }
@@ -111,16 +154,66 @@ function equipPet(i) {
   updatePetPanel();
 }
 
-// ====== 每回合自動回復 ======
+// ====== 每回合戰鬥增益覆寫 playerAttack ======
 const _origPlayerAttack = playerAttack;
 playerAttack = function(mult = 1) {
   _origPlayerAttack(mult);
 
   if (activePet) {
     const s = calcStats();
-    const recover = Math.floor(s.maxhp * activePet.hpRecoverPct[activePet.level-1]);
-    player.hp = clamp(player.hp + recover, 0, s.maxhp);
-    logBattle(`💚 ${activePet.name}幫你回復 ${recover} HP`);
-    updateUI();
+
+    if (activePet.name === "憨鵝") {
+      const recover = Math.floor(s.maxhp * activePet.hpRecoverPct[activePet.level-1]);
+      player.hp = clamp(player.hp + recover, 0, s.maxhp);
+      logBattle(`💚 ${activePet.name}幫你回復 ${recover} HP`);
+    }
+
+    if (activePet.name === "甲魚") {
+      // 判斷是否閃避敵人攻擊
+      const evadeChance = activePet.evadePct[activePet.level-1];
+      const origEnemyAttack = enemyAttack;
+      enemyAttack = function() {
+        if (Math.random() < evadeChance) {
+          logBattle(`🛡 ${activePet.name}幫助你躲避了此次攻擊`);
+        } else {
+          origEnemyAttack();
+        }
+        // 恢復原函式，避免覆蓋影響下回合
+        enemyAttack = origEnemyAttack;
+      };
+    }
+
+    if (activePet.name === "沛沛豬") {
+      if (monster) {
+        const dmg = Math.floor(monster.maxHp * activePet.enemyDmgPct[activePet.level-1]);
+        monster.hp = Math.max(0, monster.hp - dmg);
+        const msgs = [
+          `沛沛豬用肚子頂 ${monster.name}，造成了 ${dmg} 傷害`,
+          `沛沛豬跌倒了，撞到 ${monster.name}，造成了 ${dmg} 傷害`,
+          `沛沛豬對 ${monster.name} 吐口水，造成了 ${dmg} 傷害`
+        ];
+        logBattle(rand(msgs));
+      }
+    }
+
+    if (activePet.name === "傻碧") {
+  if (monster) {
+    // 傷害敵人
+    const dmgEnemy = activePet.hurtEnemy[activePet.level-1];
+    monster.hp = Math.max(0, monster.hp - dmgEnemy);
+    logBattle(`💥 ${activePet.name} 對 ${monster.name} 造成 ${dmgEnemy} 傷害`);
+
+    // 傷害玩家
+    const dmgPlayer = activePet.hurtPlayer[activePet.level-1];
+    player.hp = clamp(player.hp - dmgPlayer, 0, s.maxhp);
+    logBattle(`💀 ${activePet.name} 對玩家造成 ${dmgPlayer} 傷害`);
   }
+}
+
+      }
+    }
+
+  }
+
+  updateUI();
 };
