@@ -202,32 +202,7 @@ function loadGameExtended() {
                     pets[i].unlocked = pData.unlocked;
                     pets[i].level = pData.level;
                 }
-            });
-        }
 
-        // 恢復裝備寵物
-        if (data.activePetIndex != null && pets[data.activePetIndex]) {
-            activePet = pets[data.activePetIndex];
-        }
-
-        // 更新 UI
-        updateUI();
-        if (typeof updatePetPanel === "function") updatePetPanel();
-
-    } catch (err) {
-        console.error("讀取存檔錯誤：", err);
-    }
-}
-
-// ====== 綁定按鈕 ======
-const btnSave = document.getElementById("btn-save");
-if (btnSave) {
-    btnSave.onclick = saveGameExtended;
-}
-
-// ====== 初始化時讀檔 ======
-window.addEventListener("load", () => {
-    loadGameExtended();
 });
 
 // ====== 永久顯示可關閉的提示文字 ======
@@ -280,3 +255,125 @@ function createPersistentScrollTip() {
 
 // 載入頁面後啟動
 window.addEventListener("load", createPersistentScrollTip);
+
+/*************************************************
+ * extra_level_up.js
+ * 功能：
+ * 1. 升級後提升玩家屬性
+ * 2. 存檔時包含屬性與基礎屬性
+ * 3. 讀檔時恢復屬性
+ * 4. 經驗值獲取公式：依怪物等級、血量與攻擊力計算
+ *************************************************/
+
+// ====== 計算升級後屬性增幅 ======
+function applyLevelBonus() {
+  if (!player.baseStats) {
+    // 保存原始基礎屬性
+    player.baseStats = {
+      atk: player.atk,
+      maxhp: player.maxhp,
+      maxmp: player.maxmp,
+      crit: player.crit,
+      critDmg: player.critDmg
+    };
+  }
+
+  const lvl = player.level;
+  // 每級提升百分比，可以調整平衡
+  const atkIncrease = 0.05;      // 每級攻擊力 +5%
+  const hpIncrease = 0.08;       // 每級最大血量 +8%
+  const mpIncrease = 0.06;       // 每級最大魔力 +6%
+  const critIncrease = 0.00;     // 每級暴擊率 +0%
+  const critDmgIncrease = 0.00;  // 每級暴擊傷害 +0%
+
+  player.atk = Math.floor(player.baseStats.atk * (1 + atkIncrease * (lvl - 1)));
+  player.maxhp = Math.floor(player.baseStats.maxhp * (1 + hpIncrease * (lvl - 1)));
+  player.maxmp = Math.floor(player.baseStats.maxmp * (1 + mpIncrease * (lvl - 1)));
+  player.crit = parseFloat((player.baseStats.crit + critIncrease * (lvl - 1)).toFixed(2));
+  player.critDmg = parseFloat((player.baseStats.critDmg + critDmgIncrease * (lvl - 1)).toFixed(2));
+}
+
+// ====== 升級經驗值計算公式 ======
+function calcExp(monster) {
+  if (!monster) return 0;
+  // 綜合血量與攻擊力計算
+  const baseExp = 50;  // 基礎經驗值
+  const hpFactor = monster.maxHp / 100;  // 依血量加成
+  const atkFactor = monster.atk / 10;    // 依攻擊力加成
+  const levelFactor = monster.level * 5; // 依怪物等級加成
+  const expGained = Math.floor(baseExp + hpFactor + atkFactor + levelFactor);
+  return expGained;
+}
+
+// ====== 存檔函式覆寫 / 擴充 ======
+const _origSaveGame = typeof saveGame === "function" ? saveGame : null;
+saveGame = function() {
+  applyLevelBonus(); // 確保屬性更新
+
+  const saveData = {
+    name: player.name,
+    level: player.level,
+    gold: player.gold,
+    atk: player.atk,
+    maxhp: player.maxhp,
+    maxmp: player.maxmp,
+    crit: player.crit,
+    critDmg: player.critDmg,
+    baseStats: player.baseStats, // 保存基礎屬性
+    weapons: player.weapons,
+    equippedWeapon: player.equippedWeapon,
+    pets: pets,
+    activePet: activePet ? activePet.name : null,
+    // 其他原存檔欄位可以加入這裡
+  };
+  localStorage.setItem("myGameSave", JSON.stringify(saveData));
+
+  if (_origSaveGame) _origSaveGame();
+};
+
+// ====== 讀檔函式覆寫 / 擴充 ======
+const _origLoadGame = typeof loadGame === "function" ? loadGame : null;
+loadGame = function() {
+  if (_origLoadGame) _origLoadGame();
+
+  const data = JSON.parse(localStorage.getItem("myGameSave"));
+  if (!data) return;
+
+  player.name = data.name ?? player.name;
+  player.level = data.level ?? player.level;
+  player.gold = data.gold ?? player.gold;
+
+  player.baseStats = data.baseStats ?? player.baseStats ?? {
+    atk: player.atk,
+    maxhp: player.maxhp,
+    maxmp: player.maxmp,
+    crit: player.crit,
+    critDmg: player.critDmg
+  };
+
+  applyLevelBonus(); // 計算屬性
+
+  // 如果原本存了屬性也覆寫
+  player.atk = data.atk ?? player.atk;
+  player.maxhp = data.maxhp ?? player.maxhp;
+  player.maxmp = data.maxmp ?? player.maxmp;
+  player.crit = data.crit ?? player.crit;
+  player.critDmg = data.critDmg ?? player.critDmg;
+
+  // 恢復武器與寵物
+  player.weapons = data.weapons ?? player.weapons;
+  player.equippedWeapon = data.equippedWeapon ?? player.equippedWeapon;
+  pets = data.pets ?? pets;
+  activePet = data.activePet ? pets.find(p => p.name === data.activePet) : null;
+
+  updateUI();
+};
+
+// ====== 升級後呼叫 ======
+const _origLevelUp = typeof levelUp === "function" ? levelUp : null;
+levelUp = function() {
+  if (_origLevelUp) _origLevelUp();
+  applyLevelBonus();
+  updateUI();
+  showGlobalTip(`🎉 升級！你的屬性已提升`, 2000);
+};
