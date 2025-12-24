@@ -60,6 +60,15 @@ let activePet = null;
 const petButton = document.createElement("button");
 petButton.id = "pet-btn-fixed";
 petButton.innerText = "🐾 寵物";
+// ====== 放大寵物按鈕（手機 / 電腦 都放大） ======
+btnPet.style.width = "100%";        // 滿寬，視覺上更大
+btnPet.style.height = "96px";       // 原本約 48px → 直接 *2
+btnPet.style.fontSize = "32px";     // 原本約 16px → 直接 *2
+btnPet.style.fontWeight = "bold";
+
+btnPet.style.marginTop = "12px";
+btnPet.style.borderRadius = "16px";
+btnPet.style.cursor = "pointer";
 
 petButton.style.position = "fixed";
 petButton.style.right = "12px";
@@ -266,3 +275,4 @@ playerAttack = function (mult = 1) {
 
   updateUI();
 };
+
