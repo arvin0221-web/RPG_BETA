@@ -88,27 +88,29 @@ window.addEventListener("load", () => {
   bindExtraTips();
 });
 
-// 1. 寵物按鈕建立與樣式
-// 2. 寵物面板建立、裝備、解鎖、升級等功能
-// 3. 戰鬥增益覆寫 playerAttack
-// 4. 全遊戲按鈕統一放大（這段放最後）
+/* =================================================
+ * ====== 全遊戲按鈕統一放大 1.5 倍（排除寵物鍵）=====
+ * 不修改 app.js / HTML
+ * ================================================= */
+
 function scaleAllButtons() {
   const buttons = document.querySelectorAll("button");
 
   buttons.forEach(btn => {
-    if (btn.id === "pet-btn-fixed") return;  // 排除浮動寵物按鈕
-    btn.style.fontSize = "18px";
-    btn.style.minHeight = "52px";
-    btn.style.padding = "6px 12px";
-    btn.style.borderRadius = "8px";
-    btn.style.marginTop = "5px";
+    // 排除固定寵物按鈕
+    if (btn.id === "pet-btn-fixed") return;
+
+    // ====== 1.5 倍設定（以原始常見尺寸為基準） ======
+    btn.style.fontSize = "24px";      // 16 × 1.5
+    btn.style.height = "60px";        // 固定高度，避免 minHeight + padding 疊加
+    btn.style.padding = "0 18px";     // 只留左右 padding
+    btn.style.borderRadius = "12px";  // 原本 ~8 → 1.5 倍
+    btn.style.marginTop = "6px";
+    btn.style.boxSizing = "border-box";
   });
 }
 
-setTimeout(scaleAllButtons, 0);
-
-
-
-
-
-
+// 確保所有按鈕（含商店 / 杖 / 戰鬥後生成的）都已出現
+window.addEventListener("load", () => {
+  scaleAllButtons();
+});
