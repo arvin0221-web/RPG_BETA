@@ -55,31 +55,35 @@ function centerGlobalTip() {
   tip.style.transition = "opacity 0.3s";
 }
 
-// ====== 擴充裝備杖提示 ======
-if (typeof equipWand === "function") {
-  const _origEquipWand = equipWand;
-  equipWand = function(i) {
-    _origEquipWand(i);
-    const wand = player.weapons[i];
-    showGlobalTip(`你已裝備 ${wand.name}（${wand.rarity}）`, 2000);
-  };
-}
+// ====== 延遲覆寫函式，確保提示可用 ======
+function bindExtraTips() {
+  // 裝備杖提示
+  if (typeof equipWand === "function") {
+    const _origEquipWand = equipWand;
+    equipWand = function(i) {
+      _origEquipWand(i);
+      const wand = player.weapons[i];
+      showGlobalTip(`你已裝備 ${wand.name}（${wand.rarity}）`, 2000);
+    };
+  }
 
-// ====== 擴充金幣不足購買提示 ======
-if (typeof buyWand === "function") {
-  const _origBuyWand = buyWand;
-  buyWand = function(i) {
-    const base = wandDB[i];
-    if (player.gold < base.price) {
-      showGlobalTip("💰 金幣不足，無法購買", 2000);
-      return;
-    }
-    _origBuyWand(i);
-  };
+  // 金幣不足購買提示
+  if (typeof buyWand === "function") {
+    const _origBuyWand = buyWand;
+    buyWand = function(i) {
+      const base = wandDB[i];
+      if (player.gold < base.price) {
+        showGlobalTip("💰 金幣不足，無法購買", 2000);
+        return;
+      }
+      _origBuyWand(i);
+    };
+  }
 }
 
 // ====== 初始化 ======
 window.addEventListener("load", () => {
   adjustPanels();
   centerGlobalTip();
+  bindExtraTips();
 });
