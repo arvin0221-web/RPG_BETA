@@ -230,27 +230,35 @@ window.addEventListener("load", () => {
     loadGameExtended();
 });
 
-// ====== 顯示中間偏上的提示文字 ======
+// ====== 顯示中間偏上的提示文字，每 12 秒出現 2.5 秒 ======
 function showScrollTip() {
   const tip = document.createElement("div");
   tip.id = "scroll-tip";
   tip.innerText = "若看不到戰鬥頁面，請往下滑";
 
-  // 文字樣式
-  tip.style.position = "fixed";         // 固定在頁面
-  tip.style.top = "15%";                // 偏上位置
-  tip.style.left = "50%";               // 水平置中
+  tip.style.position = "fixed";
+  tip.style.top = "15%";
+  tip.style.left = "50%";
   tip.style.transform = "translateX(-50%)";
-  tip.style.color = "#00ff00";          // 綠色文字
+  tip.style.color = "#00ff00";
   tip.style.fontSize = "20px";
   tip.style.fontWeight = "bold";
-  tip.style.zIndex = "900";             // 不蓋過全局提示 (1000)
-  tip.style.pointerEvents = "none";     // 不會影響點擊
-  tip.style.backgroundColor = "transparent"; // 透明背景
+  tip.style.zIndex = "900";
+  tip.style.pointerEvents = "none";
+  tip.style.backgroundColor = "transparent";
+  tip.style.display = "none"; // 初始隱藏
 
   document.body.appendChild(tip);
+
+  // 每 12 秒顯示一次，持續 2.5 秒
+  setInterval(() => {
+    tip.style.display = "block";
+    setTimeout(() => {
+      tip.style.display = "none";
+    }, 2500);
+  }, 12000);
 }
 
-// 在頁面載入後呼叫
+// 載入頁面後啟動
 window.addEventListener("load", showScrollTip);
 
