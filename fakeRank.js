@@ -9,11 +9,11 @@
 
 // ====== 假排行榜資料 ======
 let fakeRanking = [
-  { rank: 1, name: "雷霆勇者", level: 50 },
-  { rank: 2, name: "暗影獵手", level: 48 },
-  { rank: 3, name: "魔法師艾瑞", level: 46 },
-  { rank: 4, name: "龍之騎士", level: 44 },
-  { rank: 5, name: "夜行者", level: 42 }
+  { rank: 1, name: "想不到名字", level: 78 },
+  { rank: 2, name: "878787", level: 48 },
+  { rank: 3, name: "新手", level: 45 },
+  { rank: 4, name: "TW_popcat", level: 40 },
+  { rank: 5, name: "grow a garden", level: 40 }
 ];
 
 // 玩家自身排名設定
