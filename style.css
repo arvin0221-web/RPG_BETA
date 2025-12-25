@@ -1,5 +1,8 @@
 body{font-family:sans-serif;background:#111;color:#eee}
-.wrap{max-width:480px;margin:auto}
+.wrap{max-width:480px;margin:auto;
+      min-height: 1200px;   /* 增加可滑動高度 */
+      padding-bottom: 200px; /* 避免浮動按鈕遮住內容 */
+}
 .card{background:#222;padding:10px;margin:10px 0;border-radius:8px}
 button{margin:4px}
 img{max-width:100px}
