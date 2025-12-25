@@ -219,9 +219,9 @@ function applyLevelBonus() {
   if (!player.base) return;
 
   const lvl = player.lv;
-  const atkIncrease = 0.05;      // 每級攻擊力 +5%
-  const hpIncrease = 0.08;       // 每級最大血量 +8%
-  const mpIncrease = 0.06;       // 每級最大魔力 +6%
+  const atkIncrease = 0.10;      // 每級攻擊力 +10%
+  const hpIncrease = 0.10;       // 每級最大血量 +10%
+  const mpIncrease = 0.10;       // 每級最大魔力 +10%
 
   // 基於 app.js 的 player.base 強制覆寫當前屬性
   player.atk = Math.floor(player.base.atk * (1 + atkIncrease * (lvl - 1)));
@@ -294,6 +294,7 @@ if (btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
