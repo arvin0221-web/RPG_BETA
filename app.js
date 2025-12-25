@@ -266,6 +266,7 @@ function heal() {
   if (!inBattle || player.mp < 5) return;
   player.mp -= 5;
   player.hp += 25;
+  logBattle(`💚 使用治癒術，恢復了 25 點 HP`); 
   updateUI();
 }
 
