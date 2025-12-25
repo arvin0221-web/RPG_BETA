@@ -116,7 +116,7 @@ window.addEventListener("load", () => {
 });
 
 /*************************************************
- * extra_save.js - 擴充存檔系統
+ *  擴充存檔系統
  *************************************************/
 
 // ====== 擴充存檔 ======
@@ -209,8 +209,7 @@ function createPersistentScrollTip() {
 window.addEventListener("load", createPersistentScrollTip);
 
 /*************************************************
- * extra_level_up.js
- * 功能：強制覆蓋 app.js 升級公式
+ * 強制覆蓋 app.js 升級公式
  *************************************************/
 
 // ====== 計算升級後屬性增幅 ======
@@ -293,4 +292,5 @@ if (btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
