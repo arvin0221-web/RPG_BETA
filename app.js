@@ -69,11 +69,11 @@ const wandDB = [
  * 怪物資料
  ***********************/
 const monsterPool = [
-  { name: "史萊姆", hp: 40, atk: 5, gold: 10, img: "assets/monsters/slime.png" },
-  { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 14, img: "assets/monsters/slime.png" },
-  { name: "石甲龜", hp: 90, atk: 4, gold: 18, img: "assets/monsters/turtle.png" },
-  { name: "火焰精靈", hp: 60, atk: 10, gold: 20, img: "assets/monsters/fire.png" },
-  { name: "暗影騎士", hp: 140, atk: 15, gold: 35, img: "assets/monsters/knight.png" }
+  { name: "史萊姆", hp: 40, atk: 5, gold: 10, baseExp: 15, img: "assets/monsters/slime.png" },
+  { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 14, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "石甲龜", hp: 90, atk: 4, gold: 18, baseExp: 25, img: "assets/monsters/turtle.png" },
+  { name: "火焰精靈", hp: 60, atk: 10, gold: 20, baseExp: 30, img: "assets/monsters/fire.png" },
+  { name: "暗影騎士", hp: 140, atk: 15, gold: 35, baseExp: 50, img: "assets/monsters/knight.png" }
 ];
 
 let monster = null;
