@@ -149,7 +149,7 @@ function updatePetPanel() {
     }
 
     if (p.name === "傻bee") {
-      html += `效果：玩家-${p.hurtPlayer[p.level - 1]} HP，敵人-${p.hurtEnemy[p.level - 1]} HP<br>`;
+      html += `效果：每回合造成玩家-${p.hurtPlayer[p.level - 1]} HP，敵人-${p.hurtEnemy[p.level - 1]} HP<br>`;
     }
 
     if (!p.unlocked) {
@@ -274,6 +274,7 @@ playerAttack = function (mult = 1) {
 
   updateUI();
 };
+
 
 
 
