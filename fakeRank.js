@@ -1,129 +1,103 @@
 /*************************************************
- * fakeRank.js
- * 偽排行榜系統（單機假資料）
- * - 不修改 app.js
- * - 不影響存檔
- * - 僅讀取 player.level
+ * ranking.js - 假排行榜系統
+ * 功能：
+ * 1. 顯示前五名玩家
+ * 2. 顯示玩家自身排名
+ * 3. 前五名名字與等級可修改
+ * 4. 玩家排名顯示固定數字，6名以後顯示「排名更新中...」
  *************************************************/
 
-/* ===============================
- * 1. 假排行榜資料（你可自行改）
- * =============================== */
-const FAKE_TOP_RANKS = [
-  { name: "想不到名字", level: 78 },
-  { name: "878787", level: 44 },
-  { name: "新手", level: 41 },
-  { name: "TW_popcat", level: 39 },
-  { name: "grow a garden", level: 36 }
+// ====== 假排行榜資料 ======
+let fakeRanking = [
+  { rank: 1, name: "雷霆勇者", level: 50 },
+  { rank: 2, name: "暗影獵手", level: 48 },
+  { rank: 3, name: "魔法師艾瑞", level: 46 },
+  { rank: 4, name: "龍之騎士", level: 44 },
+  { rank: 5, name: "夜行者", level: 42 }
 ];
 
-/* ===============================
- * 2. 玩家等級 → 排名對照
- * =============================== */
-function getPlayerFakeRank(level) {
-  if (level === 1) return "1748 名";
-  if (level === 2) return "1644 名";
-  if (level === 3) return "1512 名";
-  if (level === 4) return "1402 名";
-  if (level === 5) return "1222 名";
-  if (level === 6) return "1181 名";
-  return "排名更新中...";
-}
+// 玩家自身排名設定
+let playerRanking = [
+  { level: 1, rank: 1748 },
+  { level: 2, rank: 1644 },
+  { level: 3, rank: 1512 },
+  { level: 4, rank: 1402 },
+  { level: 5, rank: 1222 },
+  { level: 6, rank: 1181 } // 超過第6名顯示「排名更新中...」
+];
 
-/* ===============================
- * 3. 建立排行榜按鈕（固定）
- * =============================== */
-const rankBtn = document.createElement("button");
-rankBtn.innerText = "🏆 排行榜";
-rankBtn.id = "rank-btn-fixed";
+// ====== 建立排行榜面板 ======
+const rankingPanel = document.createElement("div");
+rankingPanel.id = "ranking-panel";
+rankingPanel.style.display = "none";
+rankingPanel.style.position = "absolute";
+rankingPanel.style.top = "50px";
+rankingPanel.style.left = "50%";
+rankingPanel.style.transform = "translateX(-50%)";
+rankingPanel.style.width = "320px";
+rankingPanel.style.backgroundColor = "#222";
+rankingPanel.style.color = "#fff";
+rankingPanel.style.padding = "12px";
+rankingPanel.style.borderRadius = "10px";
+rankingPanel.style.boxShadow = "0 0 10px rgba(0,0,0,0.5)";
+rankingPanel.style.zIndex = "1000";
+rankingPanel.innerHTML = `<h3 style="text-align:center;">排行榜</h3><div id="ranking-list"></div><button id="btn-close-ranking">關閉</button>`;
+document.body.appendChild(rankingPanel);
 
-rankBtn.style.position = "fixed";
-rankBtn.style.left = "12px";
-rankBtn.style.bottom = "12px";
-rankBtn.style.zIndex = "9999";
-
-rankBtn.style.padding = "10px 16px";
-rankBtn.style.fontSize = "16px";
-rankBtn.style.borderRadius = "10px";
-rankBtn.style.border = "none";
-rankBtn.style.cursor = "pointer";
-rankBtn.style.color = "#fff";
-rankBtn.style.background =
-  "linear-gradient(135deg, #f7971e, #ffd200)";
-
-document.body.appendChild(rankBtn);
-
-/* ===============================
- * 4. 排行榜面板
- * =============================== */
-const rankPanel = document.createElement("div");
-rankPanel.style.position = "fixed";
-rankPanel.style.top = "0";
-rankPanel.style.left = "0";
-rankPanel.style.width = "100%";
-rankPanel.style.height = "100%";
-rankPanel.style.zIndex = "10000";
-rankPanel.style.background = "rgba(0,0,0,0.85)";
-rankPanel.style.color = "#fff";
-rankPanel.style.display = "none";
-rankPanel.style.overflowY = "auto";
-rankPanel.style.padding = "20px";
-rankPanel.style.boxSizing = "border-box";
-
-document.body.appendChild(rankPanel);
-
-/* ===============================
- * 5. 生成排行榜內容
- * =============================== */
-function renderFakeRank() {
-  let html = "";
-
-  html += `<h2 style="text-align:center;">🏆 排行榜</h2>`;
-  html += `<div style="max-width:480px;margin:0 auto;">`;
-
-  html += `<h3>前五名</h3>`;
-  html += `<ol>`;
-  FAKE_TOP_RANKS.forEach(r => {
-    html += `<li style="margin:6px 0;">
-      ${r.name}（Lv.${r.level}）
-    </li>`;
-  });
-  html += `</ol>`;
-
-  html += `<hr style="margin:16px 0;">`;
-
-  const playerLevel = (window.player && player.level) || 1;
-  const playerRank = getPlayerFakeRank(playerLevel);
-
-  html += `<h3>你的排名</h3>`;
-  html += `<div style="margin-top:8px;font-size:18px;color:#7CFC98;">
-    Lv.${playerLevel} → ${playerRank}
-  </div>`;
-
-  html += `<div style="margin-top:24px;text-align:center;">`;
-  html += `<button id="rank-close-btn"
-    style="
-      font-size:18px;
-      padding:8px 16px;
-      border-radius:8px;
-      border:none;
-      cursor:pointer;
-    ">關閉</button>`;
-  html += `</div>`;
-
-  html += `</div>`;
-
-  rankPanel.innerHTML = html;
-
-  document.getElementById("rank-close-btn").onclick = () => {
-    rankPanel.style.display = "none";
-  };
-}
-
-/* ===============================
- * 6. 綁定按鈕
- * =============================== */
-rankBtn.onclick = () => {
-  renderFakeRank();
-  rankPanel.style.display = "block";
+// 關閉排行榜按鈕
+document.getElementById("btn-close-ranking").onclick = () => {
+  rankingPanel.style.display = "none";
 };
+
+// ====== 建立排行榜按鈕 ======
+const btnRanking = document.createElement("button");
+btnRanking.id = "btn-ranking";
+btnRanking.innerText = "🏆 排行榜";
+btnRanking.style.position = "fixed";
+btnRanking.style.right = "12px";
+btnRanking.style.top = "12px";
+btnRanking.style.padding = "8px 12px";
+btnRanking.style.fontSize = "16px";
+btnRanking.style.background = "linear-gradient(135deg, #f7971e, #ffd200)";
+btnRanking.style.color = "#000";
+btnRanking.style.border = "none";
+btnRanking.style.borderRadius = "8px";
+btnRanking.style.cursor = "pointer";
+btnRanking.style.zIndex = "9999";
+document.body.appendChild(btnRanking);
+
+// 點按按鈕顯示排行榜
+btnRanking.onclick = () => {
+  updateRankingPanel();
+  rankingPanel.style.display = "block";
+};
+
+// ====== 更新排行榜內容 ======
+function updateRankingPanel() {
+  const listDiv = document.getElementById("ranking-list");
+  listDiv.innerHTML = "";
+
+  // 前五名
+  fakeRanking.forEach(p => {
+    const div = document.createElement("div");
+    div.style.marginBottom = "4px";
+    div.innerHTML = `第${p.rank}名: ${p.name} - Lv.${p.level}`;
+    listDiv.appendChild(div);
+  });
+
+  // 玩家等級對應排名
+  const playerLv = player.level || 1; // 依照你的玩家等級變動
+  let playerRank = playerRanking.find(pr => pr.level === playerLv);
+  const divPlayer = document.createElement("div");
+  divPlayer.style.marginTop = "12px";
+  divPlayer.style.borderTop = "1px solid #555";
+  divPlayer.style.paddingTop = "8px";
+
+  if (playerRank) {
+    divPlayer.innerHTML = `你的排名: ${playerRank.rank}`;
+  } else {
+    divPlayer.innerHTML = `你的排名: 排名更新中...`;
+  }
+
+  listDiv.appendChild(divPlayer);
+}
