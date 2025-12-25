@@ -370,15 +370,27 @@ function closePanels() {
 
 
 /***********************
- * 存檔
+ * Save & Load 介面
+ * 由 extra.js 來實作完整存檔邏輯
  ***********************/
-function saveGame() {
-  localStorage.setItem("wand_rpg_save", JSON.stringify(player));
+function saveGame(data) {
+  // 由 extra.js 提供完整存檔資料
+  // data 應包含 player, pets 與寵物索引
+  localStorage.setItem("wand_rpg_save", JSON.stringify(data));
 }
 
 function loadGame() {
+  // 從 localStorage 取得資料
   const s = localStorage.getItem("wand_rpg_save");
-  if (s) player = JSON.parse(s);
+  if (!s) return null;
+
+  try {
+    const obj = JSON.parse(s);
+    return obj;
+  } catch (e) {
+    console.error("讀取存檔失敗:", e);
+    return null;
+  }
 }
 
 
@@ -389,7 +401,7 @@ document.getElementById("btn-start").onclick = startBattle;
 document.getElementById("btn-attack").onclick = attack;
 document.getElementById("btn-fire").onclick = fire;
 document.getElementById("btn-heal").onclick = heal;
-document.getElementById("btn-save").onclick = saveGame;
+document.getElementById("btn-save").onclick = saveGameExtended;
 document.getElementById("btn-wand").onclick = openWandPanel;
 document.getElementById("btn-shop").onclick = openShop;
 
