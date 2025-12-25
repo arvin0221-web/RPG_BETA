@@ -180,6 +180,7 @@ function startBattle() {
     hp: 0,
     atk: Math.floor(base.atk * (1 + lv * 0.25)),
     gold: Math.floor(base.gold * (1 + lv * 0.3)),
+    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)), // 經驗值隨等級成長更快(0.4倍)
     img: base.img
   };
   monster.hp = monster.maxHp;
@@ -282,7 +283,7 @@ function rewardBattle() {
 
   player.gold += monster.gold;
 
-  const gain = monster.lv * 20;
+  const gain = monster.expGain; 
   player.exp += gain;
 
   logBattle(`📈 獲得 ${gain} EXP`);
