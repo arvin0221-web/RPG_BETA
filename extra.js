@@ -8,32 +8,34 @@
  * 5. 金幣不足購買杖時顯示提示
  *************************************************/
 
-// ====== 調整商店與杖面板顯示位置與背景 ======
 function adjustPanels() {
   const panels = ["wand-panel", "shop-panel"];
   panels.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
 
-    el.style.position = "absolute";  
-    el.style.top = "0px";
-    el.style.left = "0";
-    el.style.width = "100%";
-    el.style.zIndex = "500"; 
-    // 彩色漸層背景
-    el.style.backgroundImage = "linear-gradient(to right, #ff7e5f, #feb47b)";
-    el.style.backgroundColor = "transparent";
-    el.style.padding = "10px";
+    el.style.position = "fixed";  // 改為固定定位
+    el.style.top = "50%";         // 垂直置中
+    el.style.left = "50%";        // 水平置中
+    el.style.transform = "translate(-50%, -50%)"; // 精確對齊中心
+    el.style.width = "85%";
+    el.style.maxWidth = "350px";
+    el.style.zIndex = "10000";    // 設為最高層級
+    el.style.backgroundImage = "linear-gradient(to bottom, #ff7e5f, #feb47b)";
+    el.style.padding = "20px";
+    el.style.borderRadius = "15px";
+    el.style.boxShadow = "0 0 20px rgba(0,0,0,0.8)";
+    el.style.color = "#fff";
     el.style.boxSizing = "border-box";
-    el.style.color = "#fff"; // 保證文字可讀
   });
 
-  // 將戰鬥區往下移，避免被面板遮住
+  // 戰鬥區不需下移太多，因為面板現在是浮動置中的
   const battle = document.getElementById("battle");
   if (battle) {
-    battle.style.marginTop = "200px"; // 根據 panel 高度可調整
+    battle.style.marginTop = "20px";
   }
 }
+
 
 // ====== 調整全局提示文字 ======
 function centerGlobalTip() {
@@ -292,5 +294,6 @@ if (btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
