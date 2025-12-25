@@ -52,16 +52,16 @@ let player = {
  * 杖資料庫（固定）
  ***********************/
 const wandDB = [
-  { name: "木杖", lv: 1, baseAtk: 2, baseHp: 10, baseMp: 5, baseCrit: 0.01, baseCritDmg: 0.05, price: 50 },
-  { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 20, baseMp: 10, baseCrit: 0.02, baseCritDmg: 0.1, price: 250 },
-  { name: "古木杖", lv: 10, baseAtk: 12, baseHp: 40, baseMp: 20, baseCrit: 0.03, baseCritDmg: 0.15, price: 600 },
-  { name: "合金法杖", lv: 20, baseAtk: 25, baseHp: 80, baseMp: 40, baseCrit: 0.04, baseCritDmg: 0.2, price: 1300 },
-  { name: "神木杖", lv: 30, baseAtk: 45, baseHp: 120, baseMp: 60, baseCrit: 0.05, baseCritDmg: 0.25, price: 3000 },
-  { name: "帝之權杖", lv: 40, baseAtk: 70, baseHp: 200, baseMp: 100, baseCrit: 0.06, baseCritDmg: 0.3, price: 7000 },
-  { name: "神之權杖", lv: 50, baseAtk: 110, baseHp: 300, baseMp: 150, baseCrit: 0.07, baseCritDmg: 0.35, price: 15000 },
-  { name: "神王法杖", lv: 60, baseAtk: 170, baseHp: 450, baseMp: 220, baseCrit: 0.08, baseCritDmg: 0.4, price: 35000 },
-  { name: "無極法杖", lv: 70, baseAtk: 260, baseHp: 650, baseMp: 300, baseCrit: 0.09, baseCritDmg: 0.45, price: 80000 },
-  { name: "葬神之權杖", lv: 80, baseAtk: 400, baseHp: 900, baseMp: 450, baseCrit: 0.1, baseCritDmg: 0.5, price: 200000 }
+  { name: "木杖", lv: 1, baseAtk: 2, baseHp: 10, baseMp: 5, baseCrit: 0.02, baseCritDmg: 0.05, price: 50 },
+  { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 20, baseMp: 10, baseCrit: 0.04, baseCritDmg: 0.11, price: 250 },
+  { name: "古木杖", lv: 10, baseAtk: 12, baseHp: 40, baseMp: 20, baseCrit: 0.06, baseCritDmg: 0.17, price: 600 },
+  { name: "合金法杖", lv: 20, baseAtk: 25, baseHp: 80, baseMp: 40, baseCrit: 0.09, baseCritDmg: 0.23, price: 1300 },
+  { name: "神木杖", lv: 30, baseAtk: 45, baseHp: 120, baseMp: 60, baseCrit: 0.12, baseCritDmg: 0.29, price: 3000 },
+  { name: "帝之權杖", lv: 40, baseAtk: 70, baseHp: 200, baseMp: 100, baseCrit: 0.15, baseCritDmg: 0.35, price: 7000 },
+  { name: "神之權杖", lv: 50, baseAtk: 110, baseHp: 300, baseMp: 150, baseCrit: 0.21, baseCritDmg: 0.41, price: 15000 },
+  { name: "神王法杖", lv: 60, baseAtk: 170, baseHp: 450, baseMp: 220, baseCrit: 0.25, baseCritDmg: 0.48, price: 35000 },
+  { name: "無極法杖", lv: 70, baseAtk: 260, baseHp: 650, baseMp: 300, baseCrit: 0.30, baseCritDmg: 0.56, price: 80000 },
+  { name: "葬神之權杖", lv: 80, baseAtk: 400, baseHp: 900, baseMp: 450, baseCrit: 0.30, baseCritDmg: 0.74, price: 200000 }
 ];
 
 
@@ -69,11 +69,11 @@ const wandDB = [
  * 怪物資料
  ***********************/
 const monsterPool = [
-  { name: "史萊姆", hp: 40, atk: 5, gold: 10, baseExp: 15, img: "assets/monsters/slime.png" },
-  { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 14, baseExp: 20, img: "assets/monsters/slime.png" },
-  { name: "石甲龜", hp: 90, atk: 4, gold: 18, baseExp: 25, img: "assets/monsters/turtle.png" },
-  { name: "火焰精靈", hp: 60, atk: 10, gold: 20, baseExp: 30, img: "assets/monsters/fire.png" },
-  { name: "暗影騎士", hp: 140, atk: 15, gold: 35, baseExp: 50, img: "assets/monsters/knight.png" },
+  { name: "史萊姆", hp: 40, atk: 5, gold: 12, baseExp: 15, img: "assets/monsters/slime.png" },
+  { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 17, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "石甲龜", hp: 90, atk: 4, gold: 22, baseExp: 25, img: "assets/monsters/turtle.png" },
+  { name: "火焰精靈", hp: 60, atk: 10, gold: 24, baseExp: 30, img: "assets/monsters/fire.png" },
+  { name: "暗影騎士", hp: 140, atk: 15, gold: 42, baseExp: 50, img: "assets/monsters/knight.png" },
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
 
