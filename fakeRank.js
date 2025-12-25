@@ -66,11 +66,16 @@ btnRanking.style.cursor = "pointer";
 btnRanking.style.zIndex = "9999";
 document.body.appendChild(btnRanking);
 
-// 點按按鈕顯示排行榜
+// 點按按鈕時，先執行更新邏輯，再顯示介面
 btnRanking.onclick = () => {
-  updateRankingPanel();
-  rankingPanel.style.display = "block";
+  if (typeof player !== 'undefined') { 
+    updateRankingPanel(); // 確保每次點開按鈕，都會重新讀取當下的 player.level
+    rankingPanel.style.display = "block";
+  } else {
+    console.error("找不到 player 物件，請確認玩家資料已載入");
+  }
 };
+
 
 // ====== 更新排行榜內容 ======
 function updateRankingPanel() {
@@ -86,8 +91,12 @@ function updateRankingPanel() {
   });
 
   // 玩家等級對應排名
-  const playerLv = player.level || 1; // 依照你的玩家等級變動
-  let playerRank = playerRanking.find(pr => pr.level === playerLv);
+    // 確保能即時抓到最新的 player.level，若沒定義則預設為 1
+  const currentLv = (window.player && window.player.level) ? window.player.level : 1;
+  
+  // 從預設的排名表中尋找對應等級的排名
+  let playerRank = playerRanking.find(pr => pr.level === currentLv);
+
   const divPlayer = document.createElement("div");
   divPlayer.style.marginTop = "12px";
   divPlayer.style.borderTop = "1px solid #555";
