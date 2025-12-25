@@ -171,7 +171,7 @@ function startBattle() {
   }
 
   const base = rand(monsterPool);
-  const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3, player.lv + 4]);
+  const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
 
   monster = {
     name: base.name,
