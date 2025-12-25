@@ -10,11 +10,11 @@
  * 1. 假排行榜資料（你可自行改）
  * =============================== */
 const FAKE_TOP_RANKS = [
-  { name: "夜燼法皇", level: 48 },
-  { name: "蒼藍賢者", level: 44 },
-  { name: "紅蓮咒術師", level: 41 },
-  { name: "白銀製杖師", level: 39 },
-  { name: "星隕觀測者", level: 36 }
+  { name: "想不到名字", level: 78 },
+  { name: "878787", level: 44 },
+  { name: "新手", level: 41 },
+  { name: "TW_popcat", level: 39 },
+  { name: "grow a garden", level: 36 }
 ];
 
 /* ===============================
