@@ -155,55 +155,7 @@ function saveGameExtended() {
     showGlobalTip("💾 遊戲已保存", 2000);
 }
 
-// ====== 擴充讀檔 ======
-function loadGameExtended() {
-    const s = localStorage.getItem("wand_rpg_save_extended");
-    if (!s) return;
 
-    try {
-        const data = JSON.parse(s);
-
-        // 恢復玩家基本資料
-        player.name = data.playerBasic.name;
-        player.lv = data.playerBasic.lv;
-        player.exp = data.playerBasic.exp;
-        player.gold = data.playerBasic.gold;
-        player.hp = data.playerBasic.hp;
-        player.mp = data.playerBasic.mp;
-
-        // 恢復武器列表
-        if (data.weapons && Array.isArray(data.weapons)) {
-            player.weapons = data.weapons.map(w => ({
-                name: w.name,
-                rarity: w.rarity,
-                atk: w.atk,
-                hp: w.hp,
-                mp: w.mp,
-                crit: w.crit,
-                critDmg: w.critDmg,
-                img: "assets/weapons/wand_common.png" // 保持預設圖示
-            }));
-        }
-
-        // 恢復當前裝備武器
-        if (data.weaponData && data.weaponData.index != null && player.weapons[data.weaponData.index]) {
-            player.weapon = player.weapons[data.weaponData.index];
-            player.weapon.rarity = data.weaponData.rarity;
-        }
-
-        // 恢復寵物狀態
-        if (data.pets && Array.isArray(data.pets) && typeof pets !== "undefined") {
-            data.pets.forEach((pData, i) => {
-                if (pets[i]) {
-                    pets[i].unlocked = pData.unlocked;
-                    pets[i].level = pData.level;
-                }
-            });
-        }
-    } catch (e) {
-        console.error("讀檔錯誤:", e);
-    }
-}
 
 // ====== 永久顯示可關閉的提示文字 ======
 function createPersistentScrollTip() {
@@ -278,20 +230,7 @@ function applyLevelBonus() {
   if (typeof updateUI === "function") updateUI();
 }
 
-// 覆寫存檔與讀檔，確保連動擴充內容與公式
-const _origSaveGame = typeof saveGame === "function" ? saveGame : null;
-saveGame = function() {
-  applyLevelBonus(); 
-  if (_origSaveGame) _origSaveGame();
-  saveGameExtended();
-};
 
-const _origLoadGame = typeof loadGame === "function" ? loadGame : null;
-loadGame = function() {
-  if (_origLoadGame) _origLoadGame();
-  loadGameExtended();
-  applyLevelBonus();
-};
 
 // 劫持 rewardBattle 確保升級後強制使用本公式
 if (typeof rewardBattle === "function") {
@@ -301,3 +240,57 @@ if (typeof rewardBattle === "function") {
     applyLevelBonus();
   };
               }
+/*************************************************
+ * ====== 完整存檔系統（玩家 + 寵物）===========
+ * 1. 存檔 player, pets 與 activePetIndex
+ * 2. 讀檔後還原完整遊戲狀態
+ *************************************************/
+
+// ====== 儲存存檔 ======
+function saveGameExtended() {
+  const saveData = {
+    player: player,       // 玩家資料
+    pets: pets,           // 寵物陣列
+    activePetIndex: pets.indexOf(activePet) // 目前裝備寵物索引
+  };
+
+  saveGame(saveData); // 呼叫 app.js 的介面
+  showGlobalTip("💾 遊戲已保存", 2000);
+}
+
+// ====== 讀取存檔後還原 ======
+function loadGameExtended() {
+  const data = loadGame(); // 呼叫 app.js 的 loadGame()
+
+  if (!data) return;
+
+  // 1. 還原 player
+  if (data.player) {
+    player = data.player;
+  }
+
+  // 2. 還原 pets
+  if (data.pets) {
+    pets = data.pets;
+  }
+
+  // 3. 還原 activePet
+  if (typeof data.activePetIndex === "number" && data.activePetIndex >= 0) {
+    activePet = pets[data.activePetIndex];
+  } else {
+    activePet = null;
+  }
+
+  updateUI();         // 更新玩家畫面
+  if (typeof updatePetPanel === "function") updatePetPanel(); // 更新寵物面板
+}
+
+// ====== 綁定存檔按鈕 ======
+const btnSave = document.getElementById("btn-save");
+if (btnSave) {
+  btnSave.onclick = saveGameExtended;
+}
+
+// ====== 頁面載入時讀檔 ======
+window.addEventListener("load", loadGameExtended);
+
