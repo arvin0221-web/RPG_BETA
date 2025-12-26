@@ -195,11 +195,12 @@ function startBattle() {
   updateUI();
 }
 
-function playerAttack(mult = 1) {
+function playerAttack(mult = 1,
+bonusDmg = 0) {
   if (!inBattle) return;
 
   const s = calcStats();
-  let dmg = Math.floor(s.atk * mult);
+  let dmg = Math.floor(s.atk * mult) + bonusDmg;
   let isCrit = Math.random() < s.crit;
 
   if (isCrit) {
@@ -265,19 +266,61 @@ function attack() {
   playerAttack(1);
 }
 
+// --- 修正後的火球術 ---
 function fire() {
-  if (!inBattle || player.mp < 5) return;
-  player.mp -= 5;
-  playerAttack(1.5);
+  const cost = 5;
+  if (!inBattle) return;
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`, 2000);
+    return;
+  }
+  player.mp -= cost;
+  // 傷害改為：基礎傷害 (1倍) + 20
+  playerAttack(1, 20); 
 }
 
+// --- 修正後的治癒術 ---
 function heal() {
-  if (!inBattle || player.mp < 5) return;
-  player.mp -= 5;
+  const cost = 5;
+  if (!inBattle) return;
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`, 2000);
+    return;
+  }
+  player.mp -= cost;
   player.hp += 25;
-  logBattle(`💚 使用治癒術，恢復了 25 點 HP`); 
+  logBattle(`💚 使用治癒術，恢復了 25 點 HP`);
   updateUI();
 }
+
+// --- 新技能 1：蒼穹滅世斬 (強大攻擊) ---
+function ultimateAttack() {
+  const cost = 50;
+  if (!inBattle) return;
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`, 2000);
+    return;
+  }
+  player.mp -= cost;
+  // 傷害改為：基礎傷害 (1倍) + 250
+  playerAttack(1, 250); 
+  logBattle(`🔥 施展蒼穹滅世斬！造成巨量額外傷害！`);
+}
+
+// --- 新技能 2：神聖大恢復 (強力治療) ---
+function megaHeal() {
+  const cost = 50;
+  if (!inBattle) return;
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`, 2000);
+    return;
+  }
+  player.mp -= cost;
+  player.hp += 300;
+  logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 300 點 HP`);
+  updateUI();
+}
+
 
 
 /***********************
