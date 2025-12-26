@@ -457,6 +457,9 @@ document.getElementById("btn-heal").onclick = heal;
 document.getElementById("btn-save").onclick = saveGameExtended;
 document.getElementById("btn-wand").onclick = openWandPanel;
 document.getElementById("btn-shop").onclick = openShop;
+document.getElementById("btn-ultimate").onclick = ultimateAttack; 
+document.getElementById("btn-mega-heal").onclick = megaHeal;
+
 
 
 /***********************
