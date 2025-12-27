@@ -7,3 +7,17 @@ body{font-family:sans-serif;background:#111;color:#eee}
 button{margin:4px}
 img{max-width:100px}
 #log{font-size:14px;margin-top:5px}
+
+#magic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  pointer-events: none; /* 不擋按鈕 */
+  z-index: 0;
+
+  background: radial-gradient(circle at center, #1a0033, #000);
+  overflow: hidden;
+}
