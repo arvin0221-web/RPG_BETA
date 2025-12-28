@@ -16,7 +16,7 @@ img{max-width:100px}
   height: 100vh;
 
   pointer-events: none; /* 不擋按鈕 */
-  z-index: 0;
+  z-index: -1;
 
   background: radial-gradient(circle at center, #1a0033, #000);
   overflow: hidden;
