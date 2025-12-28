@@ -1,3 +1,5 @@
+console.log("MAGIC BACKGROUND LOADED");
+
 /* ===== 魔法背景生成（獨立、不干涉遊戲） ===== */
 const magicBg = document.getElementById("magic-bg");
 
