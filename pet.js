@@ -225,7 +225,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
   const stat = calcStats();
 
   /* 憨鵝 */
-  if (activePet.name === "憨鵝") {
+  if (activePet.name === "憨鵝" && monster && monster.hp > 0) {
     const heal = Math.floor(stat.maxhp * activePet.hpRecoverPct[activePet.level - 1]);
     player.hp = clamp(player.hp + heal, 0, stat.maxhp);
     logBattle(`💚 憨鵝回復 ${heal} HP`);
@@ -261,7 +261,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
   }
 
   /* 傻bee */
-  if (activePet.name === "傻bee" && monster) {
+  if (activePet.name === "傻bee" && monster && monster.hp > 0) {
     const ed = activePet.hurtEnemy[activePet.level - 1];
     const pd = activePet.hurtPlayer[activePet.level - 1];
 
@@ -274,6 +274,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
 
   updateUI();
 };
+
 
 
 
