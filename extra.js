@@ -117,45 +117,6 @@ window.addEventListener("load", () => {
   scaleAllButtons();
 });
 
-/*************************************************
- *  擴充存檔系統
- *************************************************/
-
-// ====== 擴充存檔 ======
-function saveGameExtended() {
-    const saveData = {
-        playerBasic: {
-            name: player.name,
-            lv: player.lv,
-            exp: player.exp,
-            gold: player.gold,
-            hp: player.hp,
-            mp: player.mp
-        },
-        weaponData: player.weapon ? {
-            index: player.weapons.indexOf(player.weapon),
-            rarity: player.weapon.rarity
-        } : null,
-        weapons: player.weapons.map(w => ({
-            name: w.name,
-            rarity: w.rarity,
-            atk: w.atk,
-            hp: w.hp,
-            mp: w.mp,
-            crit: w.crit,
-            critDmg: w.critDmg
-        })),
-        pets: (typeof pets !== "undefined") ? pets.map(p => ({
-            name: p.name,
-            unlocked: p.unlocked,
-            level: p.level
-        })) : [],
-        activePetIndex: (typeof activePet !== "undefined") ? pets.indexOf(activePet) : null
-    };
-
-    localStorage.setItem("wand_rpg_save_extended", JSON.stringify(saveData));
-    showGlobalTip("💾 遊戲已保存", 2000);
-}
 
 
 
@@ -294,6 +255,7 @@ if (btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
