@@ -76,7 +76,7 @@ const monsterPool = [
   { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 17, baseExp: 20, img: "assets/monsters/slime.png" },
   { name: "石甲龜", hp: 90, atk: 4, gold: 22, baseExp: 25, img: "assets/monsters/turtle.png" },
   { name: "火焰精靈", hp: 60, atk: 10, gold: 24, baseExp: 30, img: "assets/monsters/fire.png" },
-  { name: "暗影騎士", hp: 140, atk: 15, gold: 42, baseExp: 50, img: "assets/monsters/knight.png" },
+  { name: "暗影騎士", hp: 130, atk: 15, gold: 42, baseExp: 50, img: "assets/monsters/knight.png" },
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
 
@@ -94,9 +94,9 @@ function needExp() {
 function calcStats() {
   const lvl = player.lv;
   // 以下為強制注入的公式
-  let atk = Math.floor(player.base.atk * (1 + 0.05 * (lvl - 1)));
-  let maxhp = Math.floor(player.base.hp * (1 + 0.08 * (lvl - 1)));
-  let maxmp = Math.floor(player.base.mp * (1 + 0.06 * (lvl - 1)));
+  let atk = Math.floor(player.base.atk * (1 + 0.10 * (lvl - 1)));
+  let maxhp = Math.floor(player.base.hp * (1 + 0.12 * (lvl - 1)));
+  let maxmp = Math.floor(player.base.mp * (1 + 0.10 * (lvl - 1)));
   
   let crit = player.base.crit;
   let critDmg = player.base.critDmg;
