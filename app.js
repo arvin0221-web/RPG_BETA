@@ -275,8 +275,9 @@ function fire() {
     return;
   }
   player.mp -= cost;
-  // 傷害改為：基礎傷害 (1倍) + 20
-  playerAttack(1, 20); 
+  // 傷害 = 普攻傷害 + 20
+  playerAttack(1, 20);
+  logBattle(`🔥 施展火球術！額外傷害 +20`);
 }
 
 // --- 修正後的治癒術 ---
@@ -302,9 +303,9 @@ function ultimateAttack() {
     return;
   }
   player.mp -= cost;
-  // 傷害改為：基礎傷害 (1倍) + 250
-  playerAttack(1, 250); 
-  logBattle(`🔥 施展蒼穹滅世斬！造成巨量額外傷害！`);
+  // 傷害 = 普攻傷害 + 250
+  playerAttack(1, 250);
+  logBattle(`🔥 施展蒼穹滅世斬！額外傷害 +250`);
 }
 
 // --- 新技能 2：神聖大恢復 (強力治療) ---
