@@ -8,44 +8,56 @@ button{margin:4px}
 img{max-width:100px}
 #log{font-size:14px;margin-top:5px}
 
-#magic-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; /* 不擋按鈕 */ z-index: -1; background: radial-gradient(circle at center, #1a0033, #000); overflow: hidden; }
-/* ===== 魔法光圈 ===== */
-.magic-circle {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  animation: rotateCircle linear infinite;
-  opacity: 0.6;
+#magic-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none; /* 不阻擋按鈕 */
+  z-index: 9998;        /* 高於遊戲畫面，但低於按鈕 */
+  background: radial-gradient(circle at center, #1a0033, #000);
+  overflow: hidden;
 }
 
-/* 光圈旋轉動畫 */
-@keyframes rotateCircle {
-  0% { transform: rotate(0deg) translate(0,0) scale(1); }
-  50% { transform: rotate(180deg) translate(0,0) scale(1.2); }
-  100% { transform: rotate(360deg) translate(0,0) scale(1); }
-}
-
-/* ===== 漂浮魔法粒子（帶光暈） ===== */
+/* ===== 魔法粒子（帶強光暈） ===== */
 .magic-particle {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
 
-  /* 光暈效果 */
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6),
-              0 0 20px rgba(255, 200, 255, 0.4),
-              0 0 30px rgba(200, 200, 255, 0.3);
+  /* 光暈加強 */
+  box-shadow:
+    0 0 8px rgba(255,255,255,0.9),
+    0 0 16px rgba(255,200,255,0.7),
+    0 0 24px rgba(200,200,255,0.5),
+    0 0 32px rgba(255,255,200,0.3);
 
   animation: floatParticle linear infinite;
-  z-index: 99999; /* 蓋滿遊戲頁面最上層 */
+  z-index: 9999; /* 蓋住遊戲畫面，但不阻擋按鈕 */
 }
 
 /* 粒子漂浮動畫 */
 @keyframes floatParticle {
   0% { transform: translateY(0); opacity: 1; }
   100% { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* 魔法光圈 */
+.magic-circle {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  animation: rotateCircle linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes rotateCircle {
+  0% { transform: rotate(0deg) translate(0,0) scale(1); }
+  50% { transform: rotate(180deg) translate(0,0) scale(1.2); }
+  100% { transform: rotate(360deg) translate(0,0) scale(1); }
 }
