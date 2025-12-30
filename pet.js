@@ -214,8 +214,8 @@ function equipPet(index) {
  * ================================================= */
 const __origPlayerAttack = playerAttack;
 
-playerAttack = function (mult = 1) {
-  __origPlayerAttack(mult);
+playerAttack = function(mult = 1, bonusDmg = 0) {
+    __origPlayerAttack(mult, bonusDmg);  // ← 傳入 bonusDmg
 
   if (!activePet) {
     updateUI();
@@ -274,6 +274,7 @@ playerAttack = function (mult = 1) {
 
   updateUI();
 };
+
 
 
 
