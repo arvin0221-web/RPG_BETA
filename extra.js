@@ -248,9 +248,9 @@ function loadGameExtended() {
 }
 
 // ====== 綁定存檔按鈕 ======
-const btnSave = document.getElementById("btn-save");
-if (btnSave) {
-  btnSave.onclick = saveGameExtended;
+window.btnSave = document.getElementById("btn-save");
+if (window.btnSave) {
+  window.btnSave.onclick = saveGameExtended;
 }
 
 // ====== 頁面載入時讀檔 ======
