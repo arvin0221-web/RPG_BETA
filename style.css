@@ -8,16 +8,36 @@ button{margin:4px}
 img{max-width:100px}
 #log{font-size:14px;margin-top:5px}
 
-#magic-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+/* ===== 魔法光圈 ===== */
+.magic-circle {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  animation: rotateCircle linear infinite;
+  opacity: 0.6;
+}
 
-  pointer-events: none; /* 不擋按鈕 */
-  z-index: -1;
+/* 光圈旋轉動畫 */
+@keyframes rotateCircle {
+  0% { transform: rotate(0deg) translate(0,0) scale(1); }
+  50% { transform: rotate(180deg) translate(0,0) scale(1.2); }
+  100% { transform: rotate(360deg) translate(0,0) scale(1); }
+}
 
-  background: radial-gradient(circle at center, #1a0033, #000);
-  overflow: hidden;
+/* ===== 漂浮魔法粒子 ===== */
+.magic-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: floatParticle linear infinite;
+}
+
+/* 粒子漂浮動畫 */
+@keyframes floatParticle {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-120vh); opacity: 0; }
 }
