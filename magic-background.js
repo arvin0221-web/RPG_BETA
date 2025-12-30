@@ -2,7 +2,7 @@ console.log("MAGIC BACKGROUND LOADED");
 
 const magicBg = document.getElementById("magic-bg");
 
-/* ===== 魔法光圈 ===== */
+/* 魔法光圈 */
 for (let i = 0; i < 3; i++) {
   const circle = document.createElement("div");
   circle.className = "magic-circle";
@@ -13,7 +13,7 @@ for (let i = 0; i < 3; i++) {
   magicBg.appendChild(circle);
 }
 
-/* ===== 漂浮魔法粒子 ===== */
+/* 漂浮魔法粒子 */
 for (let i = 0; i < 60; i++) {
   const p = document.createElement("div");
   p.className = "magic-particle";
