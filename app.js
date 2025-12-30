@@ -454,7 +454,11 @@ document.getElementById("btn-start").onclick = startBattle;
 document.getElementById("btn-attack").onclick = attack;
 document.getElementById("btn-fire").onclick = fire;
 document.getElementById("btn-heal").onclick = heal;
-document.getElementById("btn-save").onclick = saveGameExtended;
+const btnSave = document.getElementById("btn-save");
+if (btnSave && typeof saveGameExtended === "function") {
+  btnSave.onclick = saveGameExtended;
+}
+
 document.getElementById("btn-wand").onclick = openWandPanel;
 document.getElementById("btn-shop").onclick = openShop;
 document.getElementById("btn-ultimate").onclick = ultimateAttack; 
