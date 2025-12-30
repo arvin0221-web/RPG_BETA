@@ -22,15 +22,6 @@ let pets = [
     upgradeCost: [4000, 7000]
   },
   {
-    name: "甲魚",
-    unlocked: false,
-    goldCost: 2500,
-    level: 1,
-    maxLevel: 3,
-    evadePct: [0.13, 0.16, 0.20],
-    upgradeCost: [4000, 7000]
-  },
-  {
     name: "沛沛豬",
     unlocked: false,
     goldCost: 2500,
@@ -140,10 +131,6 @@ function updatePetPanel() {
       html += `效果：每回合回復 ${(p.hpRecoverPct[p.level - 1] * 100).toFixed(1)}% HP<br>`;
     }
 
-    if (p.name === "甲魚") {
-      html += `效果：每回合 ${(p.evadePct[p.level - 1] * 100).toFixed(1)}% 機率閃避<br>`;
-    }
-
     if (p.name === "沛沛豬") {
       html += `效果：每回合造成敵人 ${(p.enemyDmgPct[p.level - 1] * 100).toFixed(1)}% HP<br>`;
     }
@@ -231,20 +218,6 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
     logBattle(`💚 憨鵝回復 ${heal} HP`);
   }
 
-  /* 甲魚 */
-  if (activePet.name === "甲魚") {
-    const chance = activePet.evadePct[activePet.level - 1];
-    const oldEnemyAttack = enemyAttack;
-
-    enemyAttack = function () {
-      if (Math.random() < chance) {
-        logBattle("🛡 甲魚幫助你躲避了此次攻擊");
-      } else {
-        oldEnemyAttack();
-      }
-      enemyAttack = oldEnemyAttack;
-    };
-  }
 
   /* 沛沛豬 */
   if (activePet.name === "沛沛豬" && monster) {
@@ -274,6 +247,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
 
   updateUI();
 };
+
 
 
 
