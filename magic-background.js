@@ -18,7 +18,7 @@ for (let i = 0; i < 60; i++) {
   const p = document.createElement("div");
   p.className = "magic-particle";
   p.style.left = Math.random() * 100 + "vw";
-  p.style.top = Math.random() * 100 + "vh"; // 從隨機高度開始
+  p.style.top = Math.random() * 100 + "vh";
   p.style.animationDuration = (8 + Math.random() * 10) + "s";
   p.style.animationDelay = Math.random() * 10 + "s";
   magicBg.appendChild(p);
