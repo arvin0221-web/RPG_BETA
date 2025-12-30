@@ -27,14 +27,21 @@ img{max-width:100px}
   100% { transform: rotate(360deg) translate(0,0) scale(1); }
 }
 
-/* ===== 漂浮魔法粒子 ===== */
+/* ===== 漂浮魔法粒子（帶光暈） ===== */
 .magic-particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.6);
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
+
+  /* 光暈效果 */
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.6),
+              0 0 20px rgba(255, 200, 255, 0.4),
+              0 0 30px rgba(200, 200, 255, 0.3);
+
   animation: floatParticle linear infinite;
+  z-index: 99999; /* 蓋滿遊戲頁面最上層 */
 }
 
 /* 粒子漂浮動畫 */
