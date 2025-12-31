@@ -179,51 +179,60 @@ function startBattle() {
     return;
   }
 
+  // 隨機選一個怪物
   const base = rand(monsterPool);
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
 
+  // 生成怪物
   function generateMonster(base, lv) {
- function generateMonster(base, lv) {
     if (!base) {
-        console.error("generateMonster: base is null or undefined", base, lv);
-        return null;
+      console.error("generateMonster: base is null或 undefined", base, lv);
+      return null;
     }
 
-    // 每10級加成，線性增加
     const tens = Math.floor(lv / 10);
     const boost = 0.05 * tens * (tens + 1) / 2; // 每10級累加 5%
     const multiplier = 1 + boost;
 
     const monster = {
-        name: base.name,
-        lv,
-        maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
-        hp: 0,
-        atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
-        gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
-        expGain: Math.floor(base.baseExp * (1 + lv * 0.2)), // 經驗值小幅成長
-        img: base.img
+      name: base.name,
+      lv,
+      maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
+      hp: 0,
+      atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
+      gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
+      expGain: Math.floor(base.baseExp * (1 + lv * 0.2)), // 經驗值小幅成長
+      img: base.img || "" // 沒有圖片就空字串
     };
 
     monster.hp = monster.maxHp;
-
     return monster;
-}
+  }
 
-// 使用時：
-monster = generateMonster(base, lv);
-if (!monster) {
+  monster = generateMonster(base, lv);
+
+  if (!monster) {
     showGlobalTip("⚠️ 無法生成怪物！請檢查怪物資料", 3000);
     return;
+  }
+
+  // 如果沒有圖片，就不改 src，避免 404
+  if (monster.img) {
+    document.getElementById("monster-img").src = monster.img;
+  } else {
+    document.getElementById("monster-img").src = ""; // 或你可以放一個預設空白圖
+  }
+
+  document.getElementById("battle").style.display = "block";
+  document.getElementById("battle-log").innerHTML = "";
+
+  logBattle(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
+  inBattle = true;
+  updateUI();
 }
 
-  monster.maxHp = Math.floor(monster.maxHp * boostMultiplier);
-  monster.atk   = Math.floor(monster.atk * boostMultiplier);
-  monster.gold  = Math.floor(monster.gold * boostMultiplier);
-  monster.hp    = monster.maxHp; // 初始血量滿
 
-  return monster;
-}
+
 
 
   document.getElementById("monster-img").src = monster.img;
