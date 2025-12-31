@@ -182,17 +182,30 @@ function startBattle() {
   const base = rand(monsterPool);
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
 
-  monster = {
+  function generateMonster(base, lv) {
+  // 原始屬性增長
+  let monster = {
     name: base.name,
     lv,
     maxHp: Math.floor(base.hp * (1 + lv * 0.35)),
-    hp: 0,
     atk: Math.floor(base.atk * (1 + lv * 0.25)),
     gold: Math.floor(base.gold * (1 + lv * 0.3)),
-    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)), // 經驗值隨等級成長更快(0.4倍)
+    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)),
     img: base.img
   };
-  monster.hp = monster.maxHp;
+
+  // 每10級額外加強，線性增加
+  const boostMultiplier = 1 + Math.floor(lv / 10) * 0.1 * Math.floor(lv / 10 + 1) / 2; 
+  // 計算方式：每10級加成依序累加，例如 lv=30 → 0.1+0.2+0.3=0.6 → 乘 1.6
+
+  monster.maxHp = Math.floor(monster.maxHp * boostMultiplier);
+  monster.atk   = Math.floor(monster.atk * boostMultiplier);
+  monster.gold  = Math.floor(monster.gold * boostMultiplier);
+  monster.hp    = monster.maxHp; // 初始血量滿
+
+  return monster;
+}
+
 
   document.getElementById("monster-img").src = monster.img;
   document.getElementById("battle").style.display = "block";
