@@ -373,7 +373,15 @@ function openWandPanel() {
 
   player.weapons.forEach((w, i) => {
     const d = document.createElement("div");
-    d.innerHTML = `${w.name} (${w.rarity}) <button onclick="equipWand(${i})">裝備</button>`;
+    d.style.marginBottom = "8px";
+
+    d.innerHTML = `
+      ${w.name} (${w.rarity})
+      <button onclick="equipWand(${i})">裝備</button>
+      <button onclick="requestRemoveWand(${i})">移除</button>
+      <span id="wand-remove-confirm-${i}"></span>
+    `;
+
     list.appendChild(d);
   });
 
@@ -383,6 +391,33 @@ function openWandPanel() {
 function equipWand(i) {
   player.weapon = player.weapons[i];
   updateUI();
+}
+
+// ====== 杖移除：點擊移除 → 顯示確認 ======
+function requestRemoveWand(index) {
+  const span = document.getElementById(`wand-remove-confirm-${index}`);
+  if (!span) return;
+
+  span.innerHTML = `
+    <button onclick="confirmRemoveWand(${index})">確認</button>
+  `;
+}
+// ====== 杖移除：確認後真正刪除 ======
+function confirmRemoveWand(index) {
+  const removed = player.weapons[index];
+  if (!removed) return;
+
+  // 如果移除的是目前裝備的杖 → 卸下
+  if (player.weapon === removed) {
+    player.weapon = null;
+  }
+
+  // 從背包中移除
+  player.weapons.splice(index, 1);
+
+  showGlobalTip(`🗑️ 已移除 ${removed.name}`, 2000);
+  updateUI();
+  openWandPanel(); // 重新刷新列表
 }
 
 function openShop() {
