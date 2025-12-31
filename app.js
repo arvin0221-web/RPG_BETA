@@ -171,105 +171,51 @@ function showGlobalTip(text, ms = 2000) {
 
 
 /***********************
- * 戰鬥系統
+ * 戰鬥系統（原始簡單版）
  ***********************/
 function startBattle() {
   if (inBattle) {
     showGlobalTip("對戰進行中");
     return;
   }
-
-  // 隨機選一個怪物
   const base = rand(monsterPool);
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
-
-  // ======= 全域怪物生成函式 =======
-function generateMonster(base, lv) {
-  if (!base) {
-    console.error("generateMonster: base is null或 undefined", base, lv);
-    return null;
-  }
-
-  const tens = Math.floor(lv / 10);
-  const boost = 0.05 * tens * (tens + 1) / 2; // 每10級累加 5%
-  const multiplier = 1 + boost;
-
-  const monster = {
+  monster = {
     name: base.name,
-    lv,
-    maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
+    lv: lv,
+    maxHp: Math.floor(base.hp * (1 + lv * 0.35)),
     hp: 0,
-    atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
-    gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
-    expGain: Math.floor(base.baseExp * (1 + lv * 0.2)),
-    img: base.img || "" // 沒有圖片就空字串
+    atk: Math.floor(base.atk * (1 + lv * 0.25)),
+    gold: Math.floor(base.gold * (1 + lv * 0.3)),
+    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)),
+    img: base.img
   };
-
   monster.hp = monster.maxHp;
-  return monster;
-}
-
-// ======= startBattle() 只呼叫 generateMonster =======
-function startBattle() {
-  if (inBattle) {
-    showGlobalTip("對戰進行中");
-    return;
-  }
-
-  const base = rand(monsterPool);
-  const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
-
-  monster = generateMonster(base, lv);
-  if (!monster) {
-    showGlobalTip("⚠️ 無法生成怪物！請檢查怪物資料", 3000);
-    return;
-  }
-
-  // 設定怪物圖片，沒有就空字串
-  const imgEl = document.getElementById("monster-img");
-  imgEl.src = monster.img || "";
-
-  document.getElementById("battle").style.display = "block";
-  document.getElementById("battle-log").innerHTML = "";
-
-  logBattle(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
-  inBattle = true;
-  updateUI();
-}
-
-
-
   document.getElementById("monster-img").src = monster.img;
   document.getElementById("battle").style.display = "block";
   document.getElementById("battle-log").innerHTML = "";
-
   logBattle(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
   inBattle = true;
   updateUI();
 }
 
-function playerAttack(mult = 1,
-bonusDmg = 0) {
+function playerAttack(mult = 1, bonusDmg = 0) {
   if (!inBattle) return;
-
   const s = calcStats();
   let dmg = Math.floor(s.atk * mult) + bonusDmg;
   let isCrit = Math.random() < s.crit;
-
   if (isCrit) {
     dmg = Math.floor(dmg * s.critDmg);
     logBattle(`💥 爆擊！造成 ${dmg} 傷害`);
   } else {
     logBattle(`⚔️ 造成 ${dmg} 傷害`);
   }
-
   monster.hp -= dmg;
   if (monster.hp <= 0) {
     monster.hp = 0;
     winBattle();
     return;
   }
-
   enemyAttack();
   updateUI();
 }
@@ -277,40 +223,32 @@ bonusDmg = 0) {
 function enemyAttack() {
   player.hp -= monster.atk;
   if (player.hp < 0) player.hp = 0;
-
   logBattle(`😈 ${monster.name} 攻擊你，造成 ${monster.atk} 傷害`);
-
   if (player.hp <= 0) {
     playerDeath();
   }
 }
 
 function winBattle() {
-  // 判斷是否為糖bee
   if (monster && monster.name === "糖bee") {
     logBattle("🩸 糖bee 被你一擊碾成肉醬");
   } else {
     logBattle("🎉 勝利！");
   }
-  
   rewardBattle();
   inBattle = false;
   monster = null;
 }
 
-
 function playerDeath() {
   logBattle("💀 玩家已死亡");
   player.exp = Math.max(0, player.exp - 100);
   showGlobalTip("玩家已死亡，扣除經驗值並復活", 6000);
-
   const s = calcStats();
   player.hp = s.maxhp;
   player.mp = s.maxmp;
-
   inBattle = false;
 }
-
 
 /***********************
  * 技能
