@@ -183,20 +183,39 @@ function startBattle() {
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
 
   function generateMonster(base, lv) {
-  // 原始屬性增長
-  let monster = {
-    name: base.name,
-    lv,
-    maxHp: Math.floor(base.hp * (1 + lv * 0.35)),
-    atk: Math.floor(base.atk * (1 + lv * 0.25)),
-    gold: Math.floor(base.gold * (1 + lv * 0.3)),
-    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)),
-    img: base.img
-  };
+ function generateMonster(base, lv) {
+    if (!base) {
+        console.error("generateMonster: base is null or undefined", base, lv);
+        return null;
+    }
 
-  // 每10級額外加強，線性增加
-  const boostMultiplier = 1 + Math.floor(lv / 10) * 0.1 * Math.floor(lv / 10 + 1) / 2; 
-  // 計算方式：每10級加成依序累加，例如 lv=30 → 0.1+0.2+0.3=0.6 → 乘 1.6
+    // 每10級加成，線性增加
+    const tens = Math.floor(lv / 10);
+    const boost = 0.05 * tens * (tens + 1) / 2; // 每10級累加 5%
+    const multiplier = 1 + boost;
+
+    const monster = {
+        name: base.name,
+        lv,
+        maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
+        hp: 0,
+        atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
+        gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
+        expGain: Math.floor(base.baseExp * (1 + lv * 0.2)), // 經驗值小幅成長
+        img: base.img
+    };
+
+    monster.hp = monster.maxHp;
+
+    return monster;
+}
+
+// 使用時：
+monster = generateMonster(base, lv);
+if (!monster) {
+    showGlobalTip("⚠️ 無法生成怪物！請檢查怪物資料", 3000);
+    return;
+}
 
   monster.maxHp = Math.floor(monster.maxHp * boostMultiplier);
   monster.atk   = Math.floor(monster.atk * boostMultiplier);
