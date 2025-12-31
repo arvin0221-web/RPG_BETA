@@ -183,45 +183,51 @@ function startBattle() {
   const base = rand(monsterPool);
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
 
-  // 生成怪物
-  function generateMonster(base, lv) {
-    if (!base) {
-      console.error("generateMonster: base is null或 undefined", base, lv);
-      return null;
-    }
-
-    const tens = Math.floor(lv / 10);
-    const boost = 0.05 * tens * (tens + 1) / 2; // 每10級累加 5%
-    const multiplier = 1 + boost;
-
-    const monster = {
-      name: base.name,
-      lv,
-      maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
-      hp: 0,
-      atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
-      gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
-      expGain: Math.floor(base.baseExp * (1 + lv * 0.2)), // 經驗值小幅成長
-      img: base.img || "" // 沒有圖片就空字串
-    };
-
-    monster.hp = monster.maxHp;
-    return monster;
+  // ======= 全域怪物生成函式 =======
+function generateMonster(base, lv) {
+  if (!base) {
+    console.error("generateMonster: base is null或 undefined", base, lv);
+    return null;
   }
 
-  monster = generateMonster(base, lv);
+  const tens = Math.floor(lv / 10);
+  const boost = 0.05 * tens * (tens + 1) / 2; // 每10級累加 5%
+  const multiplier = 1 + boost;
 
+  const monster = {
+    name: base.name,
+    lv,
+    maxHp: Math.floor(base.hp * (1 + lv * 0.35) * multiplier),
+    hp: 0,
+    atk: Math.floor(base.atk * (1 + lv * 0.25) * multiplier),
+    gold: Math.floor(base.gold * (1 + lv * 0.3) * multiplier),
+    expGain: Math.floor(base.baseExp * (1 + lv * 0.2)),
+    img: base.img || "" // 沒有圖片就空字串
+  };
+
+  monster.hp = monster.maxHp;
+  return monster;
+}
+
+// ======= startBattle() 只呼叫 generateMonster =======
+function startBattle() {
+  if (inBattle) {
+    showGlobalTip("對戰進行中");
+    return;
+  }
+
+  const base = rand(monsterPool);
+  const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
+
+  monster = generateMonster(base, lv);
   if (!monster) {
     showGlobalTip("⚠️ 無法生成怪物！請檢查怪物資料", 3000);
     return;
   }
 
-  // 如果沒有圖片，就不改 src，避免 404
-  if (monster.img) {
-    document.getElementById("monster-img").src = monster.img;
-  } else {
-    document.getElementById("monster-img").src = ""; // 或你可以放一個預設空白圖
-  }
+  // 設定怪物圖片，沒有就空字串
+  const imgEl = document.getElementById("monster-img");
+  imgEl.src = monster.img || "";
 
   document.getElementById("battle").style.display = "block";
   document.getElementById("battle-log").innerHTML = "";
@@ -230,8 +236,6 @@ function startBattle() {
   inBattle = true;
   updateUI();
 }
-
-
 
 
 
