@@ -375,12 +375,16 @@ function openWandPanel() {
     const d = document.createElement("div");
     d.style.marginBottom = "8px";
 
-    d.innerHTML = `
-      ${w.name} (${w.rarity})
-      <button onclick="equipWand(${i})">裝備</button>
-      <button onclick="requestRemoveWand(${i})">移除</button>
-      <span id="wand-remove-confirm-${i}"></span>
-    `;
+   const isEquipped = player.weapon === w;
+
+d.innerHTML = `
+  ${w.name} (${w.rarity})
+  ${isEquipped ? '<span style="color:#4caf50;font-weight:bold;">【裝備中】</span>' : ''}
+  <button onclick="equipWand(${i})">裝備</button>
+  <button onclick="requestRemoveWand(${i})">移除</button>
+  <span id="wand-remove-confirm-${i}"></span>
+`;
+
 
     list.appendChild(d);
   });
