@@ -232,9 +232,24 @@ function loadGameExtended() {
   }
 
   // 2. 還原 pets
-  if (data.pets) {
-    pets = data.pets;
+  if (data.pets && Array.isArray(data.pets)) {
+
+  // ====== 目前 pet.js 中「合法寵物名稱白名單」======
+  const validPetNames = pets.map(p => p.name);
+
+  // ====== 從舊存檔中，只保留仍然存在的寵物 ======
+  const filteredPets = data.pets.filter(p =>
+    validPetNames.includes(p.name)
+  );
+
+  // ====== 用存檔資料覆蓋現有寵物（僅限合法者）======
+  for (let i = 0; i < pets.length; i++) {
+    const saved = filteredPets.find(sp => sp.name === pets[i].name);
+    if (saved) {
+      pets[i] = saved;
+    }
   }
+}
 
   // 3. 還原 activePet
   if (typeof data.activePetIndex === "number" && data.activePetIndex >= 0) {
@@ -255,6 +270,7 @@ if (window.btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
