@@ -68,7 +68,7 @@ const wandDB = [
   { name: "星辰法杖", lv: 90, baseAtk: 5000, baseHp: 7000, baseMp: 2000, baseCrit: 0.33, baseCritDmg: 2.50, price: 12000000 },
 { name: "創世神杖", lv: 115, baseAtk: 6500, baseHp: 8500, baseMp: 2200, baseCrit: 0.33, baseCritDmg: 3.00, price: 27000000 },
 { name: "永恆之杖", lv: 135, baseAtk: 8000, baseHp: 10000, baseMp: 2400, baseCrit: 0.33, baseCritDmg: 3.50, price: 60000000 },
-{ name: "混沌之杖", lv: 160, baseAtk: 10000, baseHp: 10000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 4.00, price: 260000000 },
+{ name: "混沌之杖", lv: 160, baseAtk: 10000, baseHp: 10000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 4.00, price: 150000000 },
 { name: "極•歸真木杖", lv: 200, baseAtk: 10000, baseHp: 10000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 6.00, price: 600000000 }
 ];
 
