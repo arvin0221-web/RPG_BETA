@@ -149,12 +149,12 @@ const monsterPool_160_200 = [
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
 const monsterPool_200_plus = [
-  { name: "上古聖光鐵騎II", hp: 96000, atk: 4000, gold: 3200, baseExp: 140, img: "assets/monsters/slime.png" },
-  { name: "上古聖光狂鐵騎II", hp: 80000, atk: 6000, gold: 4000, baseExp: 180, img: "assets/monsters/slime.png" },
-  { name: "上古聖光盾龜II", hp: 200000, atk: 3000, gold: 5600, baseExp: 220, img: "assets/monsters/turtle.png" },
-  { name: "上古聖火精靈II", hp: 140000, atk: 6000, gold: 6400, baseExp: 250, img: "assets/monsters/fire.png" },
-  { name: "上古聖潔戰靈II", hp: 300000, atk: 10000, gold: 8000, baseExp: 305, img: "assets/monsters/knight.png" },
-  { name: "偽•葬神", hp: 2400000, atk: 5000, gold: 12000, baseExp: 0, img: "assets/monsters/sugarbee.png" }
+  { name: "上古聖光鐵騎II", hp: 96000, atk: 1600, gold: 3200, baseExp: 140, img: "assets/monsters/slime.png" },
+  { name: "上古聖光狂鐵騎II", hp: 80000, atk: 2400, gold: 4000, baseExp: 180, img: "assets/monsters/slime.png" },
+  { name: "上古聖光盾龜II", hp: 200000, atk: 1200, gold: 5600, baseExp: 220, img: "assets/monsters/turtle.png" },
+  { name: "上古聖火精靈II", hp: 140000, atk: 2400, gold: 6400, baseExp: 250, img: "assets/monsters/fire.png" },
+  { name: "上古聖潔戰靈II", hp: 300000, atk: 4000, gold: 8000, baseExp: 305, img: "assets/monsters/knight.png" },
+  { name: "偽•葬神", hp: 2400000, atk: 2000, gold: 12000, baseExp: 0, img: "assets/monsters/sugarbee.png" }
 ];
 
 let monster = null;
