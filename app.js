@@ -76,7 +76,7 @@ const wandDB = [
 /***********************
  * 怪物資料
  ***********************/
-const monsterPool = [
+const monsterPool_0_20 = [
   { name: "史萊姆", hp: 40, atk: 5, gold: 12, baseExp: 15, img: "assets/monsters/slime.png" },
   { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 17, baseExp: 20, img: "assets/monsters/slime.png" },
   { name: "石甲龜", hp: 90, atk: 4, gold: 22, baseExp: 25, img: "assets/monsters/turtle.png" },
@@ -84,9 +84,95 @@ const monsterPool = [
   { name: "暗影騎士", hp: 130, atk: 15, gold: 42, baseExp: 50, img: "assets/monsters/knight.png" },
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
+const monsterPool_20_40 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_40_60 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_60_80 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_80_100 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_100_120 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_120_140 = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_140_160 = [ 
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_160_200 = [ 
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_200_plus = [
+  { name: "闇•史萊姆", hp: 60, atk: 8, gold: 18, baseExp: 20, img: "assets/monsters/slime.png" },
+  { name: "闇•狂暴史萊姆", hp: 45, atk: 14, gold: 25, baseExp: 26, img: "assets/monsters/slime.png" },
+  { name: "闇•石甲龜", hp: 135, atk: 6, gold: 33, baseExp: 33, img: "assets/monsters/turtle.png" },
+  { name: "闇•火焰精靈", hp: 90, atk: 15, gold: 36, baseExp: 40, img: "assets/monsters/fire.png" },
+  { name: "闇•暗影騎士", hp: 195, atk: 22, gold: 63, baseExp: 63, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+];
 
 let monster = null;
 let inBattle = false;
+
+function getMonsterPoolByPlayerLv(lv) {
+  if (lv < 20)  return monsterPool_0_20;
+  if (lv < 40)  return monsterPool_20_40;
+  if (lv < 60)  return monsterPool_40_60;
+  if (lv < 80)  return monsterPool_60_80;
+  if (lv < 100) return monsterPool_80_100;
+  if (lv < 120) return monsterPool_100_120;
+  if (lv < 140) return monsterPool_120_140;
+  if (lv < 160) return monsterPool_140_160;
+  if (lv < 200) return monsterPool_160_200;
+  return monsterPool_200_plus;
+}
+
 
 
 /***********************
@@ -178,7 +264,9 @@ function startBattle() {
     showGlobalTip("對戰進行中");
     return;
   }
-  const base = rand(monsterPool);
+  const pool = getMonsterPoolByPlayerLv(player.lv);
+  const base = rand(pool);
+
   const lv = rand([player.lv, player.lv + 1, player.lv + 2, player.lv + 3]);
   monster = {
     name: base.name,
