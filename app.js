@@ -271,9 +271,9 @@ function startBattle() {
   monster = {
     name: base.name,
     lv: lv,
-    maxHp: Math.floor(base.hp * (1 + lv * 0.25)),
+    maxHp: Math.floor(base.hp * (1 + lv * 0.40)),
     hp: 0,
-    atk: Math.floor(base.atk * (1 + lv * 0.15)),
+    atk: Math.floor(base.atk * (1 + lv * 0.35)),
     gold: Math.floor(base.gold * (1 + lv * 0.4)),
     expGain: Math.floor(base.baseExp * (1 + lv * 0.3)),
     img: base.img
