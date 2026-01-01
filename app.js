@@ -55,21 +55,21 @@ const wandDB = [
   { name: "木杖", lv: 1, baseAtk: 2, baseHp: 15, baseMp: 5, baseCrit: 0.02, baseCritDmg: 0.05, price: 100 },
   { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 30, baseMp: 10, baseCrit: 0.04, baseCritDmg: 0.11, price: 500 },
   { name: "朽木杖", lv: 10, baseAtk: 12, baseHp: 60, baseMp: 20, baseCrit: 0.06, baseCritDmg: 0.17, price: 1200 },
-  { name: "上古木杖", lv: 17, baseAtk: 25, baseHp: 120, baseMp: 40, baseCrit: 0.09, baseCritDmg: 0.23, price: 2600 },
-  { name: "神木杖", lv: 24, baseAtk: 45, baseHp: 180, baseMp: 60, baseCrit: 0.12, baseCritDmg: 0.29, price: 6000 },
-  { name: "天金法杖", lv: 31 , baseAtk: 70, baseHp: 300, baseMp: 100, baseCrit: 0.15, baseCritDmg: 0.35, price: 14000 },
-  { name: "人皇之權杖", lv: 38, baseAtk: 110, baseHp: 450, baseMp: 150, baseCrit: 0.21, baseCritDmg: 0.41, price: 30000 },
-  { name: "神之權杖", lv: 45, baseAtk: 170, baseHp: 675, baseMp: 220, baseCrit: 0.25, baseCritDmg: 0.48, price: 70000 },
-  { name: "神王之權杖", lv: 52, baseAtk: 260, baseHp: 975, baseMp: 300, baseCrit: 0.30, baseCritDmg: 0.56, price: 160000 },
-  { name: "至高權杖", lv: 59, baseAtk: 400, baseHp: 1350, baseMp: 450, baseCrit: 0.30, baseCritDmg: 0.74, price: 400000 },
-  { name: "無極法杖", lv: 66, baseAtk: 800, baseHp: 2700, baseMp: 900, baseCrit: 0.30, baseCritDmg: 0.90, price: 900000 },
-  { name: "葬神之法杖", lv: 73, baseAtk: 1600, baseHp: 5400, baseMp: 1800, baseCrit: 0.30, baseCritDmg: 1.00, price: 2000000 },
-  { name: "歸真木杖", lv: 80, baseAtk: 3200, baseHp: 5400, baseMp: 1800, baseCrit: 0.33, baseCritDmg: 2.00, price: 5000000 },
-  { name: "星辰法杖", lv: 90, baseAtk: 5000, baseHp: 7000, baseMp: 2000, baseCrit: 0.33, baseCritDmg: 2.50, price: 12000000 },
-{ name: "創世神杖", lv: 115, baseAtk: 6500, baseHp: 8500, baseMp: 2200, baseCrit: 0.33, baseCritDmg: 3.00, price: 27000000 },
-{ name: "永恆之杖", lv: 135, baseAtk: 8000, baseHp: 10000, baseMp: 2400, baseCrit: 0.33, baseCritDmg: 3.50, price: 60000000 },
-{ name: "混沌之杖", lv: 160, baseAtk: 10000, baseHp: 10000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 4.00, price: 150000000 },
-{ name: "極•歸真木杖", lv: 200, baseAtk: 10000, baseHp: 10000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 6.00, price: 600000000 }
+  { name: "上古木杖", lv: 17, baseAtk: 50, baseHp: 240, baseMp: 40, baseCrit: 0.09, baseCritDmg: 0.23, price: 2600 },
+  { name: "神木杖", lv: 24, baseAtk: 180, baseHp: 720, baseMp: 60, baseCrit: 0.12, baseCritDmg: 0.29, price: 6000 },
+  { name: "天金法杖", lv: 31 , baseAtk: 560, baseHp: 2400, baseMp: 100, baseCrit: 0.15, baseCritDmg: 0.35, price: 14000 },
+  { name: "人皇之權杖", lv: 38, baseAtk: 1760, baseHp: 7200, baseMp: 150, baseCrit: 0.21, baseCritDmg: 0.41, price: 30000 },
+  { name: "神之權杖", lv: 45, baseAtk: 3600, baseHp: 14400, baseMp: 220, baseCrit: 0.25, baseCritDmg: 0.48, price: 70000 },
+  { name: "神王之權杖", lv: 52, baseAtk: 7200, baseHp: 28800, baseMp: 300, baseCrit: 0.30, baseCritDmg: 0.56, price: 160000 },
+  { name: "至高權杖", lv: 59, baseAtk: 14400, baseHp: 50000, baseMp: 450, baseCrit: 0.30, baseCritDmg: 0.74, price: 400000 },
+  { name: "無極法杖", lv: 66, baseAtk: 28800, baseHp: 100000, baseMp: 900, baseCrit: 0.30, baseCritDmg: 0.90, price: 900000 },
+  { name: "葬神之法杖", lv: 73, baseAtk: 50000, baseHp: 150000, baseMp: 1800, baseCrit: 0.30, baseCritDmg: 1.00, price: 2000000 },
+  { name: "歸真木杖", lv: 80, baseAtk: 100000, baseHp: 200000, baseMp: 1800, baseCrit: 0.33, baseCritDmg: 2.00, price: 5000000 },
+  { name: "星辰法杖", lv: 90, baseAtk: 150000, baseHp: 250000, baseMp: 2000, baseCrit: 0.33, baseCritDmg: 2.50, price: 12000000 },
+{ name: "創世神杖", lv: 115, baseAtk: 200000, baseHp: 350000, baseMp: 2200, baseCrit: 0.33, baseCritDmg: 3.00, price: 27000000 },
+{ name: "永恆之杖", lv: 135, baseAtk: 250000, baseHp: 450000, baseMp: 2400, baseCrit: 0.33, baseCritDmg: 3.50, price: 60000000 },
+{ name: "混沌之杖", lv: 160, baseAtk: 350000, baseHp: 600000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 4.00, price: 150000000 },
+{ name: "極•歸真木杖", lv: 200, baseAtk: 350000, baseHp: 600000, baseMp: 2700, baseCrit: 0.33, baseCritDmg: 6.00, price: 600000000 }
 ];
 
 
@@ -185,8 +185,8 @@ function needExp() {
 function calcStats() {
   const lvl = player.lv;
   // 以下為強制注入的公式
-  let atk = Math.floor(player.base.atk * (1 + 0.10 * (lvl - 1)));
-  let maxhp = Math.floor(player.base.hp * (1 + 0.12 * (lvl - 1)));
+  let atk = Math.floor(player.base.atk * (1 + 0.15 * (lvl - 1)));
+  let maxhp = Math.floor(player.base.hp * (1 + 0.15 * (lvl - 1)));
   let maxmp = Math.floor(player.base.mp * (1 + 0.10 * (lvl - 1)));
   
   let crit = player.base.crit;
@@ -271,11 +271,11 @@ function startBattle() {
   monster = {
     name: base.name,
     lv: lv,
-    maxHp: Math.floor(base.hp * (1 + lv * 0.35)),
+    maxHp: Math.floor(base.hp * (1 + lv * 0.25)),
     hp: 0,
-    atk: Math.floor(base.atk * (1 + lv * 0.25)),
-    gold: Math.floor(base.gold * (1 + lv * 0.3)),
-    expGain: Math.floor(base.baseExp * (1 + lv * 0.4)),
+    atk: Math.floor(base.atk * (1 + lv * 0.15)),
+    gold: Math.floor(base.gold * (1 + lv * 0.4)),
+    expGain: Math.floor(base.baseExp * (1 + lv * 0.3)),
     img: base.img
   };
   monster.hp = monster.maxHp;
