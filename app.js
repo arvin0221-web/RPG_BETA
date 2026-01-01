@@ -33,8 +33,8 @@ let player = {
   gold: 0,
 
   base: {
-    atk: 10,
-    hp: 100,
+    atk: 12,
+    hp: 120,
     mp: 30,
     crit: 0.01,      // 1%
     critDmg: 1.2     // 120%
