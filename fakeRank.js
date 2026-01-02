@@ -93,6 +93,7 @@ btnRanking.onclick = () => {
 function updateRankingPanel() {
   const listDiv = document.getElementById("ranking-list");
   listDiv.innerHTML = "";
+  console.log("排行榜抓到的玩家等級 =", currentLv);
 
   // 前五名
   fakeRanking.forEach(p => {
@@ -104,9 +105,10 @@ function updateRankingPanel() {
 
   // 玩家等級對應排名
     // 確保能即時抓到最新的 player.level，若沒定義則預設為 1
-  const currentLv = (typeof player !== "undefined" && player.lv !== undefined)
-  ? player.lv
+ const currentLv = (window.player && typeof player.level === "number")
+  ? player.level
   : 1;
+
 
   
   let playerRank = null;
