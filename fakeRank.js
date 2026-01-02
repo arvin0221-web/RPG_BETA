@@ -104,7 +104,10 @@ function updateRankingPanel() {
 
   // 玩家等級對應排名
     // 確保能即時抓到最新的 player.level，若沒定義則預設為 1
-  const currentLv = (window.player && (player.lv !== undefined)) ? player.lv : 1;
+  const currentLv = (typeof player !== "undefined" && player.lv !== undefined)
+  ? player.lv
+  : 1;
+
   
   let playerRank = null;
 
