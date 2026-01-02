@@ -108,7 +108,6 @@ function updateRankingPanel() {
  const currentLv = (window.player && typeof player.level === "number")
   ? player.level
   : 1;
- console.log("排行榜抓到的玩家等級 =", currentLv);
 
   
   let playerRank = null;
@@ -131,3 +130,4 @@ if (currentLv <= playerRanking.length) {
 
   listDiv.appendChild(divPlayer);
 }
+console.log("排行榜抓到的玩家等級 =", currentLv);
