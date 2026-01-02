@@ -9,21 +9,33 @@
 
 // ====== 假排行榜資料 ======
 let fakeRanking = [
-  { rank: 1, name: "想不到名字", level: 78 },
-  { rank: 2, name: "878787", level: 49 },
-  { rank: 3, name: "新世紀福德正神", level: 42 },
-  { rank: 4, name: "grow a garden", level: 40 },
-  { rank: 5, name: "無名", level: 40 }
+  { rank: 1, name: "Yuhuan", level: 839 },
+  { rank: 2, name: "想不到名字", level: 375 },
+  { rank: 3, name: "菜菜", level: 215 },
+  { rank: 4, name: "單男", level: 132 },
+  { rank: 5, name: "878787", level: 101 }
 ];
 
 // 玩家自身排名設定
 let playerRanking = [
-  { level: 1, rank: 1748 },
-  { level: 2, rank: 1644 },
-  { level: 3, rank: 1512 },
-  { level: 4, rank: 1402 },
-  { level: 5, rank: 1222 },
-  { level: 6, rank: 1181 } // 超過第6名顯示「排名更新中...」
+  { level: 1, rank: 2759 },
+  { level: 2, rank: 2701 },
+  { level: 3, rank: 2676 },
+  { level: 4, rank: 2632 },
+  { level: 5, rank: 2599 },
+  { level: 6, rank: 2545 },
+  { level: 7, rank: 2511 },
+  { level: 8, rank: 2489 },
+  { level: 9, rank: 2475 },
+  { level: 10, rank: 2422 },
+  { level: 11, rank: 2390 },
+  { level: 12, rank: 2355 },
+  { level: 13, rank: 2309 },
+  { level: 14, rank: 2280 },
+  { level: 15, rank: 2199 },
+  { level: 16, rank: 2154 },
+  { level: 17, rank: 2107 },
+  { level: 18, rank: 2059 }  
 ];
 
 // ====== 建立排行榜面板 ======
@@ -94,8 +106,12 @@ function updateRankingPanel() {
     // 確保能即時抓到最新的 player.level，若沒定義則預設為 1
   const currentLv = (window.player && (player.lv !== undefined)) ? player.lv : 1;
   
-  // 從預設的排名表中尋找對應等級的排名
-  let playerRank = playerRanking.find(pr => pr.level === currentLv);
+  let playerRank = null;
+
+// 等級在表內才顯示實際排名
+if (currentLv <= playerRanking.length) {
+  playerRank = playerRanking[currentLv - 1];
+}
 
   const divPlayer = document.createElement("div");
   divPlayer.style.marginTop = "12px";
