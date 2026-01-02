@@ -46,7 +46,8 @@ let player = {
   weapon: null,     // 當前裝備
   weapons: []       // 擁有的杖
 };
-
+// 🔥 關鍵：強制暴露給其他 JS
+window.player = player;
 
 /***********************
  * 杖資料庫（固定）
