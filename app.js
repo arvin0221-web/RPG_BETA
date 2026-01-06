@@ -613,33 +613,55 @@ updateUI();
 
 // ====== 假排行榜資料 ======
 let fakeRanking = [
-  { rank: 1, name: "Yuhuan", level: 839 },
+  { rank: 1, name: "Yuhuan", level: 1256 },
   { rank: 2, name: "想不到名字", level: 375 },
-  { rank: 3, name: "菜菜", level: 215 },
-  { rank: 4, name: "單男", level: 132 },
-  { rank: 5, name: "878787", level: 101 }
+  { rank: 3, name: "單女", level: 290 },
+  { rank: 4, name: "菜菜", level: 215 },
+  { rank: 5, name: "單男", level: 132 }
 ];
 
 // 玩家自身排名設定
 let playerRanking = [
-  { lv: 1, rank: 2759 },
-  { lv: 2, rank: 2701 },
-  { lv: 3, rank: 2676 },
-  { lv: 4, rank: 2632 },
-  { lv: 5, rank: 2599 },
-  { lv: 6, rank: 2545 },
-  { lv: 7, rank: 2511 },
-  { lv: 8, rank: 2489 },
-  { lv: 9, rank: 2475 },
-  { lv: 10, rank: 2422 },
-  { lv: 11, rank: 2390 },
-  { lv: 12, rank: 2355 },
-  { lv: 13, rank: 2309 },
-  { lv: 14, rank: 2280 },
-  { lv: 15, rank: 2199 },
-  { lv: 16, rank: 2154 },
-  { lv: 17, rank: 2107 },
-  { lv: 18, rank: 2059 }  
+  { lv: 1, rank: 3104 },
+  { lv: 2, rank: 3054 },
+  { lv: 3, rank: 3012 },
+  { lv: 4, rank: 2998 },
+  { lv: 5, rank: 2986 },
+  { lv: 6, rank: 2973 },
+  { lv: 7, rank: 2955 },
+  { lv: 8, rank: 2932 },
+  { lv: 9, rank: 2920 },
+  { lv: 10, rank: 2913 },
+  { lv: 11, rank: 2899 },
+  { lv: 12, rank: 2885 },
+  { lv: 13, rank: 2877 },
+  { lv: 14, rank: 2862 },
+  { lv: 15, rank: 2850 },
+  { lv: 16, rank: 2841 },
+  { lv: 17, rank: 2824 },
+  { lv: 18, rank: 2811 },
+  { lv: 19, rank: 2800 },
+  { lv: 20, rank: 2775 },
+  { lv: 21, rank: 2759 },
+  { lv: 22, rank: 2701 },
+  { lv: 23, rank: 2676 },
+  { lv: 24, rank: 2632 },
+  { lv: 25, rank: 2599 },
+  { lv: 26, rank: 2545 },
+  { lv: 27, rank: 2511 },
+  { lv: 28, rank: 2489 },
+  { lv: 29, rank: 2475 },
+  { lv: 30, rank: 2422 },
+  { lv: 31, rank: 2390 },
+  { lv: 32, rank: 2355 },
+  { lv: 33, rank: 2309 },
+  { lv: 34, rank: 2280 },
+  { lv: 35, rank: 2199 },
+  { lv: 36, rank: 2154 },
+  { lv: 37, rank: 2107 },
+  { lv: 38, rank: 2059 },
+  { lv: 39, rank: 2011 },
+  { lv: 40, rank: 1960 }
 ];
 
 // ====== 建立排行榜面板 ======
