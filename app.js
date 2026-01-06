@@ -396,8 +396,8 @@ function megaHeal() {
     return;
   }
   player.mp -= cost;
-  player.hp += 300;
-  logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 300 點 HP`);
+  player.hp += 9999999999;
+  logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
   updateUI();
 }
 
