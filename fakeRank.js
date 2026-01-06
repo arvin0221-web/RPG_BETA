@@ -18,24 +18,24 @@ let fakeRanking = [
 
 // 玩家自身排名設定
 let playerRanking = [
-  { level: 1, rank: 2759 },
-  { level: 2, rank: 2701 },
-  { level: 3, rank: 2676 },
-  { level: 4, rank: 2632 },
-  { level: 5, rank: 2599 },
-  { level: 6, rank: 2545 },
-  { level: 7, rank: 2511 },
-  { level: 8, rank: 2489 },
-  { level: 9, rank: 2475 },
-  { level: 10, rank: 2422 },
-  { level: 11, rank: 2390 },
-  { level: 12, rank: 2355 },
-  { level: 13, rank: 2309 },
-  { level: 14, rank: 2280 },
-  { level: 15, rank: 2199 },
-  { level: 16, rank: 2154 },
-  { level: 17, rank: 2107 },
-  { level: 18, rank: 2059 }  
+  { lv: 1, rank: 2759 },
+  { lv: 2, rank: 2701 },
+  { lv: 3, rank: 2676 },
+  { lv: 4, rank: 2632 },
+  { lv: 5, rank: 2599 },
+  { lv: 6, rank: 2545 },
+  { lv: 7, rank: 2511 },
+  { lv: 8, rank: 2489 },
+  { lv: 9, rank: 2475 },
+  { lv: 10, rank: 2422 },
+  { lv: 11, rank: 2390 },
+  { lv: 12, rank: 2355 },
+  { lv: 13, rank: 2309 },
+  { lv: 14, rank: 2280 },
+  { lv: 15, rank: 2199 },
+  { lv: 16, rank: 2154 },
+  { lv: 17, rank: 2107 },
+  { lv: 18, rank: 2059 }  
 ];
 
 // ====== 建立排行榜面板 ======
