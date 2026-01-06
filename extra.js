@@ -261,6 +261,7 @@ function loadGameExtended() {
   updateUI();         // 更新玩家畫面
   if (typeof updatePetPanel === "function") updatePetPanel(); // 更新寵物面板
 }
+window.player = player;
 
 // ====== 綁定存檔按鈕 ======
 window.btnSave = document.getElementById("btn-save");
@@ -270,6 +271,7 @@ if (window.btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
