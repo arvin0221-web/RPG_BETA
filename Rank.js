@@ -9,9 +9,9 @@
 
 // ====== 假排行榜資料 ======
 let fakeRanking = [
-  { rank: 1, name: "Yuhuan", level: 1256 },
-  { rank: 2, name: "想不到名字", level: 375 },
-  { rank: 3, name: "單女", level: 290 },
+  { rank: 1, name: "單女", level: 1627 },
+  { rank: 2, name: "Yuhuan", level: 1474 },
+  { rank: 3, name: "想不到名字", level: 375 },
   { rank: 4, name: "菜菜", level: 215 },
   { rank: 5, name: "單男", level: 132 }
 ];
