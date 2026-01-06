@@ -2,7 +2,12 @@
  * 製杖RPG v1.0 Base Version
  * 規則：不刪功能，只加功能
  *************************************************/
-
+function checkMaxMpLimit() {
+  if (player.maxmp > 200) {
+    player.maxmp = 200;
+    if (player.mp > player.maxmp) player.mp = player.maxmp;
+  }
+}
 
 /***********************
  * 全域常數與工具
@@ -219,7 +224,7 @@ function updateUI() {
 
   player.hp = clamp(player.hp, 0, s.maxhp);
   player.mp = clamp(player.mp, 0, s.maxmp);
-
+  checkMaxMpLimit();
   document.getElementById("player-name").innerText =
     `${player.name} Lv.${player.lv} EXP ${player.exp}/${needExp()} 金幣 ${player.gold}`;
 
@@ -411,7 +416,7 @@ function rewardBattle() {
 
   player.hp += Math.floor(s.maxhp * 0.2);
   player.mp += Math.floor(s.maxmp * 0.2);
-
+  checkMaxMpLimit();
   player.gold += monster.gold;
 
   const gain = monster.expGain; 
