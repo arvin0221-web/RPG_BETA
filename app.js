@@ -368,8 +368,8 @@ function heal() {
     return;
   }
   player.mp -= cost;
-  player.hp += 25;
-  logBattle(`💚 使用治癒術，恢復了 25 點 HP`);
+  player.hp += 35;
+  logBattle(`💚 使用治癒術，恢復了 35 點 HP`);
   updateUI();
 }
 
