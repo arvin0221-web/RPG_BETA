@@ -383,7 +383,7 @@ function ultimateAttack() {
   }
   player.mp -= cost;
   // 傷害 = 普攻傷害 + 250
-  playerAttack(1, 250);
+  playerAttack(2, 250);
   logBattle(`🔥 施展蒼穹滅世斬！造成2倍傷害+額外傷害 +250`);
 }
 
