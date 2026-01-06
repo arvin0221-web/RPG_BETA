@@ -39,7 +39,7 @@ let player = {
     crit: 0.01,      // 1%
     critDmg: 1.2     // 120%
   },
-  window.player = player;
+  
 
 
   weapon: null,     // 當前裝備
