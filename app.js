@@ -39,9 +39,8 @@ let player = {
     crit: 0.01,      // 1%
     critDmg: 1.2     // 120%
   },
+  window.player = player;
 
-  hp: 100,
-  mp: 30,
 
   weapon: null,     // 當前裝備
   weapons: []       // 擁有的杖
