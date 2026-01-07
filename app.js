@@ -510,14 +510,31 @@ function openShop() {
   const list = document.getElementById("shop-list");
   list.innerHTML = "";
 
-  wandDB.forEach((w, i) => {
+  const total = wandDB.length;
+  const half = Math.ceil(total / 2);
+
+  let startIndex = 0;
+  let endIndex = total;
+
+  if (currentShopPage === 1) {
+    startIndex = 0;
+    endIndex = half;
+  } else if (currentShopPage === 2) {
+    startIndex = half;
+    endIndex = total;
+  }
+
+  for (let i = startIndex; i < endIndex; i++) {
+    const w = wandDB[i];
     const canBuy = player.lv >= w.lv;
+
     const d = document.createElement("div");
     d.innerHTML =
       `${w.name} Lv.${w.lv} 價格 ${w.price} ` +
       (canBuy ? `<button onclick="buyWand(${i})">購買</button>` : "(等級不足)");
+
     list.appendChild(d);
-  });
+  }
 
   document.getElementById("shop-panel").style.display = "block";
 }
