@@ -506,23 +506,27 @@ function confirmRemoveWand(index) {
   openWandPanel(); // 重新刷新列表
 }
 
+let currentShopPage = 1;
+
 function openShop() {
   const list = document.getElementById("shop-list");
   list.innerHTML = "";
 
+  // ===== 分頁按鈕（直接用 JS 產生，避免 HTML 沒接到）=====
+  const pageBar = document.createElement("div");
+  pageBar.style.marginBottom = "8px";
+  pageBar.innerHTML = `
+    <button onclick="switchShopPage(1)">第一頁</button>
+    <button onclick="switchShopPage(2)">第二頁</button>
+    <span style="margin-left:8px;">目前：第 ${currentShopPage} 頁</span>
+  `;
+  list.appendChild(pageBar);
+
   const total = wandDB.length;
   const half = Math.ceil(total / 2);
 
-  let startIndex = 0;
-  let endIndex = total;
-
-  if (currentShopPage === 1) {
-    startIndex = 0;
-    endIndex = half;
-  } else if (currentShopPage === 2) {
-    startIndex = half;
-    endIndex = total;
-  }
+  let startIndex = currentShopPage === 1 ? 0 : half;
+  let endIndex   = currentShopPage === 1 ? half : total;
 
   for (let i = startIndex; i < endIndex; i++) {
     const w = wandDB[i];
@@ -538,6 +542,12 @@ function openShop() {
 
   document.getElementById("shop-panel").style.display = "block";
 }
+
+function switchShopPage(page) {
+  currentShopPage = page;
+  openShop();
+}
+
 
 function buyWand(i) {
   const base = wandDB[i];
