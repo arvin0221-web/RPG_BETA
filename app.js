@@ -72,10 +72,14 @@ const wandDB = [
   { name: "葬神之法杖", lv: 73, baseAtk: 50000, baseHp: 150000, baseMp: 16, baseCrit: 0.30, baseCritDmg: 1.00, price: 15000000 },
   { name: "歸真木杖", lv: 80, baseAtk: 100000, baseHp: 200000, baseMp: 17, baseCrit: 0.33, baseCritDmg: 2.00, price: 50000000 },
   { name: "星辰法杖", lv: 90, baseAtk: 150000, baseHp: 250000, baseMp: 18, baseCrit: 0.33, baseCritDmg: 2.50, price: 300000000 },
-{ name: "創世神杖", lv: 115, baseAtk: 200000, baseHp: 350000, baseMp: 19, baseCrit: 0.33, baseCritDmg: 3.00, price: 1800000000 },
-{ name: "永恆之杖", lv: 135, baseAtk: 250000, baseHp: 450000, baseMp: 20, baseCrit: 0.33, baseCritDmg: 3.50, price: 9000000000 },
-{ name: "混沌之杖", lv: 160, baseAtk: 350000, baseHp: 600000, baseMp: 21, baseCrit: 0.33, baseCritDmg: 4.00, price: 18000000000 },
-{ name: "極•歸真木杖", lv: 200, baseAtk: 350000, baseHp: 600000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 90000000000 }
+  { name: "創世神杖", lv: 115, baseAtk: 200000, baseHp: 350000, baseMp: 19, baseCrit: 0.33, baseCritDmg: 3.00, price: 1800000000 },
+  { name: "永恆之杖", lv: 135, baseAtk: 250000, baseHp: 450000, baseMp: 20, baseCrit: 0.33, baseCritDmg: 3.50, price: 9000000000 },
+  { name: "混沌之杖", lv: 160, baseAtk: 350000, baseHp: 600000, baseMp: 21, baseCrit: 0.33, baseCritDmg: 4.00, price: 18000000000 },
+  { name: "極•歸真木杖", lv: 200, baseAtk: 350000, baseHp: 600000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 90000000000 },
+  { name: "血•歸真木杖", lv: 500, baseAtk: 350000, baseHp: 1800000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 900000000000 },
+  { name: "攻•歸真木杖", lv: 500, baseAtk: 700000, baseHp: 600000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 900000000000 },
+  { name: "脆弱的銳利木杖", lv: 1500, baseAtk: 1400000, baseHp: 6000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 9870000000000 },
+  { name: "堅固的扁平木杖", lv: 1500, baseAtk: 150000, baseHp: 6000000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 9870000000000 }
 ];
 
 
