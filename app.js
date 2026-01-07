@@ -360,8 +360,8 @@ function fire() {
   }
   player.mp -= cost;
   // 傷害 = 普攻傷害 + 20
-  playerAttack(1.5, 20);
-  logBattle(`🔥 施展火球術！造成1.5倍傷害+額外傷害 +20`);
+  playerAttack(1.3, 20);
+  logBattle(`🔥 施展火球術！造成1.3倍傷害+額外傷害 +20`);
 }
 
 // --- 修正後的治癒術 ---
@@ -399,7 +399,7 @@ function ultimateAttack() {
 
 // --- 新技能 2：神聖大恢復 (強力治療) ---
 function megaHeal() {
-  const cost = 50;
+  const cost = 20;
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`, 2000);
