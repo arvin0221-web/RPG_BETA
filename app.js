@@ -508,11 +508,10 @@ function confirmRemoveWand(index) {
 
 let currentShopPage = 1;
 
-function openShop() {
+window.openShop = function () {
   const list = document.getElementById("shop-list");
   list.innerHTML = "";
 
-  // ===== 分頁按鈕（直接用 JS 產生，避免 HTML 沒接到）=====
   const pageBar = document.createElement("div");
   pageBar.style.marginBottom = "8px";
   pageBar.innerHTML = `
@@ -525,8 +524,8 @@ function openShop() {
   const total = wandDB.length;
   const half = Math.ceil(total / 2);
 
-  let startIndex = currentShopPage === 1 ? 0 : half;
-  let endIndex   = currentShopPage === 1 ? half : total;
+  const startIndex = currentShopPage === 1 ? 0 : half;
+  const endIndex   = currentShopPage === 1 ? half : total;
 
   for (let i = startIndex; i < endIndex; i++) {
     const w = wandDB[i];
@@ -541,12 +540,13 @@ function openShop() {
   }
 
   document.getElementById("shop-panel").style.display = "block";
-}
+};
 
-function switchShopPage(page) {
+window.switchShopPage = function (page) {
   currentShopPage = page;
   openShop();
-}
+};
+
 
 
 function buyWand(i) {
