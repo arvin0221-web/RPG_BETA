@@ -373,8 +373,13 @@ function heal() {
     return;
   }
   player.mp -= cost;
-  player.hp += 35;
-  logBattle(`💚 使用治癒術，恢復了 35 點 HP`);
+  
+  const stats = calcStats();                // 取得最大 HP
+  const healAmount = Math.floor(stats.maxhp * 0.25); // 25%
+
+  player.hp += healAmount;
+
+  logBattle(`💚 使用治癒術，恢復了 ${healAmount} 點 HP`);
   updateUI();
 }
 
