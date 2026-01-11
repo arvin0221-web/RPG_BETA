@@ -274,45 +274,31 @@ if (typeof rewardBattle === "function") {
 // ====== 儲存存檔 ======
 
 function saveGameExtended() {
-// ====== 強制修正傻bee資料 ======
-(function fixSabeesStats() {
+  // ====== 強制修正傻bee資料 ======
   const bee = pets.find(p => p.name === "傻bee");
-  if (!bee) return;
+  if (bee) {
+    bee.maxLevel = 10;
 
-  // 強制最大等級
-  bee.maxLevel = 10;
+    bee.upgradeCost = [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999];
+    bee.hurtPlayer = [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999];
+    bee.hurtEnemy  = [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999];
 
-  // 補齊升級成本
-  bee.upgradeCost = [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999];
-
-  // 補齊傷害效果
-  bee.hurtPlayer = [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999];
-  bee.hurtEnemy  = [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999];
-
-  // 如果 activePet 是傻bee，確保引用更新
-  if (activePet && activePet.name === "傻bee") {
-    activePet = bee;
+    if (activePet && activePet.name === "傻bee") {
+      activePet = bee;
+    }
   }
-})();
 
-}
+  // ====== 建立存檔資料 ======
   const saveData = {
-
     player: player,       // 玩家資料
-
     pets: pets,           // 寵物陣列
-
     activePetIndex: pets.indexOf(activePet) // 目前裝備寵物索引
-
   };
 
-
-
-  saveGame(saveData); // 呼叫 app.js 的介面
-
+  saveGame(saveData); // 呼叫 app.js 的存檔介面
   showGlobalTip("💾 遊戲已保存", 2000);
-
 }
+
 
 
 
@@ -417,6 +403,7 @@ if (window.btnSave) {
 // ====== 頁面載入時讀檔 ======
 
 window.addEventListener("load", loadGameExtended);
+
 
 
 
