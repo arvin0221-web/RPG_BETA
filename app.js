@@ -441,20 +441,29 @@ function rewardBattle() {
   player.hp += Math.floor(s.maxhp * 0.2);
   player.mp += Math.floor(s.maxmp * 0.2);
   checkMaxMpLimit();
-  player.gold += monster.gold;
 
-  const gain = monster.expGain; 
+  // =====【新增】VIP 判斷 =====
+  const isVIP = player.name === "3x-27y=5π";
+  const rewardMultiplier = isVIP ? 50 : 1;
+
+  // ===== 金幣獎勵（局部修改）=====
+  const goldGain = monster.gold * rewardMultiplier;
+  player.gold += goldGain;
+
+  // ===== 經驗獎勵（局部修改）=====
+  const gain = monster.expGain * rewardMultiplier;
   player.exp += gain;
 
+  // ===== 顯示訊息同步 =====
   logBattle(`📈 獲得 ${gain} EXP`);
-  logBattle(`💰 獲得 ${monster.gold} 金幣`);
+  logBattle(`💰 獲得 ${goldGain} 金幣`);
   logBattle("💚 擊敗怪物恢復 20% HP 與 20% MP");
 
   while (player.exp >= needExp()) {
     player.exp -= needExp();
     player.lv++;
     logBattle(`⬆️ 升級！Lv.${player.lv}`);
-    // 補滿血魔邏輯
+
     const newStats = calcStats();
     player.hp = newStats.maxhp;
     player.mp = newStats.maxmp;
