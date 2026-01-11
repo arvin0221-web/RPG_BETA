@@ -274,21 +274,27 @@ if (typeof rewardBattle === "function") {
 // ====== 儲存存檔 ======
 
 function saveGameExtended() {
-  // 強制把「傻bee」的等級上限設為 10
+// ====== 強制修正傻bee資料 ======
+(function fixSabeesStats() {
   const bee = pets.find(p => p.name === "傻bee");
-  if (bee) bee.maxLevel = 10;
-  // 補齊升級成本
-  if (!bee.upgradeCost || bee.upgradeCost.length < 9) {
-    bee.upgradeCost = [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999];
-  }
+  if (!bee) return;
 
-  // 補齊 hurtPlayer 與 hurtEnemy 效果
-  if (!bee.hurtPlayer || bee.hurtPlayer.length < 10) {
-    bee.hurtPlayer = [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999];
+  // 強制最大等級
+  bee.maxLevel = 10;
+
+  // 補齊升級成本
+  bee.upgradeCost = [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999];
+
+  // 補齊傷害效果
+  bee.hurtPlayer = [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999];
+  bee.hurtEnemy  = [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999];
+
+  // 如果 activePet 是傻bee，確保引用更新
+  if (activePet && activePet.name === "傻bee") {
+    activePet = bee;
   }
-  if (!bee.hurtEnemy || bee.hurtEnemy.length < 10) {
-    bee.hurtEnemy = [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999];
-  }
+})();
+
 }
   const saveData = {
 
@@ -411,6 +417,7 @@ if (window.btnSave) {
 // ====== 頁面載入時讀檔 ======
 
 window.addEventListener("load", loadGameExtended);
+
 
 
 
