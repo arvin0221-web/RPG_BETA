@@ -5,8 +5,6 @@
   const VIP_NAME = "3x-27y=5π";
   const MULTIPLIER = 50;
 
-  if (!window.player || !window.monster) return;
-
   // 如果是 VIP 玩家，直接修改怪物屬性
   if (player.name === VIP_NAME) {
     monster.expGain *= MULTIPLIER;
