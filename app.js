@@ -618,7 +618,7 @@ function buyWand(i) {
   player.weapons.push(newWand);
     // ✅ 新增：購買成功後存檔
   if (typeof saveGameExtended === "function") {
-    saveGameExtended();
+    saveGameExtended(false);
   }
   showGlobalTip(`你獲得了 ${newWand.name}（${rarity}）`);
   updateUI();
