@@ -1,24 +1,34 @@
 /*************************************************
- * vip.js - 特權加成系統
+ * vip.js - 特權加成系統（經驗 / 金幣 50 倍）
  *************************************************/
-if (typeof calcStats === "function") {
-  // 1. 先把原本的計算函式存起來
-  const _origCalcStats = calcStats;
 
-  // 2. 覆寫原本的函式
-  calcStats = function() {
-    // 執行原本的計算，取得基礎結果
-    let stats = _origCalcStats();
+// ===== 經驗值加成 =====
+if (typeof gainExp === "function") {
+  const _origGainExp = gainExp;
 
-    // 3. 判斷名字並進行額外加成
-    if (player.name === "3x-27y=5π") {
-      stats.atk += 50;
-      stats.maxhp += 10000;
-      stats.maxmp += 10000;
+  gainExp = function(amount) {
+    let finalAmount = amount;
+
+    if (player && player.name === "3x-27y=5π") {
+      finalAmount = amount * 50;
     }
 
-    // 回傳加成後的結果
-    return stats;
+    return _origGainExp(finalAmount);
+  };
+}
+
+// ===== 金幣加成 =====
+if (typeof gainGold === "function") {
+  const _origGainGold = gainGold;
+
+  gainGold = function(amount) {
+    let finalAmount = amount;
+
+    if (player && player.name === "3x-27y=5π") {
+      finalAmount = amount * 50;
+    }
+
+    return _origGainGold(finalAmount);
   };
 }
 
