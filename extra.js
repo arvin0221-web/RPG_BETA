@@ -274,7 +274,9 @@ if (typeof rewardBattle === "function") {
 // ====== 儲存存檔 ======
 
 function saveGameExtended() {
-
+  // 強制把「傻bee」的等級上限設為 10
+  const bee = pets.find(p => p.name === "傻bee");
+  if (bee) bee.maxLevel = 10;
   const saveData = {
 
     player: player,       // 玩家資料
@@ -396,6 +398,7 @@ if (window.btnSave) {
 // ====== 頁面載入時讀檔 ======
 
 window.addEventListener("load", loadGameExtended);
+
 
 
 
