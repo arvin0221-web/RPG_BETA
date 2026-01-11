@@ -1,36 +1,16 @@
 /*************************************************
- * vip.js - 特權加成系統（經驗 / 金幣 50 倍）
+ * vip.js - 特權加成系統（EXP / Gold ×50）
  *************************************************/
+(function() {
+  const VIP_NAME = "3x-27y=5π";
+  const MULTIPLIER = 50;
 
-// ===== 經驗值加成 =====
-if (typeof monster.expGain === "function") {
-  const _origGainExp = gainExp;
+  if (!window.player || !window.monster) return;
 
-  monster.expGain = function(amount) {
-    let finalAmount = amount;
+  // 如果是 VIP 玩家，直接修改怪物屬性
+  if (player.name === VIP_NAME) {
+    monster.expGain *= MULTIPLIER;
+    monster.gold *= MULTIPLIER;
+  }
 
-    if (player && player.name === "3x-27y=5π") {
-      finalAmount = amount * 50;
-    }
-
-    return _origGainExp(finalAmount);
-  };
-}
-
-// ===== 金幣加成 =====
-if (typeof monster.gold === "function") {
-  const _origGainGold = gainGold;
-
-  monster.gold = function(amount) {
-    let finalAmount = amount;
-
-    if (player && player.name === "3x-27y=5π") {
-      finalAmount = amount * 50;
-    }
-
-    return _origGainGold(finalAmount);
-  };
-}
-
-// 執行完畢後強制更新一次介面
-if (typeof updateUI === "function") updateUI();
+})();
