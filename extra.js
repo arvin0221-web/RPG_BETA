@@ -261,7 +261,9 @@ function loadGameExtended() {
   } else {
     activePet = null;
   }
-
+// ====== 這裡加上傻bee等級上限修正 ======
+const baBee = pets.find(p => p.name === "傻bee");
+if (baBee) baBee.maxLevel = 10;
   updateUI();         // 更新玩家畫面
   if (typeof updatePetPanel === "function") updatePetPanel(); // 更新寵物面板
 }
@@ -275,6 +277,7 @@ if (window.btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
