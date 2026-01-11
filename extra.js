@@ -69,19 +69,34 @@ function bindExtraTips() {
     };
   }
 
-  // 金幣不足購買提示
-  if (typeof buyWand === "function") {
-    const _origBuyWand = buyWand;
-    buyWand = function(i) {
-      const base = wandDB[i];
-      if (player.gold < base.price) {
-        showGlobalTip("💰 金幣不足，無法購買", 2000);
-        return;
-      }
-      _origBuyWand(i);
-    };
-  }
+// 金幣不足購買提示 & 正確顯示購買提示
+if (typeof buyWand === "function") {
+  const _origBuyWand = buyWand;
+  buyWand = function(i) {
+    const base = wandDB[i];
+
+    // 金幣不足 → 顯示提示
+    if (player.gold < base.price) {
+      showGlobalTip(" 金幣不足，無法購買", 2000);
+      return;
+    }
+
+    // 先執行原本的購買功能
+    _origBuyWand(i);
+
+    // 顯示購買成功提示
+    showGlobalTip(`你獲得了 ${base.name}`, 2000);
+
+    // 更新畫面
+    if (typeof updateUI === "function") updateUI();
+
+    // 自動存檔（不顯示存檔提示）
+    if (typeof saveGameExtended === "function") {
+      saveGameExtended(false);
+    }
+  };
 }
+
 
 // ====== 初始化 ======
 window.addEventListener("load", () => {
@@ -276,6 +291,7 @@ if (window.btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
