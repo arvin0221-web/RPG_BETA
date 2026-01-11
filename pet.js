@@ -35,10 +35,10 @@ let pets = [
     unlocked: false,
     goldCost: 250,
     level: 1,
-    maxLevel: 3,
-    hurtPlayer: [3, 2, 1],
-    hurtEnemy: [6, 10, 14],
-    upgradeCost: [400, 700]
+    maxLevel: 10,
+    hurtPlayer: [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999],
+    hurtEnemy: [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999],
+    upgradeCost: [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999]
   }
 ];
 
@@ -247,6 +247,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
 
   updateUI();
 };
+
 
 
 
