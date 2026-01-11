@@ -217,10 +217,6 @@ function saveGameExtended() {
   };
 
   saveGame(saveData); // 呼叫 app.js 的介面
-  // ✅ 只有當 showTip 為 true 才顯示提示
-  if (showTip) {
-    showGlobalTip("💾 遊戲已保存", 2000);
-  }
   
 }
 
@@ -277,6 +273,7 @@ if (window.btnSave) {
 
 // ====== 頁面載入時讀檔 ======
 window.addEventListener("load", loadGameExtended);
+
 
 
 
