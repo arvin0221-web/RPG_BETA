@@ -121,46 +121,52 @@ const monsterPool_60_80 = [
   { name: "闇•暗影君主", hp: 450, atk: 50, gold: 150, baseExp: 110, img: "assets/monsters/knight.png" },
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
+
 const monsterPool_80_100 = [
-  { name: "黑金骷髏戰士", hp: 270, atk: 36, gold: 80, baseExp: 48, img: "assets/monsters/slime.png" },
-  { name: "黑金骷髏狂戰士", hp: 200, atk: 64, gold: 112, baseExp: 60, img: "assets/monsters/slime.png" },
-  { name: "上古黑曜甲龜", hp: 600, atk: 30, gold: 150, baseExp: 80, img: "assets/monsters/turtle.png" },
-  { name: "上古爆炎精靈", hp: 420, atk: 70, gold: 162, baseExp: 95, img: "assets/monsters/fire.png" },
-  { name: "暗影始祖", hp: 900, atk: 100, gold: 300, baseExp: 145, img: "assets/monsters/knight.png" },
-  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+  { name: "黑金骷髏戰士", hp: 1080, atk: 144, gold: 80, baseExp: 48, img: "assets/monsters/slime.png" },
+  { name: "黑金骷髏狂戰士", hp: 800, atk: 256, gold: 112, baseExp: 60, img: "assets/monsters/slime.png" },
+  { name: "上古黑曜甲龜", hp: 2400, atk: 120, gold: 150, baseExp: 80, img: "assets/monsters/turtle.png" },
+  { name: "上古爆炎精靈", hp: 1680, atk: 280, gold: 162, baseExp: 95, img: "assets/monsters/fire.png" },
+  { name: "暗影始祖", hp: 3600, atk: 400, gold: 300, baseExp: 145, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 4, atk: 4, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
+
 const monsterPool_100_120 = [
-  { name: "極•黑金骷髏戰士", hp: 540, atk: 72, gold: 160, baseExp: 60, img: "assets/monsters/slime.png" },
-  { name: "極•黑金骷髏狂戰士", hp: 400, atk: 128, gold: 224, baseExp: 85, img: "assets/monsters/slime.png" },
-  { name: "極•上古黑曜甲龜", hp: 1200, atk: 60, gold: 300, baseExp: 110, img: "assets/monsters/turtle.png" },
-  { name: "極•上古爆炎精靈", hp: 840, atk: 140, gold: 324, baseExp: 130, img: "assets/monsters/fire.png" },
-  { name: "極•暗影始祖", hp: 1800, atk: 200, gold: 600, baseExp: 185, img: "assets/monsters/knight.png" },
-  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+  { name: "極•黑金骷髏戰士", hp: 2160, atk: 288, gold: 160, baseExp: 60, img: "assets/monsters/slime.png" },
+  { name: "極•黑金骷髏狂戰士", hp: 1600, atk: 512, gold: 224, baseExp: 85, img: "assets/monsters/slime.png" },
+  { name: "極•上古黑曜甲龜", hp: 4800, atk: 240, gold: 300, baseExp: 110, img: "assets/monsters/turtle.png" },
+  { name: "極•上古爆炎精靈", hp: 3360, atk: 560, gold: 324, baseExp: 130, img: "assets/monsters/fire.png" },
+  { name: "極•暗影始祖", hp: 7200, atk: 800, gold: 600, baseExp: 185, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 4, atk: 4, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
+
 const monsterPool_120_140 = [
-  { name: "偽•聖光鐵騎", hp: 1200, atk: 200, gold: 400, baseExp: 80, img: "assets/monsters/slime.png" },
-  { name: "偽•聖光狂鐵騎", hp: 1000, atk: 300, gold: 500, baseExp: 110, img: "assets/monsters/slime.png" },
-  { name: "偽•聖光盾龜", hp: 2500, atk: 150, gold: 700, baseExp: 140, img: "assets/monsters/turtle.png" },
-  { name: "偽•聖火精靈", hp: 1800, atk: 400, gold: 800, baseExp: 165, img: "assets/monsters/fire.png" },
-  { name: "偽•聖潔戰靈", hp: 3800, atk: 500, gold: 1000, baseExp: 220, img: "assets/monsters/knight.png" },
-  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+  { name: "偽•聖光鐵騎", hp: 4800, atk: 800, gold: 400, baseExp: 80, img: "assets/monsters/slime.png" },
+  { name: "偽•聖光狂鐵騎", hp: 4000, atk: 1200, gold: 500, baseExp: 110, img: "assets/monsters/slime.png" },
+  { name: "偽•聖光盾龜", hp: 10000, atk: 600, gold: 700, baseExp: 140, img: "assets/monsters/turtle.png" },
+  { name: "偽•聖火精靈", hp: 7200, atk: 1600, gold: 800, baseExp: 165, img: "assets/monsters/fire.png" },
+  { name: "偽•聖潔戰靈", hp: 15200, atk: 2000, gold: 1000, baseExp: 220, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 4, atk: 4, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
-const monsterPool_140_160 = [ 
-  { name: "聖光鐵騎", hp: 2400, atk: 400, gold: 800, baseExp: 100, img: "assets/monsters/slime.png" },
-  { name: "聖光狂鐵騎", hp: 2000, atk: 600, gold: 1000, baseExp: 140, img: "assets/monsters/slime.png" },
-  { name: "聖光盾龜", hp: 5000, atk: 300, gold: 1400, baseExp: 170, img: "assets/monsters/turtle.png" },
-  { name: "聖火精靈", hp: 3600, atk: 600, gold: 1600, baseExp: 195, img: "assets/monsters/fire.png" },
-  { name: "聖潔戰靈", hp: 7600, atk: 1000, gold: 2000, baseExp: 250, img: "assets/monsters/knight.png" },
-  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+
+const monsterPool_140_160 = [
+  { name: "聖光鐵騎", hp: 9600, atk: 1600, gold: 800, baseExp: 100, img: "assets/monsters/slime.png" },
+  { name: "聖光狂鐵騎", hp: 8000, atk: 2400, gold: 1000, baseExp: 140, img: "assets/monsters/slime.png" },
+  { name: "聖光盾龜", hp: 20000, atk: 1200, gold: 1400, baseExp: 170, img: "assets/monsters/turtle.png" },
+  { name: "聖火精靈", hp: 14400, atk: 2400, gold: 1600, baseExp: 195, img: "assets/monsters/fire.png" },
+  { name: "聖潔戰靈", hp: 30400, atk: 4000, gold: 2000, baseExp: 250, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 4, atk: 4, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
-const monsterPool_160_200 = [ 
-  { name: "上古聖光鐵騎", hp: 4800, atk: 800, gold: 1600, baseExp: 120, img: "assets/monsters/slime.png" },
-  { name: "上古聖光狂鐵騎", hp: 4000, atk: 1200, gold: 2000, baseExp: 160, img: "assets/monsters/slime.png" },
-  { name: "上古聖光盾龜", hp: 10000, atk: 600, gold: 2800, baseExp: 190, img: "assets/monsters/turtle.png" },
-  { name: "上古聖火精靈", hp: 7000, atk: 1200, gold: 3200, baseExp: 215, img: "assets/monsters/fire.png" },
-  { name: "上古聖潔戰靈", hp: 15000, atk: 2000, gold: 4000, baseExp: 270, img: "assets/monsters/knight.png" },
-  { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
+
+const monsterPool_160_200 = [
+  { name: "上古聖光鐵騎", hp: 19200, atk: 3200, gold: 1600, baseExp: 120, img: "assets/monsters/slime.png" },
+  { name: "上古聖光狂鐵騎", hp: 16000, atk: 4800, gold: 2000, baseExp: 160, img: "assets/monsters/slime.png" },
+  { name: "上古聖光盾龜", hp: 40000, atk: 2400, gold: 2800, baseExp: 190, img: "assets/monsters/turtle.png" },
+  { name: "上古聖火精靈", hp: 28000, atk: 4800, gold: 3200, baseExp: 215, img: "assets/monsters/fire.png" },
+  { name: "上古聖潔戰靈", hp: 60000, atk: 8000, gold: 4000, baseExp: 270, img: "assets/monsters/knight.png" },
+  { name: "糖bee", hp: 4, atk: 4, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
+
 const monsterPool_200_plus = [
   { name: "白銀寶箱怪", hp: 96000, atk: 1, gold: 4500, baseExp: 200, img: "assets/monsters/slime.png" },
   { name: "上古聖光鐵騎II", hp: 96000, atk: 1600, gold: 3200, baseExp: 140, img: "assets/monsters/slime.png" },
