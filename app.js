@@ -59,6 +59,7 @@ window.player = player;
  ***********************/
 const wandDB = [
   { name: "木杖", lv: 1, baseAtk: 2, baseHp: 15, baseMp: 5, baseCrit: 0.02, baseCritDmg: 0.05, price: 100 },
+  { name: "外掛木杖", lv: 1, baseAtk: 1400, baseHp: 999999, baseMp: 22, baseCrit: 0.33, baseCritDmg: 1.00, price: 999999 },
   { name: "鐵杖", lv: 5, baseAtk: 6, baseHp: 30, baseMp: 6, baseCrit: 0.04, baseCritDmg: 0.11, price: 500 },
   { name: "朽木杖", lv: 10, baseAtk: 12, baseHp: 60, baseMp: 7, baseCrit: 0.06, baseCritDmg: 0.17, price: 1200 },
   { name: "上古木杖", lv: 17, baseAtk: 50, baseHp: 240, baseMp: 8, baseCrit: 0.09, baseCritDmg: 0.23, price: 2600 },
@@ -79,7 +80,9 @@ const wandDB = [
   { name: "血•歸真木杖", lv: 500, baseAtk: 350000, baseHp: 1800000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 900000000000 },
   { name: "攻•歸真木杖", lv: 500, baseAtk: 700000, baseHp: 600000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 900000000000 },
   { name: "脆弱的銳利木杖", lv: 1500, baseAtk: 1400000, baseHp: 6000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 9870000000000 },
-  { name: "堅固的扁平木杖", lv: 1500, baseAtk: 150000, baseHp: 6000000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 9870000000000 }
+  { name: "堅固的扁平木杖", lv: 1500, baseAtk: 150000, baseHp: 6000000, baseMp: 22, baseCrit: 0.33, baseCritDmg: 6.00, price: 9870000000000 },
+  { name: "至臻無上法杖", lv: 3000, baseAtk: 999999, baseHp: 9999999, baseMp: 22, baseCrit: 0.33, baseCritDmg: 9.00, price: 98765432100000 },
+  
 ];
 
 
@@ -159,12 +162,22 @@ const monsterPool_160_200 = [
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
 const monsterPool_200_plus = [
+  { name: "白銀寶箱怪", hp: 96000, atk: 1, gold: 4500, baseExp: 200, img: "assets/monsters/slime.png" },
   { name: "上古聖光鐵騎II", hp: 96000, atk: 1600, gold: 3200, baseExp: 140, img: "assets/monsters/slime.png" },
   { name: "上古聖光狂鐵騎II", hp: 80000, atk: 2400, gold: 4000, baseExp: 180, img: "assets/monsters/slime.png" },
   { name: "上古聖光盾龜II", hp: 200000, atk: 1200, gold: 5600, baseExp: 220, img: "assets/monsters/turtle.png" },
   { name: "上古聖火精靈II", hp: 140000, atk: 2400, gold: 6400, baseExp: 250, img: "assets/monsters/fire.png" },
   { name: "上古聖潔戰靈II", hp: 300000, atk: 4000, gold: 8000, baseExp: 305, img: "assets/monsters/knight.png" },
   { name: "偽•葬神", hp: 2400000, atk: 2000, gold: 12000, baseExp: 0, img: "assets/monsters/sugarbee.png" }
+];
+const monsterPool_3000_plus = [
+  { name: "黃金寶箱怪", hp: 126000, atk: 1, gold: 5500, baseExp: 220, img: "assets/monsters/slime.png" },
+  { name: "上古聖光鐵騎III", hp: 126000, atk: 1600, gold: 4200, baseExp: 160, img: "assets/monsters/slime.png" },
+  { name: "上古聖光狂鐵騎III", hp: 110000, atk: 2400, gold: 5000, baseExp: 200, img: "assets/monsters/slime.png" },
+  { name: "上古聖光盾龜III", hp: 260000, atk: 1200, gold: 6600, baseExp: 240, img: "assets/monsters/turtle.png" },
+  { name: "上古聖火精靈III", hp: 170000, atk: 2400, gold: 7400, baseExp: 270, img: "assets/monsters/fire.png" },
+  { name: "上古聖潔戰靈III", hp: 360000, atk: 4000, gold: 9000, baseExp: 325, img: "assets/monsters/knight.png" },
+  { name: "偽•葬神II", hp: 9600000, atk: 2000, gold: 14000, baseExp: 0, img: "assets/monsters/sugarbee.png" }
 ];
 
 let monster = null;
@@ -180,7 +193,8 @@ function getMonsterPoolByPlayerLv(lv) {
   if (lv < 140) return monsterPool_120_140;
   if (lv < 160) return monsterPool_140_160;
   if (lv < 200) return monsterPool_160_200;
-  return monsterPool_200_plus;
+  if (lv < 3000) return monsterPool_200_plus;
+  return monsterPool_3000_plus;
 }
 
 
