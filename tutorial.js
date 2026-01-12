@@ -23,3 +23,34 @@ window.addEventListener("DOMContentLoaded", () => {
 
   btnClose.onclick = () => panel.style.display = "none";
 });
+// ===== 教學文字縮放控制 =====
+let tutorialScale = 1;
+
+function applyTutorialScale() {
+  const content = document.getElementById("tutorial-content");
+  if (!content) return;
+  content.style.transform = `scale(${tutorialScale})`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const zoomIn  = document.getElementById("tutorial-zoom-in");
+  const zoomOut = document.getElementById("tutorial-zoom-out");
+  const reset   = document.getElementById("tutorial-zoom-reset");
+
+  if (!zoomIn || !zoomOut || !reset) return;
+
+  zoomIn.onclick = () => {
+    tutorialScale = Math.min(tutorialScale + 0.1, 2.5);
+    applyTutorialScale();
+  };
+
+  zoomOut.onclick = () => {
+    tutorialScale = Math.max(tutorialScale - 0.1, 0.6);
+    applyTutorialScale();
+  };
+
+  reset.onclick = () => {
+    tutorialScale = 1;
+    applyTutorialScale();
+  };
+});
