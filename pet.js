@@ -47,7 +47,7 @@ let pets = [
     level: 1,
     maxLevel: 3,
     upgradeCost: [3000000, 90000000], 
-    instantKillChance: [0.03, 0.06, 0.09] // 秒殺機率
+    instantKillChance: [0.10, 0.15, 0.20] // 秒殺機率
   }
 
 ];
@@ -275,6 +275,7 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
 
   updateUI();
 };
+
 
 
 
