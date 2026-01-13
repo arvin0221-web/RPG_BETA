@@ -366,6 +366,7 @@ function winBattle() {
     logBattle("🎉 勝利！");
   }
   rewardBattle();
+  battleEnded = true;
   inBattle = false;
   monster = null;
 }
@@ -377,6 +378,7 @@ function playerDeath() {
   const s = calcStats();
   player.hp = s.maxhp;
   player.mp = s.maxmp;
+  battleEnded = true;
   inBattle = false;
 }
 
