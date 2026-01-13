@@ -135,9 +135,17 @@ function playerDeathBoss() {
 }
 
 // --- 覆寫技能針對BOSS戰 ---
-function attackBoss() { playerAttackBoss(1); }
+function attackBoss() {
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
+  playerAttackBoss(1); 
+}
 function fireBoss() { 
   const cost = 5;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`); return; }
   player.mp -= cost;
@@ -146,6 +154,9 @@ function fireBoss() {
 }
 function healBoss() { 
   const cost = 5;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`); return; }
   player.mp -= cost;
@@ -157,6 +168,9 @@ function healBoss() {
 }
 function ultimateAttackBoss() {
   const cost = 50;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`); return; }
   player.mp -= cost;
@@ -165,6 +179,9 @@ function ultimateAttackBoss() {
 }
 function megaHealBoss() {
   const cost = 20;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`); return; }
   player.mp -= cost;
