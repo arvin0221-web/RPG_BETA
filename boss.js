@@ -24,6 +24,7 @@ function startBossBattle(level) {
     showGlobalTip("⚠️ 正在進行其他戰鬥中");
     return;
   }
+document.getElementById("boss-levels").style.display = "none";
 
   const bossBase = bossDB[level];
   if (!bossBase) {
