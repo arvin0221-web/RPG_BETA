@@ -5,7 +5,6 @@
 (function () {
 
   const BOSS_LEVELS = [10,20,30,50,100,200,500,1000,1500,2000,3000,9999];
-
   let originalPlayerAttack = window.playerAttack;
   let bossActive = false;
 
@@ -40,44 +39,41 @@
     });
     html += `</div>`;
 
-    document.getElementById("shop-panel").style.display = "block";
-    document.getElementById("shop-panel").innerHTML = `
-      <h3>Boss 挑戰</h3>
-      ${html}
-      <button onclick="closePanels()">關閉</button>
-    `;
+    const shop = document.getElementById("shop-panel");
+    shop.style.display = "block";
+    shop.innerHTML = `<h3>Boss 挑戰</h3>${html}<button onclick="closePanels()">關閉</button>`;
   }
 
   // ===== 開始 Boss 戰 =====
-  window.startBossBattle = function (level) {
+  window.startBossBattle = function(level) {
     closePanels();
 
     window.__inBossBattle = true;
     bossActive = true;
 
     // 回滿玩家
-    player.hp = player.maxHp;
-    player.mp = player.maxMp;
-    updatePlayerUI?.();
+    player.hp = player.maxhp;
+    player.mp = player.maxmp;
+    updateUI?.();
 
     // 建立 Boss
     window.monster = createBoss(level);
 
     // 顯示戰鬥畫面
-    document.getElementById("battle").style.display = "block";
+    const battle = document.getElementById("battle");
+    battle.style.display = "block";
     document.getElementById("monster-name").textContent = monster.name;
     updateMonsterUI?.();
 
     // ===== 禁用寵物效果 =====
-    window.playerAttack = function () {
+    window.playerAttack = function() {
       originalPlayerAttack.call(this);
     };
   };
 
   // ===== Boss 戰結束 =====
   const originalRewardBattle = window.rewardBattle;
-  window.rewardBattle = function () {
-
+  window.rewardBattle = function() {
     if (bossActive) {
       bossActive = false;
       window.__inBossBattle = false;
@@ -85,50 +81,40 @@
       // 恢復 playerAttack
       window.playerAttack = originalPlayerAttack;
     }
-
-    originalRewardBattle.call(this);
+    originalRewardBattle?.();
   };
 
   // ===== 攔截一般遇怪 =====
   const btnStart = document.getElementById("btn-start");
   if (btnStart) {
-    btnStart.addEventListener("click", function (e) {
-      if (window.__inBossBattle) {
-        e.stopImmediatePropagation();
-        return;
-      }
+    btnStart.addEventListener("click", function(e) {
+      if (window.__inBossBattle) e.stopImmediatePropagation();
     }, true);
   }
 
-  // ===== Boss 按鈕 =====
-  const btnBoss = document.getElementById("btn-boss");
-  if (btnBoss) {
-    btnBoss.addEventListener("click", openBossSelect);
-  }
+  // ===== 建立 BOSS 按鈕（固定顯示） =====
+  window.addEventListener("load", () => {
+    const bossBtn = document.createElement("button");
+    bossBtn.id = "btn-boss";
+    bossBtn.innerText = "👑 BOSS挑戰";
+
+    bossBtn.style.position = "fixed";
+    bossBtn.style.right = "12px";
+    bossBtn.style.top = "300px";
+    bossBtn.style.width = "180px";
+    bossBtn.style.height = "60px";
+    bossBtn.style.fontSize = "22px";
+    bossBtn.style.fontWeight = "bold";
+    bossBtn.style.borderRadius = "14px";
+    bossBtn.style.border = "none";
+    bossBtn.style.cursor = "pointer";
+    bossBtn.style.zIndex = "9999";
+    bossBtn.style.background = "linear-gradient(135deg,#ff416c,#ff4b2b)";
+    bossBtn.style.color = "#fff";
+
+    bossBtn.onclick = openBossSelect;
+
+    document.body.appendChild(bossBtn);
+  });
 
 })();
-// ===== 建立 BOSS 按鈕（固定顯示）=====
-window.addEventListener("load", () => {
-
-  const bossBtn = document.createElement("button");
-  bossBtn.id = "btn-boss";
-  bossBtn.innerText = "👑 BOSS挑戰";
-
-  bossBtn.style.position = "fixed";
-  bossBtn.style.right = "12px";
-  bossBtn.style.top = "300px"; // 在新手教學、寵物下面
-  bossBtn.style.width = "180px";
-  bossBtn.style.height = "60px";
-  bossBtn.style.fontSize = "22px";
-  bossBtn.style.fontWeight = "bold";
-  bossBtn.style.borderRadius = "14px";
-  bossBtn.style.border = "none";
-  bossBtn.style.cursor = "pointer";
-  bossBtn.style.zIndex = "9999";
-  bossBtn.style.background = "linear-gradient(135deg,#ff416c,#ff4b2b)";
-  bossBtn.style.color = "#fff";
-
-  bossBtn.onclick = openBossSelect;
-
-  document.body.appendChild(bossBtn);
-});
