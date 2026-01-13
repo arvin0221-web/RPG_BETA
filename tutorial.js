@@ -19,6 +19,9 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     contentDiv.textContent = tutorialText;
     panel.style.display = "block";
+     // ⭐ 顯示縮放控制按鈕
+    const controls = document.getElementById("tutorial-controls");
+    if (controls) controls.style.display = "flex";
   };
 
   btnClose.onclick = () => panel.style.display = "none";
