@@ -369,7 +369,7 @@ function winBattle() {
 function playerDeath() {
   logBattle("💀 玩家已死亡");
   player.exp = Math.max(0, player.exp - 100);
-  showGlobalTip("玩家已死亡，扣除經驗值並復活", 6000);
+  showGlobalTip("玩家已死亡，扣除100點經驗值並復活", 6000);
   const s = calcStats();
   player.hp = s.maxhp;
   player.mp = s.maxmp;
