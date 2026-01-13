@@ -170,3 +170,27 @@ function megaHealBoss() {
   logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
   updateBossUI();
 }
+document.getElementById("btn-attack").onclick = () => {
+  if (!inBossBattle) return;
+  attackBoss();
+};
+
+document.getElementById("btn-fire").onclick = () => {
+  if (!inBossBattle) return;
+  fireBoss();
+};
+
+document.getElementById("btn-heal").onclick = () => {
+  if (!inBossBattle) return;
+  healBoss();
+};
+
+document.getElementById("btn-ultimate").onclick = () => {
+  if (!inBossBattle) return;
+  ultimateAttackBoss();
+};
+
+document.getElementById("btn-mega-heal").onclick = () => {
+  if (!inBossBattle) return;
+  megaHealBoss();
+};
