@@ -44,6 +44,7 @@ document.getElementById("boss-levels").style.display = "none";
     lv: level
   };
 
+  battleEnded = false;
   inBossBattle = true;
 
   document.getElementById("monster-img").src = currentBoss.img;
