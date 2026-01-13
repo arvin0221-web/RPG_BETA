@@ -193,6 +193,7 @@ const monsterPool_3000_plus = [
 let monster = null;
 let inBattle = false;
 let inBossBattle = false;
+let battleEnded = false;
 
 function getMonsterPoolByPlayerLv(lv) {
   if (lv < 20)  return monsterPool_0_20;
