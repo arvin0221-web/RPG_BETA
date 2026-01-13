@@ -1,7 +1,6 @@
 /*************************************************
  * 製杖RPG BOSS 模組
  *************************************************/
-let inBossBattle = false;
 let currentBoss = null;
 
 const bossDB = {
