@@ -48,7 +48,16 @@ let pets = [
     maxLevel: 3,
     upgradeCost: [3000000, 90000000], 
     instantKillChance: [0.10, 0.15, 0.20] // 秒殺機率
+  },
+  {
+    name: "至尊黑龍",
+    unlocked: false,
+    goldCost: 100000000, // 1 億
+    level: 1,
+    maxLevel: 1,
+    mpRecover: 100 // 每回合回復 MP
   }
+
 
 ];
 
@@ -153,6 +162,11 @@ function updatePetPanel() {
   const chance = (p.instantKillChance[p.level - 1] * 100).toFixed(1);
   html += `效果：每回合有 ${chance}% 機率直接秒殺敵人<br>`;
     }
+
+    if (p.name === "至尊黑龍") {
+  html += `效果：每回合回復 ${p.mpRecover} MP<br>`;
+    }
+
 
     if (!p.unlocked) {
       html += `解鎖金額：${p.goldCost} <button onclick="unlockPet(${i})">解鎖</button>`;
@@ -272,9 +286,22 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
       logBattle("😴 傳奇老頭睡著了，你自己加油啊");
     }
   }
+  /* 至尊黑龍 */
+  if (activePet.name === "至尊黑龍") {
+    const stat = calcStats();
+    const before = player.mp;
+
+    player.mp = clamp(player.mp + activePet.mpRecover, 0, stat.maxmp);
+
+    const recovered = player.mp - before;
+    if (recovered > 0) {
+      logBattle(`🐲 至尊黑龍吐出龍息，回復你 ${recovered} MP`);
+    }
+  }
 
   updateUI();
 };
+
 
 
 
