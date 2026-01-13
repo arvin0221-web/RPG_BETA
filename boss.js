@@ -116,6 +116,7 @@ function winBossBattle() {
   logBattle(`💰 獲得 ${currentBoss.gold * rewardMultiplier} 金幣`);
 
   currentBoss = null;
+  battleEnded = true;
   inBossBattle = false;
   updateUI();
 }
