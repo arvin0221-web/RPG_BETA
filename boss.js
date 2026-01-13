@@ -1,164 +1,158 @@
-// boss.js
-
-let isBossBattle = false;
+/*************************************************
+ * 製杖RPG BOSS 模組
+ *************************************************/
+let inBossBattle = false;
 let currentBoss = null;
 
-// BOSS 資料庫
 const bossDB = {
-  10:   { name: "狂暴石像", hp: 1000, atk: 50, gold: 100, exp: 50 },
-  20:   { name: "火焰巨魔", hp: 3000, atk: 120, gold: 300, exp: 120 },
-  30:   { name: "暗影巨狼", hp: 6000, atk: 250, gold: 600, exp: 250 },
-  50:   { name: "冰霜魔龍", hp: 15000, atk: 600, gold: 1500, exp: 600 },
-  100:  { name: "雷霆天神", hp: 50000, atk: 2000, gold: 5000, exp: 2000 },
-  200:  { name: "地獄炎帝", hp: 120000, atk: 4500, gold: 12000, exp: 4500 },
-  500:  { name: "混沌巨神", hp: 500000, atk: 15000, gold: 50000, exp: 15000 },
-  1000: { name: "終焉魔王", hp: 2000000, atk: 50000, gold: 200000, exp: 50000 },
-  1500: { name: "暗黑始祖", hp: 5000000, atk: 120000, gold: 500000, exp: 120000 },
-  2000: { name: "永恆巨神", hp: 10000000, atk: 250000, gold: 1000000, exp: 250000 },
-  3000: { name: "創世魔神", hp: 30000000, atk: 800000, gold: 3000000, exp: 800000 },
-  9999: { name: "無限之王", hp: 99999999, atk: 999999, gold: 9999999, exp: 9999999 }
+  10:   { name: "火焰巨獸", hp: 1200, atk: 50, gold: 100, baseExp: 50, img: "assets/bosses/boss10.png" },
+  20:   { name: "冰霜巨龍", hp: 2500, atk: 120, gold: 250, baseExp: 120, img: "assets/bosses/boss20.png" },
+  30:   { name: "暗影騎士", hp: 5000, atk: 300, gold: 500, baseExp: 300, img: "assets/bosses/boss30.png" },
+  50:   { name: "雷電魔神", hp: 12000, atk: 800, gold: 1200, baseExp: 800, img: "assets/bosses/boss50.png" },
+  100:  { name: "黑暗君王", hp: 50000, atk: 3000, gold: 5000, baseExp: 3000, img: "assets/bosses/boss100.png" },
+  200:  { name: "天空巨龍", hp: 120000, atk: 8000, gold: 12000, baseExp: 8000, img: "assets/bosses/boss200.png" },
+  500:  { name: "末日邪神", hp: 600000, atk: 35000, gold: 60000, baseExp: 35000, img: "assets/bosses/boss500.png" },
+  1000: { name: "混沌巨靈", hp: 1500000, atk: 90000, gold: 150000, baseExp: 90000, img: "assets/bosses/boss1000.png" },
+  1500: { name: "星辰守護者", hp: 3000000, atk: 180000, gold: 300000, baseExp: 180000, img: "assets/bosses/boss1500.png" },
+  2000: { name: "終焉魔皇", hp: 5000000, atk: 350000, gold: 500000, baseExp: 350000, img: "assets/bosses/boss2000.png" },
+  3000: { name: "創世神靈", hp: 10000000, atk: 700000, gold: 1000000, baseExp: 700000, img: "assets/bosses/boss3000.png" },
+  9999: { name: "無限之王", hp: 99999999, atk: 999999, gold: 9999999, baseExp: 999999, img: "assets/bosses/boss9999.png" }
 };
 
-// BOSS 等級列表
-const bossLevels = Object.keys(bossDB).map(k => parseInt(k));
+function startBossBattle(level) {
+  if (inBattle || inBossBattle) {
+    showGlobalTip("⚠️ 正在進行其他戰鬥中");
+    return;
+  }
 
-// 生成挑戰 BOSS 按鈕
-const bossBtnContainer = document.createElement("div");
-bossBtnContainer.style.marginTop = "12px";
-bossBtnContainer.style.display = "flex";
-bossBtnContainer.style.flexWrap = "wrap";
-bossBtnContainer.style.gap = "6px";
+  const bossBase = bossDB[level];
+  if (!bossBase) {
+    showGlobalTip("⚠️ 該等級 BOSS 不存在");
+    return;
+  }
 
-const bossBtn = document.createElement("button");
-bossBtn.textContent = "挑戰BOSS";
-bossBtn.style.padding = "8px 12px";
-bossBtn.style.fontSize = "16px";
-bossBtn.style.background = "linear-gradient(135deg,#f44336,#ff7961)";
-bossBtn.style.color = "#fff";
-bossBtn.style.border = "none";
-bossBtn.style.borderRadius = "8px";
-bossBtn.style.cursor = "pointer";
-bossBtn.style.zIndex = "9999";
+  // 玩家回滿
+  const stats = calcStats();
+  player.hp = stats.maxhp;
+  player.mp = stats.maxmp;
+  updateUI();
 
-// 插入到玩家資訊區塊 btn-start 後面
-const startBtn = document.getElementById("btn-start");
-startBtn.insertAdjacentElement("afterend", bossBtn);
-bossBtn.insertAdjacentElement("afterend", bossBtnContainer);
+  currentBoss = {
+    ...bossBase,
+    maxHp: bossBase.hp,
+    hp: bossBase.hp,
+    lv: level
+  };
 
-// 點擊挑戰 BOSS
-bossBtn.addEventListener("click", () => {
-    if (isEncountering) { // 避免遇怪與 BOSS 同時進行
-        alert("正在遇怪中，無法挑戰BOSS！");
-        return;
-    }
+  inBossBattle = true;
 
-    // 生成等級按鈕
-    bossBtnContainer.innerHTML = ""; // 清空
-    bossLevels.forEach(lv => {
-        const lvBtn = document.createElement("button");
-        lvBtn.textContent = lv;
-        lvBtn.style.padding = "6px 10px";
-        lvBtn.style.fontSize = "14px";
-        lvBtn.style.borderRadius = "6px";
-        lvBtn.style.border = "1px solid #fff";
-        lvBtn.style.background = "#333";
-        lvBtn.style.color = "#fff";
-        lvBtn.style.cursor = "pointer";
-        lvBtn.addEventListener("click", () => startBossBattle(lv));
-        bossBtnContainer.appendChild(lvBtn);
-    });
-});
-
-// 開始 BOSS 戰
-function startBossBattle(level){
-    const boss = bossDB[level];
-    currentBoss = {
-        ...boss,
-        hp: boss.hp,
-        level: level
-    };
-
-    isBossBattle = true;
-
-    // 回滿玩家
-    player.hp = player.maxHp;
-    player.mp = player.maxMp;
-    updatePlayerStats();
-
-    // 顯示戰鬥區
-    document.getElementById("battle").style.display = "block";
-    document.getElementById("monster-name").textContent = `${currentBoss.name} (Lv.${level})`;
-    document.getElementById("monster-img").src = "assets/boss.png"; // 可自行換圖片
-    document.getElementById("monster-hp").textContent = `HP: ${currentBoss.hp} / ${boss.hp}`;
-    document.getElementById("battle-log").innerHTML = `挑戰BOSS ${currentBoss.name}！<br>`;
-
-    // 隱藏等級按鈕
-    bossBtnContainer.innerHTML = "";
+  document.getElementById("monster-img").src = currentBoss.img;
+  document.getElementById("battle").style.display = "block";
+  document.getElementById("battle-log").innerHTML = "";
+  logBattle(`🔥 遭遇 BOSS：${currentBoss.name} Lv.${currentBoss.lv}`);
+  updateBossUI();
 }
 
-// 包覆 playerAttack 函數，BOSS 戰不觸發寵物
-const originalPlayerAttack = playerAttack;
-playerAttack = function(type){
-    let damage = 0;
-    switch(type){
-        case "attack":
-            damage = player.atk;
-            break;
-        case "fire":
-            damage = player.atk + 20;
-            player.mp -= 10;
-            break;
-        case "heal":
-            player.hp = Math.min(player.maxHp, player.hp + 50);
-            player.mp -= 8;
-            updatePlayerStats();
-            logBattle("你使用了治癒術！");
-            return;
-        case "ultimate":
-            damage = player.atk * 3;
-            player.mp -= 30;
-            break;
-        case "megaHeal":
-            player.hp = player.maxHp;
-            player.mp = player.maxMp;
-            logBattle("你使用了神聖大恢復！");
-            updatePlayerStats();
-            return;
-        default:
-            damage = player.atk;
-    }
-
-    if(isBossBattle){
-        currentBoss.hp -= damage;
-        logBattle(`你對 BOSS 造成 ${damage} 傷害！`);
-        updateBossHp();
-        if(currentBoss.hp <= 0){
-            logBattle(`你擊敗了 BOSS ${currentBoss.name}！ 獲得 ${currentBoss.gold} 金幣與 ${currentBoss.exp} 經驗！`);
-            player.gold += currentBoss.gold;
-            player.exp += currentBoss.exp;
-            updatePlayerStats();
-            endBossBattle();
-        } else {
-            // BOSS 攻擊玩家
-            player.hp -= currentBoss.atk;
-            logBattle(`${currentBoss.name} 對你造成 ${currentBoss.atk} 傷害！`);
-            updatePlayerStats();
-            if(player.hp <=0){
-                logBattle("你被 BOSS 擊敗了...");
-                endBossBattle();
-            }
-        }
-    } else {
-        originalPlayerAttack(type);
-    }
-};
-
-function updateBossHp(){
-    document.getElementById("monster-hp").textContent = `HP: ${currentBoss.hp} / ${bossDB[currentBoss.level].hp}`;
+function updateBossUI() {
+  if (!currentBoss) return;
+  document.getElementById("monster-name").innerText = `${currentBoss.name} Lv.${currentBoss.lv}`;
+  document.getElementById("monster-hp").innerText = `HP ${currentBoss.hp}/${currentBoss.maxHp}`;
 }
 
-function endBossBattle(){
-    isBossBattle = false;
-    currentBoss = null;
-    document.getElementById("battle").style.display = "none";
+function playerAttackBoss(mult = 1, bonusDmg = 0) {
+  if (!inBossBattle) return;
+
+  const s = calcStats();
+  let dmg = Math.floor(s.atk * mult) + bonusDmg;
+  let isCrit = Math.random() < s.crit;
+  if (isCrit) dmg = Math.floor(dmg * s.critDmg);
+
+  currentBoss.hp -= dmg;
+  logBattle(`${isCrit ? '💥 爆擊！' : '⚔️ 造成'} ${dmg} 傷害`);
+
+  if (currentBoss.hp <= 0) {
+    currentBoss.hp = 0;
+    winBossBattle();
+    return;
+  }
+
+  bossAttack();
+  updateBossUI();
+}
+
+function bossAttack() {
+  player.hp -= currentBoss.atk;
+  if (player.hp < 0) player.hp = 0;
+  logBattle(`😈 ${currentBoss.name} 攻擊你，造成 ${currentBoss.atk} 傷害`);
+  if (player.hp <= 0) {
+    playerDeathBoss();
+  }
+}
+
+function winBossBattle() {
+  logBattle(`🎉 戰勝 BOSS：${currentBoss.name}！`);
+  // 獎勵
+  const isVIP = player.name === "3x-27y=5π";
+  const rewardMultiplier = isVIP ? 50 : 1;
+
+  player.gold += currentBoss.gold * rewardMultiplier;
+  player.exp += currentBoss.baseExp * rewardMultiplier;
+
+  logBattle(`📈 獲得 ${currentBoss.baseExp * rewardMultiplier} EXP`);
+  logBattle(`💰 獲得 ${currentBoss.gold * rewardMultiplier} 金幣`);
+
+  currentBoss = null;
+  inBossBattle = false;
+  updateUI();
+}
+
+function playerDeathBoss() {
+  logBattle(`💀 玩家被 BOSS 擊敗`);
+  player.exp = Math.max(0, player.exp - 100);
+  showGlobalTip("玩家死亡，扣除經驗值並復活", 6000);
+  const s = calcStats();
+  player.hp = s.maxhp;
+  player.mp = s.maxmp;
+  inBossBattle = false;
+  currentBoss = null;
+  updateUI();
+}
+
+// --- 覆寫技能針對BOSS戰 ---
+function attackBoss() { playerAttackBoss(1); }
+function fireBoss() { 
+  const cost = 5;
+  if (!inBossBattle) return;
+  if (player.mp < cost) { showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`); return; }
+  player.mp -= cost;
+  playerAttackBoss(1.3, 20);
+  logBattle(`🔥 施展火球術！造成1.3倍傷害+額外傷害 +20`);
+}
+function healBoss() { 
+  const cost = 5;
+  if (!inBossBattle) return;
+  if (player.mp < cost) { showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`); return; }
+  player.mp -= cost;
+  const stats = calcStats();
+  const healAmount = Math.floor(stats.maxhp * 0.25);
+  player.hp += healAmount;
+  logBattle(`💚 使用治癒術，恢復了 ${healAmount} 點 HP`);
+  updateBossUI();
+}
+function ultimateAttackBoss() {
+  const cost = 50;
+  if (!inBossBattle) return;
+  if (player.mp < cost) { showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`); return; }
+  player.mp -= cost;
+  playerAttackBoss(2, 250);
+  logBattle(`🔥 施展蒼穹滅世斬！造成2倍傷害+額外傷害 +250`);
+}
+function megaHealBoss() {
+  const cost = 20;
+  if (!inBossBattle) return;
+  if (player.mp < cost) { showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`); return; }
+  player.mp -= cost;
+  player.hp += 9999999999;
+  logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
+  updateBossUI();
 }
