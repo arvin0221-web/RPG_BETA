@@ -144,7 +144,7 @@ function winBossBattle() {
   logBattle(`🏆 勝利！擊敗 BOSS ${boss.name}`);
   player.gold += boss.gold;
   player.exp += boss.expGain;
-  showGlobalTip(`獲得 ${boss.gold} 金幣，${boss.expGain} EXP`, 4000);
+  showGlobalTip(`🏆 勝利！獲得 ${boss.gold} 金幣，${boss.expGain} EXP`, 4000);
 
   inBossBattle = false;
   boss = null;
