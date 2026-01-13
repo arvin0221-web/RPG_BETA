@@ -128,6 +128,7 @@ function playerDeathBoss() {
   const s = calcStats();
   player.hp = s.maxhp;
   player.mp = s.maxmp;
+  battleEnded = true;
   inBossBattle = false;
   currentBoss = null;
   updateUI();
