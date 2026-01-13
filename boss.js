@@ -107,3 +107,28 @@
   }
 
 })();
+// ===== 建立 BOSS 按鈕（固定顯示）=====
+window.addEventListener("load", () => {
+
+  const bossBtn = document.createElement("button");
+  bossBtn.id = "btn-boss";
+  bossBtn.innerText = "👑 BOSS挑戰";
+
+  bossBtn.style.position = "fixed";
+  bossBtn.style.right = "12px";
+  bossBtn.style.top = "300px"; // 在新手教學、寵物下面
+  bossBtn.style.width = "180px";
+  bossBtn.style.height = "60px";
+  bossBtn.style.fontSize = "22px";
+  bossBtn.style.fontWeight = "bold";
+  bossBtn.style.borderRadius = "14px";
+  bossBtn.style.border = "none";
+  bossBtn.style.cursor = "pointer";
+  bossBtn.style.zIndex = "9999";
+  bossBtn.style.background = "linear-gradient(135deg,#ff416c,#ff4b2b)";
+  bossBtn.style.color = "#fff";
+
+  bossBtn.onclick = openBossSelect;
+
+  document.body.appendChild(bossBtn);
+});
