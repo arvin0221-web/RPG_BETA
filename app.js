@@ -386,12 +386,18 @@ function playerDeath() {
  * 技能
  ***********************/
 function attack() {
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   playerAttack(1);
 }
 
 // --- 修正後的火球術 ---
 function fire() {
   const cost = 5;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`, 2000);
@@ -406,6 +412,9 @@ function fire() {
 // --- 修正後的治癒術 ---
 function heal() {
   const cost = 5;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`, 2000);
@@ -425,6 +434,9 @@ function heal() {
 // --- 新技能 1：蒼穹滅世斬 (強大攻擊) ---
 function ultimateAttack() {
   const cost = 50;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`, 2000);
@@ -439,6 +451,9 @@ function ultimateAttack() {
 // --- 新技能 2：神聖大恢復 (強力治療) ---
 function megaHeal() {
   const cost = 20;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`, 2000);
