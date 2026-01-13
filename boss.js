@@ -122,8 +122,8 @@ function winBossBattle() {
 
 function playerDeathBoss() {
   logBattle(`💀 玩家被 BOSS 擊敗`);
-  player.exp = Math.max(0, player.exp - 100);
-  showGlobalTip("玩家死亡，扣除經驗值並復活", 6000);
+  player.exp = Math.max(0, player.exp - 1);
+  showGlobalTip("玩家死亡，扣除1點經驗值並復活", 6000);
   const s = calcStats();
   player.hp = s.maxhp;
   player.mp = s.maxmp;
