@@ -8,7 +8,7 @@ for (let i = 0; i < 3; i++) {
   circle.className = "magic-circle";
   circle.style.left = Math.random() * 80 + "%";
   circle.style.top  = Math.random() * 80 + "%";
-  circle.style.animationDuration = (15 + Math.random() * 20) + "s";
+  circle.style.animationDuration = (7 + Math.random() * 10) + "s";
   circle.style.animationDelay = Math.random() * 10 + "s";
   magicBg.appendChild(circle);
 }
