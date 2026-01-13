@@ -88,6 +88,19 @@ function bossAttack() {
     playerDeathBoss();
   }
 }
+document.getElementById("btn-boss-challenge").addEventListener("click", () => {
+  const levels = [10,20,30,50,100,200,500,1000,1500,2000,3000,9999];
+  const container = document.getElementById("boss-levels");
+  container.innerHTML = ""; // 清空舊按鈕
+  levels.forEach(lv => {
+    const btn = document.createElement("button");
+    btn.innerText = `Lv.${lv}`;
+    btn.style.marginRight = "5px";
+    btn.onclick = () => startBossBattle(lv); // 點擊開始 BOSS 戰
+    container.appendChild(btn);
+  });
+  container.style.display = "block"; // 顯示按鈕
+});
 
 function winBossBattle() {
   logBattle(`🎉 戰勝 BOSS：${currentBoss.name}！`);
