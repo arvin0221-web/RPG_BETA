@@ -304,6 +304,7 @@ function startBattle() {
     showGlobalTip("對戰進行中");
     return;
   }
+  
   const pool = getMonsterPoolByPlayerLv(player.lv);
   const base = rand(pool);
 
@@ -323,6 +324,7 @@ function startBattle() {
   document.getElementById("battle").style.display = "block";
   document.getElementById("battle-log").innerHTML = "";
   logBattle(`⚔️ 遭遇 ${monster.name} Lv.${monster.lv}`);
+  battleEnded = false;
   inBattle = true;
   updateUI();
 }
