@@ -294,6 +294,10 @@ function showGlobalTip(text, ms = 2000) {
  * 戰鬥系統（原始簡單版）
  ***********************/
 function startBattle() {
+   if (inBossBattle) {
+    showGlobalTip("⚠️ 正在挑戰 BOSS，無法遇怪");
+    return;
+   }
   if (inBattle) {
     showGlobalTip("對戰進行中");
     return;
