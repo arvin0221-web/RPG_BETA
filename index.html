@@ -26,15 +26,21 @@
     cursor: pointer;
     z-index: 9999;
 ">📖 新手教學</button>
-  <div id="tutorial-zoom-bar" style="
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
+
+<!-- 教學控制按鈕：放大縮小重設，初始隱藏 -->
+<div id="tutorial-controls" style="
+    position: fixed;
+    right: 12px;
+    top: 180px;    /* 可以調整高度 */
+    display: none; /* ⭐ 初始隱藏 */
+    gap: 6px;
+    z-index: 10000;
 ">
   <button id="tutorial-zoom-in">＋</button>
   <button id="tutorial-zoom-out">－</button>
   <button id="tutorial-zoom-reset">重設</button>
 </div>
+
 
 
 <div class="wrap">
