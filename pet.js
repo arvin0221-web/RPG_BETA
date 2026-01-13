@@ -39,7 +39,17 @@ let pets = [
     hurtPlayer: [3, 2, 1, 1, 1, 1, 1, 1, 1, 99999],
     hurtEnemy: [6, 10, 14, 20, 32, 64, 128, 256, 521, 9999999],
     upgradeCost: [400, 700, 1400, 2800, 5600, 11200, 22400, 44800, 9999999999]
+  },
+  {
+    name: "傳奇老頭",
+    unlocked: false,
+    goldCost: 100000,      
+    level: 1,
+    maxLevel: 3,
+    upgradeCost: [3000000, 90000000], 
+    instantKillChance: [0.03, 0.06, 0.09] // 秒殺機率
   }
+
 ];
 
 let activePet = null;
@@ -137,6 +147,11 @@ function updatePetPanel() {
 
     if (p.name === "傻bee") {
       html += `效果：每回合造成玩家-${p.hurtPlayer[p.level - 1]} HP，敵人-${p.hurtEnemy[p.level - 1]} HP<br>`;
+    }
+
+    if (p.name === "傳奇老頭") {
+  const chance = (p.instantKillChance[p.level - 1] * 100).toFixed(1);
+  html += `效果：每回合有 ${chance}% 機率直接秒殺敵人<br>`;
     }
 
     if (!p.unlocked) {
@@ -244,9 +259,23 @@ playerAttack = function(mult = 1, bonusDmg = 0) {
     logBattle(`💥 傻bee對 ${monster.name} 造成 ${ed} 傷害`);
     logBattle(`💀 傻bee對你造成 ${pd} 傷害`);
   }
+  /* 傳奇老頭 */
+  if (activePet.name === "傳奇老頭" && monster && monster.hp > 0) {
+    const chance = activePet.instantKillChance[activePet.level - 1];
+
+    if (Math.random() < chance) {
+      logBattle(
+        `💣 傳奇老頭丟出六顆微型地雷，把 ${monster.name} 炸到連渣都不剩。`
+      );
+      monster.hp = 0; // 直接秒殺
+    } else {
+      logBattle("😴 傳奇老頭睡著了，你自己加油啊");
+    }
+  }
 
   updateUI();
 };
+
 
 
 
