@@ -398,6 +398,7 @@ function fire() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`, 2000);
@@ -415,6 +416,7 @@ function heal() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`, 2000);
@@ -437,6 +439,7 @@ function ultimateAttack() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`, 2000);
@@ -454,6 +457,7 @@ function megaHeal() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBattle) return;
   if (player.mp < cost) {
     showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`, 2000);
