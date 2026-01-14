@@ -24,7 +24,11 @@ window.addEventListener("DOMContentLoaded", () => {
     if (controls) controls.style.display = "flex";
   };
 
-  btnClose.onclick = () => panel.style.display = "none";
+ // 關閉新手教學
+  btnClose.onclick = () => {
+    panel.style.display = "none";
+    if (controls) controls.style.display = "none"; // ⭐ 隱藏縮放控制按鈕
+  };
 });
 // ===== 教學文字縮放控制 =====
 let tutorialScale = 1;
