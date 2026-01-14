@@ -146,6 +146,7 @@ function attackSkill() {
   } else if (inBattle) {
     playerAttack();
   }
+  updateUI();
 }
 
 function fireSkill() {
