@@ -10,11 +10,11 @@ const bossDB = {
   50:   { name: "葬神（幼體）", hp: 20000, atk: 1500, gold: 1200, baseExp: 800, img: "assets/bosses/boss50.png" },
   100:  { name: "葬神（幼體II)", hp: 100000, atk: 6000, gold: 5000, baseExp: 3000, img: "assets/bosses/boss100.png" },
   200:  { name: "葬神（幼體III)", hp: 360000, atk: 24000, gold: 12000, baseExp: 8000, img: "assets/bosses/boss200.png" },
-  500:  { name: "葬神手指", hp: 2400000, atk: 100000, gold: 60000, baseExp: 35000, img: "assets/bosses/boss500.png" },
-  1000: { name: "葬神手指II", hp: 9999999, atk: 300000, gold: 150000, baseExp: 90000, img: "assets/bosses/boss1000.png" },
-  1500: { name: "葬神手指III", hp: 99999999, atk: 999999, gold: 300000, baseExp: 180000, img: "assets/bosses/boss1500.png" },
-  2000: { name: "葬神殘魂", hp: 999999999, atk: 9999999, gold: 500000, baseExp: 350000, img: "assets/bosses/boss2000.png" },
-  3000: { name: "葬神殘魂II", hp: 3000000000, atk: 30000000, gold: 1000000, baseExp: 700000, img: "assets/bosses/boss3000.png" },
+  500:  { name: "葬神手指", hp: 2400000, atk: 100000, gold: 24000, baseExp: 35000, img: "assets/bosses/boss500.png" },
+  1000: { name: "葬神手指II", hp: 9999999, atk: 300000, gold: 48000, baseExp: 70000, img: "assets/bosses/boss1000.png" },
+  1500: { name: "葬神手指III", hp: 99999999, atk: 999999, gold: 960000, baseExp: 140000, img: "assets/bosses/boss1500.png" },
+  2000: { name: "葬神殘魂", hp: 999999999, atk: 9999999, gold: 1000000, baseExp: 280000, img: "assets/bosses/boss2000.png" },
+  3000: { name: "葬神殘魂II", hp: 3000000000, atk: 30000000, gold: 1000000, baseExp: 560000, img: "assets/bosses/boss3000.png" },
   9999: { name: "葬神殘魂III", hp: 9999999999, atk: 99999999, gold: 9999999, baseExp: 999999, img: "assets/bosses/boss9999.png" }
 };
 
