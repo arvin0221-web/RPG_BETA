@@ -148,6 +148,7 @@ function fireBoss() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`); return; }
   player.mp -= cost;
