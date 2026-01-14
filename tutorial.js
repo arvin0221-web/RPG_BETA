@@ -1,3 +1,4 @@
+const controls = document.getElementById("tutorial-controls"); // ⭐ 提到外層作用域
 window.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btn-tutorial");
   const panel = document.getElementById("tutorial-panel");
@@ -20,7 +21,6 @@ window.addEventListener("DOMContentLoaded", () => {
     contentDiv.textContent = tutorialText;
     panel.style.display = "block";
      // ⭐ 顯示縮放控制按鈕
-    const controls = document.getElementById("tutorial-controls");
     if (controls) controls.style.display = "flex";
   };
 
