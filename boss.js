@@ -79,6 +79,7 @@ function playerAttackBoss(mult = 1, bonusDmg = 0) {
 
   bossAttack();
   updateBossUI();
+  updateUI();
 }
 
 function bossAttack() {
