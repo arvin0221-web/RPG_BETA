@@ -197,26 +197,26 @@ function megaHealBoss() {
   updateBossUI();
 }
 document.getElementById("btn-attack").onclick = () => {
-  if (!inBossBattle) return;
+  if (!inBossBattle && !inBattle) return;
   attackBoss();
 };
 
 document.getElementById("btn-fire").onclick = () => {
-  if (!inBossBattle) return;
+  if (!inBossBattle && !inBattle) return;
   fireBoss();
 };
 
 document.getElementById("btn-heal").onclick = () => {
-  if (!inBossBattle) return;
+  if (!inBossBattle && !inBattle) return;
   healBoss();
 };
 
 document.getElementById("btn-ultimate").onclick = () => {
-  if (!inBossBattle) return;
+  if (!inBossBattle && !inBattle) return;
   ultimateAttackBoss();
 };
 
 document.getElementById("btn-mega-heal").onclick = () => {
-  if (!inBossBattle) return;
+  if (!inBossBattle && !inBattle) return;
   megaHealBoss();
 };
