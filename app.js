@@ -390,8 +390,8 @@ function attack() {
     showGlobalTip("戰鬥已結束");
     return;
   playerAttack(1);
+ }
 }
-
 // --- 修正後的火球術 ---
 function fire() {
   const cost = 5;
