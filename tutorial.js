@@ -1,9 +1,9 @@
-const controls = document.getElementById("tutorial-controls"); // ⭐ 提到外層作用域
 window.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("btn-tutorial");
   const panel = document.getElementById("tutorial-panel");
   const contentDiv = document.getElementById("tutorial-content");
   const btnClose = document.getElementById("btn-close-tutorial");
+  const controls = document.getElementById("tutorial-controls"); // ⭐ 提到外層作用域
 
   let tutorialText = null; // 避免每次點擊都 fetch
 
