@@ -144,10 +144,10 @@ function attackSkill() {
   }
   if (inBossBattle) {
     playerAttackBoss(1);
+    updateUI();
   } else if (inBattle) {
     playerAttack();
   }
-  updateUI();
 }
 
 function fireSkill() {
