@@ -139,8 +139,10 @@ function attackBoss() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   playerAttackBoss(1); 
-}
+ }
+
 function fireBoss() { 
   const cost = 5;
   if (battleEnded) {
@@ -157,6 +159,7 @@ function healBoss() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`); return; }
   player.mp -= cost;
@@ -171,6 +174,7 @@ function ultimateAttackBoss() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`); return; }
   player.mp -= cost;
@@ -182,6 +186,7 @@ function megaHealBoss() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
+    }
   if (!inBossBattle) return;
   if (player.mp < cost) { showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`); return; }
   player.mp -= cost;
