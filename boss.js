@@ -4,18 +4,18 @@
 let currentBoss = null;
 
 const bossDB = {
-  10:   { name: "火焰巨獸", hp: 1200, atk: 50, gold: 100, baseExp: 50, img: "assets/bosses/boss10.png" },
-  20:   { name: "冰霜巨龍", hp: 2500, atk: 120, gold: 250, baseExp: 120, img: "assets/bosses/boss20.png" },
-  30:   { name: "暗影騎士", hp: 5000, atk: 300, gold: 500, baseExp: 300, img: "assets/bosses/boss30.png" },
-  50:   { name: "雷電魔神", hp: 12000, atk: 800, gold: 1200, baseExp: 800, img: "assets/bosses/boss50.png" },
-  100:  { name: "黑暗君王", hp: 50000, atk: 3000, gold: 5000, baseExp: 3000, img: "assets/bosses/boss100.png" },
-  200:  { name: "天空巨龍", hp: 120000, atk: 8000, gold: 12000, baseExp: 8000, img: "assets/bosses/boss200.png" },
-  500:  { name: "末日邪神", hp: 600000, atk: 35000, gold: 60000, baseExp: 35000, img: "assets/bosses/boss500.png" },
-  1000: { name: "混沌巨靈", hp: 1500000, atk: 90000, gold: 150000, baseExp: 90000, img: "assets/bosses/boss1000.png" },
-  1500: { name: "星辰守護者", hp: 3000000, atk: 180000, gold: 300000, baseExp: 180000, img: "assets/bosses/boss1500.png" },
-  2000: { name: "終焉魔皇", hp: 5000000, atk: 350000, gold: 500000, baseExp: 350000, img: "assets/bosses/boss2000.png" },
-  3000: { name: "創世神靈", hp: 10000000, atk: 700000, gold: 1000000, baseExp: 700000, img: "assets/bosses/boss3000.png" },
-  9999: { name: "無限之王", hp: 99999999, atk: 999999, gold: 9999999, baseExp: 999999, img: "assets/bosses/boss9999.png" }
+  10:   { name: "bee大師", hp: 1200, atk: 50, gold: 100, baseExp: 50, img: "assets/bosses/boss10.png" },
+  20:   { name: "葬神卵", hp: 3000, atk: 140, gold: 250, baseExp: 120, img: "assets/bosses/boss20.png" },
+  30:   { name: "即將孵化的葬神卵", hp: 10000, atk: 500, gold: 500, baseExp: 300, img: "assets/bosses/boss30.png" },
+  50:   { name: "葬神（幼體）", hp: 20000, atk: 1500, gold: 1200, baseExp: 800, img: "assets/bosses/boss50.png" },
+  100:  { name: "葬神（幼體II)", hp: 100000, atk: 6000, gold: 5000, baseExp: 3000, img: "assets/bosses/boss100.png" },
+  200:  { name: "葬神（幼體III)", hp: 360000, atk: 24000, gold: 12000, baseExp: 8000, img: "assets/bosses/boss200.png" },
+  500:  { name: "葬神手指", hp: 2400000, atk: 100000, gold: 60000, baseExp: 35000, img: "assets/bosses/boss500.png" },
+  1000: { name: "葬神手指II", hp: 9999999, atk: 300000, gold: 150000, baseExp: 90000, img: "assets/bosses/boss1000.png" },
+  1500: { name: "葬神手指III", hp: 99999999, atk: 999999, gold: 300000, baseExp: 180000, img: "assets/bosses/boss1500.png" },
+  2000: { name: "葬神殘魂", hp: 999999999, atk: 9999999, gold: 500000, baseExp: 350000, img: "assets/bosses/boss2000.png" },
+  3000: { name: "葬神殘魂II", hp: 3000000000, atk: 30000000, gold: 1000000, baseExp: 700000, img: "assets/bosses/boss3000.png" },
+  9999: { name: "葬神殘魂III", hp: 9999999999, atk: 99999999, gold: 9999999, baseExp: 999999, img: "assets/bosses/boss9999.png" }
 };
 
 function startBossBattle(level) {
