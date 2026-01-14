@@ -134,70 +134,108 @@ function playerDeathBoss() {
   updateUI();
 }
 
-// --- 覆寫技能針對BOSS戰 ---
-function attackBoss() {
-  if (battleEnded) {
-    showGlobalTip("戰鬥已結束");
-    return;
-    }
-  if (!inBossBattle && !inBattle) return;
-  playerAttackBoss(1); 
- }
+// --- 技能函式統一改寫，支援普通戰鬥 + BOSS戰 ---
 
-function fireBoss() { 
-  const cost = 5;
+function attackSkill() {
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
-    }
-  if (!inBossBattle && !inBattle) return;
-  if (player.mp < cost) { showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`); return; }
-  player.mp -= cost;
-  playerAttackBoss(1.3, 20);
-  logBattle(`🔥 施展火球術！造成1.3倍傷害+額外傷害 +20`);
+  }
+  if (inBossBattle) {
+    playerAttackBoss(1);
+  } else if (inBattle) {
+    playerAttack();
+  }
 }
-function healBoss() { 
+
+function fireSkill() {
   const cost = 5;
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
-    }
-  if (!inBossBattle && !inBattle) return;
-  if (player.mp < cost) { showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`); return; }
+  }
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放火球術需要 ${cost} MP`);
+    return;
+  }
+  player.mp -= cost;
+  if (inBossBattle) {
+    playerAttackBoss(1.3, 20);
+    logBattle(`🔥 施展火球術！造成1.3倍傷害+額外傷害 +20`);
+  } else if (inBattle) {
+    playerAttack(1.3, 20);
+    logBattle(`🔥 施展火球術！造成1.3倍傷害+額外傷害 +20`);
+  }
+  updateUI();
+}
+
+function healSkill() {
+  const cost = 5;
+  if (battleEnded) {
+    showGlobalTip("戰鬥已結束");
+    return;
+  }
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放治癒術需要 ${cost} MP`);
+    return;
+  }
   player.mp -= cost;
   const stats = calcStats();
   const healAmount = Math.floor(stats.maxhp * 0.25);
   player.hp += healAmount;
   logBattle(`💚 使用治癒術，恢復了 ${healAmount} 點 HP`);
-  updateBossUI();
+  if (inBossBattle) updateBossUI();
+  updateUI();
 }
-function ultimateAttackBoss() {
+
+function ultimateSkill() {
   const cost = 50;
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
-    }
-  if (!inBossBattle && !inBattle) return;
-  if (player.mp < cost) { showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`); return; }
+  }
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放蒼穹滅世斬需要 ${cost} MP`);
+    return;
+  }
   player.mp -= cost;
-  playerAttackBoss(2, 250);
-  logBattle(`🔥 施展蒼穹滅世斬！造成2倍傷害+額外傷害 +250`);
+  if (inBossBattle) {
+    playerAttackBoss(2, 250);
+    logBattle(`🔥 施展蒼穹滅世斬！造成2倍傷害+額外傷害 +250`);
+  } else if (inBattle) {
+    playerAttack(2, 250);
+    logBattle(`🔥 施展蒼穹滅世斬！造成2倍傷害+額外傷害 +250`);
+  }
+  updateUI();
 }
-function megaHealBoss() {
+
+function megaHealSkill() {
   const cost = 20;
   if (battleEnded) {
     showGlobalTip("戰鬥已結束");
     return;
-    }
-  if (!inBossBattle && !inBattle) return;
-  if (player.mp < cost) { showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`); return; }
+  }
+  if (player.mp < cost) {
+    showGlobalTip(`MP不足，釋放神聖大恢復需要 ${cost} MP`);
+    return;
+  }
   player.mp -= cost;
-  player.hp += 9999999999;
-  logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
-  updateBossUI();
+  if (inBossBattle) {
+    player.hp += 9999999999;
+    logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
+    updateBossUI();
+  } else if (inBattle) {
+    player.hp += 9999999999;
+    logBattle(`✨ 聖光降臨！使用神聖大恢復，恢復了 9999999999 點 HP`);
+  }
+  updateUI();
 }
-document.getElementById("btn-attack").onclick = attackBoss;
-document.getElementById("btn-fire").onclick = fireBoss;
-document.getElementById("btn-heal").onclick = healBoss;
-document.getElementById("btn-ultimate").onclick = ultimateAttackBoss;
-document.getElementById("btn-mega-heal").onclick = megaHealBoss;
+
+// --- 按鈕綁定只要簡單呼叫技能函式 ---
+document.getElementById("btn-attack").onclick = attackSkill;
+document.getElementById("btn-fire").onclick = fireSkill;
+document.getElementById("btn-heal").onclick = healSkill;
+document.getElementById("btn-ultimate").onclick = ultimateSkill;
+document.getElementById("btn-mega-heal").onclick = megaHealSkill;
+
+
