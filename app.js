@@ -94,7 +94,7 @@ const monsterPool_0_20 = [
   { name: "狂暴史萊姆", hp: 30, atk: 9, gold: 17, baseExp: 20, img: "assets/monsters/slime.png" },
   { name: "石甲龜", hp: 90, atk: 4, gold: 22, baseExp: 25, img: "assets/monsters/turtle.png" },
   { name: "火焰精靈", hp: 58, atk: 9, gold: 24, baseExp: 30, img: "assets/monsters/fire.png" },
-  { name: "暗影騎士", hp: 125, atk: 14, gold: 42, baseExp: 50, img: "assets/monsters/knight.png" },
+  { name: "暗影騎士", hp: 100, atk: 10, gold: 37, baseExp: 42, img: "assets/monsters/knight.png" },
   { name: "糖bee", hp: 1, atk: 1, gold: 1, baseExp: 1, img: "assets/monsters/sugarbee.png" }
 ];
 
