@@ -13,13 +13,13 @@
 
 })();
 (function() {
-  const VIP_NAME2 = "菜菜";
-  const MULTIPLIER2 = 10;
+  const VIP_NAMEE = "菜菜";
+  const MULTIPLIERR = 10;
 
   // 如果是 VIP 玩家，直接修改怪物屬性
-  if (player.name === VIP_NAME2) {
-    monster.expGain *= MULTIPLIER2;
-    monster.gold *= MULTIPLIER2;
+  if (player.name === VIP_NAMEE) {
+    monster.expGain *= MULTIPLIERR;
+    monster.gold *= MULTIPLIERR;
   }
 
 })();
